@@ -1,0 +1,26 @@
+[
+  {
+    "crop": "Corn",
+    "treatment": "Nitrogen Fertilizer",
+    "dosage": "150",
+    "unit": "kg/ha",
+    "frequency": "Once at planting",
+    "notes": "Apply 5cm below seed"
+  },
+  {
+    "crop": "Corn",
+    "treatment": "Herbicide X",
+    "dosage": "2.5",
+    "unit": "L/ha",
+    "frequency": "Post-emergence",
+    "notes": "Apply when corn is V3 stage"
+  },
+  {
+    "crop": "Soybean",
+    "treatment": "Phosphorus",
+    "dosage": "80",
+    "unit": "kg/ha",
+    "frequency": "Pre-planting",
+    "notes": "Incorporate into soil"
+  }
+]

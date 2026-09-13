@@ -1,0 +1,122 @@
+[
+    {
+        "query": "dosage for Fall Armyworm in Mato Grosso Tropical soil",
+        "ground_truth": "Apply 2L/ha of Chlorantraniliprole when larvae are in L1-L3 stage.",
+        "critical": true,
+        "session_state": {"region": "Mato Grosso", "climate": "Tropical"}
+    },
+    {
+        "query": "amount of NPK for corn in Cerrado sandy soil",
+        "ground_truth": "Apply 120kg/ha N, 60kg/ha P2O5, 40kg/ha K2O.",
+        "critical": true,
+        "session_state": {"region": "Cerrado", "climate": "Tropical"}
+    },
+    {
+        "query": "treatment for Corn Leaf Blight in humid climates",
+        "ground_truth": "Apply Azoxystrobin at 0.5L/ha every 15 days.",
+        "critical": true,
+        "session_state": {"region": "South", "climate": "Humid"}
+    },
+    {
+        "query": "What is the ideal planting depth for corn?",
+        "ground_truth": "The ideal planting depth is between 3 to 5 cm.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for Spodoptera frugiperda in Mato Grosso Tropical soil",
+        "ground_truth": "Apply 2L/ha of Chlorantraniliprole when larvae are in L1-L3 stage.",
+        "critical": true,
+        "session_state": {"region": "Mato Grosso", "climate": "Tropical"}
+    },
+    {
+        "query": "recommended lime application for acidic soils in corn",
+        "ground_truth": "Apply 2-4 tons/ha of dolomitic lime based on soil analysis.",
+        "critical": true,
+        "session_state": {"region": "Cerrado", "climate": "Tropical"}
+    },
+    {
+        "query": "how much water is needed for corn in the vegetative stage?",
+        "ground_truth": "Corn requires approximately 5-7 mm of water per day during the vegetative stage.",
+        "critical": false,
+        "session_state": {"region": "General", "climate": "General"}
+    },
+    {
+        "query": "treatment for Root Rot in corn in humid soils",
+        "ground_truth": "Apply Metalaxyl-M at 1.5kg/ha seed treatment.",
+        "critical": true,
+        "session_state": {"region": "South", "climate": "Humid"}
+    },
+    {
+        "query": "best nitrogen source for corn",
+        "ground_truth": "Urea and Ammonium Nitrate are the most common and effective nitrogen sources.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for corn borer in Tropical soil",
+        "ground_truth": "Apply 1.0L/ha of Lambda-cyhalothrin.",
+        "critical": true,
+        "session_state": {"region": "Central", "climate": "Tropical"}
+    },
+    {
+        "query": "recommended spacing for hybrid corn",
+        "ground_truth": "Recommended spacing is 70-90 cm between rows and 20 cm between plants.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for corn rust in humid Tropical soil",
+        "ground_truth": "Apply Tebuconazole at 0.3L/ha.",
+        "critical": true,
+        "session_state": {"region": "North", "climate": "Humid Tropical"}
+    },
+    {
+        "query": "how to identify nitrogen deficiency in corn",
+        "ground_truth": "Yellowing of lower leaves starting from the tip and moving down the midrib in a V-shape.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for aphids in corn",
+        "ground_truth": "Apply Imidacloprid at 0.25L/ha.",
+        "critical": true,
+        "session_state": {"region": "General", "climate": "General"}
+    },
+    {
+        "query": "recommended phosphorus level for corn",
+        "ground_truth": "Ideal P levels are 30-50 mg/dm3 in the 0-20cm layer.",
+        "critical": true,
+        "session_state": {"region": "General", "climate": "General"}
+    },
+    {
+        "query": "treatment for corn smut",
+        "ground_truth": "Preventative seed treatment with Thiram or Captan.",
+        "critical": true,
+        "session_state": {"region": "General", "climate": "General"}
+    },
+    {
+        "query": "ideal temperature for corn germination",
+        "ground_truth": "The ideal soil temperature for germination is 10-15 degrees Celsius.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for white grubs in corn",
+        "ground_truth": "Apply Chlorpyrifos at 2L/ha in the soil.",
+        "critical": true,
+        "session_state": {"region": "South", "climate": "Humid"}
+    },
+    {
+        "query": "how to manage weeds in corn",
+        "ground_truth": "Use a combination of crop rotation, cover crops, and selective herbicides like Atrazine.",
+        "critical": false,
+        "session_state": {}
+    },
+    {
+        "query": "dosage for corn stink bugs",
+        "ground_truth": "Apply Bifenthrin at 0.5L/ha.",
+        "critical": true,
+        "session_state": {"region": "Central", "climate": "Tropical"}
+    }
+]
