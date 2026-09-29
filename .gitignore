@@ -6,5 +6,6 @@ venv/
 .env.*
 !/.env.example
 data/vector_index/
+*.db
 *.log
 tests/training_log.md

@@ -1,22 +1,30 @@
+"""Compatibility facade for deterministic dose arithmetic."""
 
-import math
+from typing import Union
+
+from tools.dosage_calculator import DosageError, calculate_total_dose
+
 
 class DosageCalculator:
-    @staticmethod
-    def calculate_nitrogen_dose(target_yield, soil_content, efficiency=0.6):
-        """
-        Calculates Nitrogen dose based on simple formula: 
-        Dose = (Target Yield * Factor) - (Soil Content * Factor)
-        This is a placeholder for the actual agronomic formula.
-        """
-        try:
-            # Example formula: Target (kg/ha) - Current (kg/ha)
-            dose = (target_yield * 1.2) - (soil_content * 0.8)
-            return max(0, round(dose, 2))
-        except Exception as e:
-            return f"Error in calculation: {e}"
+    """Calculate totals from an already validated dose per hectare.
+
+    Agronomic recommendations are not inferred here. A caller must provide a
+    validated value such as ``120kg/ha`` and the target area.
+    """
 
     @staticmethod
-    def validate_range(value, min_val, max_val):
-        """Safety layer: checks if the dose is within safe limits."""
+    def calculate_total_dose(dose_per_hectare: Union[str, int, float], area_hectares) -> str:
+        return calculate_total_dose(dose_per_hectare, area_hectares)
+
+    @staticmethod
+    def calculate_nitrogen_dose(dose_per_hectare, area_hectares) -> str:
+        """Compatibility name; no agronomic dose is invented by this method."""
+
+        return calculate_total_dose(dose_per_hectare, area_hectares)
+
+    @staticmethod
+    def validate_range(value, min_val, max_val) -> bool:
         return min_val <= value <= max_val
+
+
+__all__ = ["DosageCalculator", "DosageError"]

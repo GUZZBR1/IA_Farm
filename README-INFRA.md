@@ -1,27 +1,19 @@
+# Infrastructure and runtime notes
 
-# 🛠️ INFRASTRUCTURE & STORAGE PROTOCOL (QUOTA BYPASS)
+The repository keeps source documents and code under version control. Generated
+embeddings are written to `data/vector_index/` and are intentionally ignored by
+Git because they depend on the embedding model and can be rebuilt deterministically.
 
-## 🚨 Critical Storage Configuration
-The user home directory (`/home/guzzbr`) has a strict disk quota that prevents the installation of heavy ML libraries (PyTorch, etc.) and the storage of large vector indices. 
+Install dependencies from `requirements.txt` in a virtual environment. If the
+host has storage or network limits, configure those at the environment level;
+the application itself uses paths relative to the repository and does not depend
+on a developer-specific home directory or symlink.
 
-To bypass this, the project uses a **Storage Redirection Strategy**.
+To rebuild the local index:
 
-### 📂 Storage Mapping
-- **Logical Path:** `/home/guzzbr/meus-projetos/IA_Farm/data`
-- **Physical Path:** `/var/tmp/ia_//farm_data` (Symlinked)
+```bash
+python -m tools.ingest docs/corn_mvp/dataset_v0.1.md
+```
 
-**Crucial:** All heavy data, vector indices (`.index`, `.meta`), and large datasets MUST be stored in the `/data` directory. This directory is a symbolic link to `/var/tmp`, which bypasses the home quota and utilizes the server's main disk space (~400GB).
-
-### 📦 Library Management
-To avoid quota errors during installation, use the `--target` flag or install libraries in a quota-free zone:
-- **Target Zone:** `/tmp/ia_farm_libs` or `/var/tmp/ia_farm_libs`
-- **Python Path:** Ensure `sys.path.append("/var/tmp/ia_farm_libs")` is called at the start of the execution if libraries are installed there.
-
-### 🔄 Recovery Procedure
-If the `/data` link is broken:
-1. `mkdir -p /var/tmp/ia_farm_data`
-2. `rm -rf /home/guzzbr/meus-projetos/IA_Farm/data`
-3. `ln -s /var/tmp/ia_farm_data /home/guzzbr/meus-projetos/IA_Farm/data`
-
----
-**NOTE TO AGENT:** Always check the integrity of the `/data` symlink upon initialization. Never attempt to save large files directly in the project root or `.venv` without verifying the path.
+Do not delete `data/` recursively as a recovery step. Inspect the target first
+and remove only disposable generated files when necessary.

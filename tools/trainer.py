@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 from typing import List, Dict, Any
 from tools.orchastrator import Orchestrator
 
@@ -129,8 +130,9 @@ class AgentTrainer:
             print("Behavioral alignment achieved!")
 
 if __name__ == "__main__":
+    project_root = Path(__file__).resolve().parents[1]
     trainer = AgentTrainer(
-        dna_path="/home/guzzbr/meus-projetos/IA_Farm/docs/agent_dna.md",
-        log_path="/home/guzzbr/meus-projetos/IA_Farm/tests/training_log.md"
+        dna_path=str(project_root / "docs" / "agent_dna.md"),
+        log_path=str(project_root / "tests" / "training_log.md")
     )
     trainer.run_training_loop()

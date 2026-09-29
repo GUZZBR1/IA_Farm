@@ -2,9 +2,10 @@
 import sys
 import os
 import json
+from pathlib import Path
 
 # Force the current directory into sys.path to ensure 'tools' is found
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 try:
     from tools.orchastrator import Orchestrator

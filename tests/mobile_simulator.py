@@ -3,6 +3,7 @@ import sys
 import time
 import random
 import os
+from pathlib import Path
 from unittest.mock import MagicMock
 
 # MOCKING MISSING LIBRARIES FOR SIMULATION
@@ -12,7 +13,7 @@ sys.modules['requests'] = MagicMock()
 sys.modules['psutil'] = MagicMock() # avoid dependency on psutil for the sim
 
 # Now import our real logic
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 from tools.orchastrator import Orchestrator
 from tools.vector_db import LocalVectorDB
 

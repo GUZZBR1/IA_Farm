@@ -1,36 +1,30 @@
+"""Command-line entry point for indexing curated local knowledge."""
 
-import time
-import requests
-from tools.vector_engine import VectorEngine
-from tools.memory_manager import MemoryManager
+import argparse
+from pathlib import Path
 
-# Config
-API_KEY = "YOUR_OPENROUTER_KEY" # To be replaced by env var
-CORN_TOPICS = [
-    "adubação de nitrogênio milho embrapa",
-    "controle de lagarta do cartucho milho",
-    "manejo de irrigação milho sudeste",
-    "dosagem de fósforo e potássio milho",
-    "combate a ferrugem asiática milho"
-]
+from tools.ingest import ingest_paths
+from tools.vector_db import LocalVectorDB
 
-def mine_knowledge():
-    print("Starting Mining Process...")
-    ve = VectorEngine(api_key=API_KEY)
-    
-    # Simulating the a la Chrome search and extraction
-    for topic in CORN_TOPICS:
-        print(f"Mining topic: {topic}")
-        # In a real flow, this would involve a search API or Chrome scraping
-        # For now, we simulate the found technical data to build the base
-        mock_data = [
-            {"text": f"Para {topic}, a recomendação técnica é a aplicação de dose X kg/ha conforme manual Embrapa.", 
-             "metadata": {"source": "Embrapa", "topic": topic, "category": "technical"}}
-        ]
-        ve.add_documents(mock_data)
-        time.sleep(1) # Avoid rate limits
 
-    print("Mining cycle complete. Knowledge persisted to disk.")
+def mine_knowledge(sources: list[Path], index_path: str = "data/vector_index") -> int:
+    documents = ingest_paths(sources)
+    if not documents:
+        raise ValueError("No source documents were found")
+
+    db = LocalVectorDB(index_path=index_path)
+    db.index_documents(documents)
+    return len(documents)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Index curated IA_Farm knowledge")
+    parser.add_argument("sources", nargs="+", type=Path)
+    parser.add_argument("--index-path", default="data/vector_index")
+    args = parser.parse_args()
+    count = mine_knowledge(args.sources, args.index_path)
+    print(f"Indexed {count} source documents into {args.index_path}")
+
 
 if __name__ == "__main__":
-    mine_knowledge()
+    main()

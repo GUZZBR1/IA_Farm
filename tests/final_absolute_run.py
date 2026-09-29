@@ -1,10 +1,11 @@
 
 import sys
+from pathlib import Path
 import os
 import time
 
 # Set path to root for imports
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 # Configure OPENROUTER_API_KEY in the environment before running this script.
 

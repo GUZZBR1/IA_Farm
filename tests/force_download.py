@@ -1,6 +1,7 @@
 
 import sys
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 try:
     from sentence_transformers import SentenceTransformer
     print("Starting download of the embedding model 'all-MiniLM-L6-v2'...")

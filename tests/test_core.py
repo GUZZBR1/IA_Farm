@@ -4,6 +4,7 @@ from pathlib import Path
 
 from tools.dosage_calculator import DosageError, calculate_total_dose
 from tools.ingest import parse_markdown_documents
+from tools.memory_manager import MemoryManager
 from tools.orchastrator import NO_CONTEXT_RESPONSE, Orchestrator
 
 
@@ -72,6 +73,16 @@ class CoreBehaviorTests(unittest.TestCase):
         self.assertEqual(documents[0]["metadata"]["region"], "General")
         self.assertIn("120kg/ha", documents[0]["text"])
         self.assertTrue(documents[0]["metadata"]["source"].endswith("dataset.md"))
+
+    def test_memory_manager_persists_profile_and_history(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "memory.db"
+            memory = MemoryManager(str(database))
+            memory.save_profile_fact("region", "Brazil-MatoGrosso", "location")
+            memory.add_interaction("question", "answer", {"region": "Brazil-MatoGrosso"})
+
+            self.assertEqual(memory.get_profile_fact("region"), "Brazil-MatoGrosso")
+            self.assertIn("question", memory.get_recent_history())
 
 
 if __name__ == "__main__":

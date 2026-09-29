@@ -18,7 +18,12 @@ class LocalVectorDB:
         self.index_path = index_path
         self.model_name = model_name
         self.model = SentenceTransformer(model_name)
-        self.dimension = self.model.get_sentence_embedding_dimension()
+        get_dimension = getattr(
+            self.model,
+            "get_embedding_dimension",
+            self.model.get_sentence_embedding_dimension,
+        )
+        self.dimension = get_dimension()
         self._faiss = faiss
         self._np = np
         

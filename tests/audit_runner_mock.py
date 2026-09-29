@@ -1,5 +1,6 @@
 
 import sys
+from pathlib import Path
 import json
 from unittest.mock import MagicMock
 
@@ -9,7 +10,7 @@ sys.modules['faiss'] = MagicMock()
 sys.modules['requests'] = MagicMock()
 
 # Now import the real logic
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 from tools.orchastrator import Orchestrator
 
 # Mock the VectorDB to return controlled data

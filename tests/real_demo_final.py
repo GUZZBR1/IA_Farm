@@ -1,9 +1,10 @@
 
 import sys
 import os
+from pathlib import Path
 
 # Set path to root for imports
-sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 try:
     from tools.orchastrator import Orchestrator
