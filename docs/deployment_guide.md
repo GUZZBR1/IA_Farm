@@ -31,7 +31,7 @@ Depending on your device capabilities, choose one of the following runtimes:
 ### 2. Environment Setup
 1. Clone the IA_Farm repository:
    ```bash
-   git clone https://github.com/[your-repo]/IA_Farm.git
+   git clone https://github.com/GUZZBR1/IA_Farm.git
    cd IA_Farm
    ```
 2. Install dependencies:
@@ -46,7 +46,11 @@ Depending on your device capabilities, choose one of the following runtimes:
    ollama run phi3
    ```
 2. **Prepare Vector DB:**
-   Ensure your indexed agricultural knowledge base is placed in the `/data/vector_index` directory (or the path specified in your config).
+   Build the local index from the curated Markdown dataset:
+   ```bash
+   python -m tools.ingest docs/corn_mvp/dataset_v0.1.md
+   ```
+   The index is written to `data/vector_index`.
 
 ### 4. Execution
 Run the main application:
@@ -65,10 +69,9 @@ If the application crashes due to "Out of Memory" (OOM) or becomes sluggish:
 
 ### API Key Configuration (Hybrid Mode)
 While IA_Farm is offline-first, it supports **OpenRouter** as a fallback for complex queries.
-1. Create a `.env` file in the root directory.
-2. Add your key:
+1. Export the key in the shell (or load it with your process manager):
    ```env
-   OPENROUTER_API_KEY=your_key_here
+   export OPENROUTER_API_KEY=your_key_here
    ```
 3. The system will automatically switch to fallback if the local model confidence is too low.
 
@@ -80,3 +83,6 @@ While IA_Farm is offline-first, it supports **OpenRouter** as a fallback for com
 - [ ] Vector index placed in the correct directory.
 - [ ] `requirements.txt` dependencies installed.
 - [ ] (Optional) OpenRouter API key configured.
+
+For a demo without model dependencies, use `IA_FARM_MOCK=1 python main.py`.
+This mode is not a production RAG or agronomic validation path.

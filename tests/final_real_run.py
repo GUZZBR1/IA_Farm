@@ -17,7 +17,7 @@ except ImportError as e:
 # Initialize the REAL components
 print("[SISTEMA] Inicializando Vector DB e Orquestrador...")
 db = LocalVectorDB()
-orch = Orchestrator(vector_db_//db_path='data/vector_index/')
+orch = Orchestrator(vector_db_path='data/vector_index/')
 print("[SISTEMA] Componentes prontos.\n")
 
 session_state = {}

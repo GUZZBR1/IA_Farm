@@ -1,16 +1,26 @@
 import os
 import json
-import faiss
-import numpy as np
-from sentence_transformers import SentenceTransformer
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
+
+from tools.metadata import metadata_matches
 
 class LocalVectorDB:
     def __init__(self, index_path: str = "data/vector_index/", model_name: str = "all-MiniLM-L6-v2"):
+        try:
+            import faiss
+            import numpy as np
+            from sentence_transformers import SentenceTransformer
+        except ImportError as exc:
+            raise RuntimeError(
+                "Vector DB dependencies are missing. Install requirements.txt first."
+            ) from exc
+
         self.index_path = index_path
         self.model_name = model_name
         self.model = SentenceTransformer(model_name)
         self.dimension = self.model.get_sentence_embedding_dimension()
+        self._faiss = faiss
+        self._np = np
         
         os.makedirs(self.index_path, exist_ok=True)
         
@@ -23,18 +33,32 @@ class LocalVectorDB:
         self._load_db()
 
     def _load_db(self):
-        if os.path.exists(self.index_file) and os.path.exists(self.metadata_file):
-            self.index = faiss.read_index(self.index_file)
-            with open(self.metadata_file, "r", encoding="utf-8") as f:
-                self.metadata = json.load(f)
+        index_exists = os.path.exists(self.index_file)
+        metadata_exists = os.path.exists(self.metadata_file)
+        if index_exists != metadata_exists:
+            raise RuntimeError("Vector index is incomplete: index and metadata must exist together")
+
+        if index_exists and metadata_exists:
+            try:
+                self.index = self._faiss.read_index(self.index_file)
+                with open(self.metadata_file, "r", encoding="utf-8") as f:
+                    self.metadata = json.load(f)
+            except (OSError, RuntimeError, ValueError, TypeError, json.JSONDecodeError) as exc:
+                raise RuntimeError(f"Invalid vector index at {self.index_path}") from exc
+
+            if self.index.ntotal != len(self.metadata):
+                raise RuntimeError("Vector index and metadata have different sizes")
 
     def _save_db(self):
         if self.index is not None:
-            faiss.write_index(self.index, self.index_file)
+            self._faiss.write_index(self.index, self.index_file)
         with open(self.metadata_file, "w", encoding="utf-8") as f:
             json.dump(self.metadata, f, ensure_ascii=False, indent=2)
 
     def chunk_text(self, text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]:
+        if chunk_size <= 0 or overlap < 0 or overlap >= chunk_size:
+            raise ValueError("chunk_size must be positive and overlap must be smaller than chunk_size")
+
         chunks = []
         for i in range(0, len(text), chunk_size - overlap):
             chunks.append(text[i:i + chunk_size])
@@ -44,6 +68,9 @@ class LocalVectorDB:
         """
         documents: List of dicts with 'text' and optional 'metadata'
         """
+        if not documents:
+            raise ValueError("At least one document is required to build the index")
+
         all_chunks = []
         all_metadata = []
 
@@ -56,22 +83,27 @@ class LocalVectorDB:
                 all_chunks.append(chunk)
                 all_metadata.append({**meta, "text": chunk})
 
+        if not all_chunks:
+            raise ValueError("Documents must contain non-empty text")
+
         embeddings = self.model.encode(all_chunks)
-        embeddings = np.array(embeddings).astype("float32")
+        embeddings = self._np.array(embeddings).astype("float32")
 
         if self.index is None:
-            self.index = faiss.IndexFlatL2(self.dimension)
+            self.index = self._faiss.IndexFlatL2(self.dimension)
+        elif self.index.d != self.dimension:
+            raise RuntimeError("Existing index dimension does not match the embedding model")
         
         self.index.add(embeddings)
         self.metadata.extend(all_metadata)
         self._save_db()
 
     def query(self, query_text: str, k: int = 5, filters: Dict[str, Any] = None) -> List[Dict[str, Any]]:
-        if self.index is None:
+        if self.index is None or k <= 0:
             return []
 
         query_vec = self.model.encode([query_text]).astype("float32")
-        distances, indices = self.index.search(query_vec, k * 10) # Get more for filtering
+        _, indices = self.index.search(query_vec, min(k * 10, self.index.ntotal))
 
         results = []
         for idx in indices[0]:
@@ -80,7 +112,7 @@ class LocalVectorDB:
             
             meta = self.metadata[idx]
             if filters:
-                if not all(meta.get(k) == v for k, v in filters.items()):
+                if not all(metadata_matches(k, meta.get(k), v) for k, v in filters.items()):
                     continue
             
             results.append(meta)

@@ -2,12 +2,18 @@
 
 Este plano define a trajetória técnica para transformar o motor atual em um produto funcional no campo.
 
-## 📍 Fase 1: Consolidação do Motor (Atual)
+## 📍 Fase 1: Consolidação do Motor (baseline atual)
 **Objetivo**: Garantir que a inteligência no servidor seja infalível.
-- [x] Implementação do Orquestrador.
-- [x] Calculadora Determinística (Milho/N).
-- [ ] **Próximo Passo**: Validar a precisão do RAG com o Golden Set (Métricas de Recall).
-- [ ] **Próximo Passo**: Expandir a calculadora para outros nutrientes (P, K) e culturas.
+- [x] Implementação do orquestrador.
+- [x] Calculadora determinística de aritmética por área.
+- [ ] Validar a precisão do RAG com o Golden Set.
+- [ ] Expandir a calculadora para outros nutrientes (P, K) e culturas.
+
+## 🚩 Stage 2: The "Corn" MVP
+- [ ] Curate high-quality Corn manuals (EMBRAPA/Industry).
+- [ ] Implement the Vision-to-JSON pipeline for dosage tables.
+- [x] Create the metadata tagging system (Region/Climate) — baseline tagger and canonical filters.
+- [ ] Build the Local Vector DB for the Corn dataset — ingestion command added; index generation still requires installed dependencies and validated source data.
 
 ## 📍 Fase 2: Laboratório de Estresse (Red Teaming)
 **Objetivo**: Tentar quebrar o sistema antes que o usuário tente.
@@ -30,3 +36,16 @@ Este plano define a trajetória técnica para transformar o motor atual em um pr
 
 ## 🏁 Meta Final: MVP Autónomo
 Um app que funciona 100% offline, não alucina em cálculos e entrega precisão técnica de nível EMBRAPA no bolso do agricultor.
+
+## Baseline implementation status
+
+The repository now has a dependency manifest, portable project paths, an explicit
+mock mode, fail-closed retrieval when no context is found, Markdown ingestion,
+canonical metadata matching, deterministic area-dose arithmetic, and automated
+core tests. External validation remains pending for the real Ollama model, the
+FAISS index build, field users, and Android hardware.
+
+## 🚩 Stage 5: Deployment & Scaling
+- [ ] Beta test with real corn farmers.
+- [ ] Implement Delta Updates for knowledge base.
+- [ ] Expand to other cultures.

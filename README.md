@@ -2,18 +2,42 @@
 
 **AgriBrain** is an autonomous, offline-first AI specialist designed to bring precision agriculture to the field.
 
-## 🚀 Quick Start
-- **Code**: Located in `/src`
-- **Implementation Guide**: See `MINING_GUIDE.md`
-- **Project DNA**: See `CONCEPT.md`
-- **Current Status**: See `PROJECT_STATUS.md`
-- **Operator Map**: See `AGENTE.md`
+## Project Status: Corn MVP baseline in progress 🚧
 
-## 🛠️ Core Technology
-- **Llama/Phi-3 Quantized** (Core Intelligence)
-- **FAISS Vector Store** (Technical Knowledge)
-- **Deterministic Calculator** (Zero-Error Dosage)
-- **RAG Pipeline** (EMBRAPA/CIMMYT Sources)
+The repository contains the initial RAG, ingestion and safety baseline. Mobile
+hardening is still planned and is not yet validated on target hardware.
+
+### Quick start
+
+```bash
+python -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+python -m unittest discover -s tests -p 'test_*.py'
+python -m tools.ingest docs/corn_mvp/dataset_v0.1.md
+python main.py
+```
+
+For a demo-only run without model dependencies:
+
+```bash
+IA_FARM_MOCK=1 python main.py
+```
+
+## 🚀 Project guides
+
+- **Implementation guide**: See `MINING_GUIDE.md`.
+- **Project DNA**: See `CONCEPT.md` and `docs/agent_dna.md`.
+- **Current status**: See `PROJECT_STATUS.md` and `ROADMAP.md`.
+- **Operator map**: See `AGENTE.md`.
+- **Deployment**: See `docs/deployment_guide.md`.
+
+## 🛠️ Core technology
+
+- **Llama/Phi-3 quantized** (core intelligence)
+- **FAISS vector store** (technical knowledge)
+- **Deterministic calculator** (zero-error arithmetic baseline)
+- **RAG pipeline** (EMBRAPA/CIMMYT sources)
 
 ---
 Developed by **guzzbr**

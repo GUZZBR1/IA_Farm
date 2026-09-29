@@ -1,12 +1,13 @@
 import os
 import json
 import base64
+import mimetypes
 import requests
 from typing import List, Dict, Any, Optional
 
 # Configuration
 # In a real scenario, these would be environment variables
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "your_api_key_here")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL_NAME = "google/gemini-pro-vision" # Or "openai/gpt-4o" or "anthropic/claude-3.5-sonnet"
 
 def encode_image(image_path: str) -> str:
@@ -30,6 +31,9 @@ def extract_dosage_table(image_path: str) -> Optional[List[Dict[str, Any]]]:
         return None
 
     base64_image = encode_image(image_path)
+    if not OPENROUTER_API_KEY:
+        print("Extraction Error: OPENROUTER_API_KEY is not configured.")
+        return None
 
     prompt = (
         "You are an expert agricultural data extractor. Extract the dosage table from this image. "
@@ -49,7 +53,7 @@ def extract_dosage_table(image_path: str) -> Optional[List[Dict[str, Any]]]:
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": f"data:image/jpeg;base64,{base64_image}"
+                            "url": f"data:{mimetypes.guess_type(image_path)[0] or 'image/jpeg'};base64,{base64_image}"
                         }
                     }
                 ]
@@ -66,7 +70,7 @@ def extract_dosage_table(image_path: str) -> Optional[List[Dict[str, Any]]]:
         response = requests.post(
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
-            data=json.dumps(payload),
+            json=payload,
             timeout=30
         )
         response.raise_for_status()
@@ -79,7 +83,14 @@ def extract_dosage_table(image_path: str) -> Optional[List[Dict[str, Any]]]:
             if result_text.startswith("json"):
                 result_text = result_text[4:]
 
-        return json.loads(result_text)
+        extracted = json.loads(result_text)
+        required_fields = {"crop", "treatment", "dosage", "unit", "frequency", "notes"}
+        if not isinstance(extracted, list) or any(
+            not isinstance(row, dict) or not required_fields.issubset(row)
+            for row in extracted
+        ):
+            raise ValueError("Vision response does not match the dosage table schema")
+        return extracted
 
     except Exception as e:
         print(f"Extraction Error: {e}")

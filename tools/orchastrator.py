@@ -1,109 +1,170 @@
+"""Safe orchestration between metadata, retrieval and local/remote LLMs."""
+
 import os
-import requests
-import json
-from typing import List, Dict, Any, Optional
+from pathlib import Path
+from typing import Any, Dict, Optional
+
+from tools.metadata import canonicalize
 from tools.vector_db import LocalVectorDB
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+NO_CONTEXT_RESPONSE = (
+    "I do not have validated technical data for this query and context. "
+    "Please provide the region, climate and crop details."
+)
+LLM_UNAVAILABLE_RESPONSE = (
+    "The language model is unavailable. Start Ollama or configure "
+    "OPENROUTER_API_KEY before retrying."
+)
+TECHNICAL_KEYWORDS = (
+    "dosage", "dose", "amount", "how much", "quanto", "quantidade", "kg/ha",
+    "l/ha", "apply", "aplicar", "treatment", "tratamento", "fertilizer", "adubo",
+    "fertilizante", "pesticide", "pesticida", "fungicide", "fungicida", "npk",
+)
+REGION_ALIASES = (
+    "mato grosso", "mt", "cerrado", "minas gerais", "mg", "parana", "pr",
+    "sao paulo", "sp", "bahia", "ba",
+)
+CLIMATE_ALIASES = (
+    "tropical", "equatorial", "semiarido", "semi-arido", "subtropical",
+    "temperate", "temperado", "arid", "arido",
+)
+
+
 class Orchestrator:
-    def __init__(self, vector_db_path: str = "data/vector_index/"):
-        self.db = LocalVectorDB(index_path=vector_db_path)
+    def __init__(self, vector_db_path: Optional[str] = None, db=None):
+        default_index_path = PROJECT_ROOT / "data" / "vector_index"
+        self.db = db if db is not None else LocalVectorDB(
+            index_path=str(vector_db_path or default_index_path)
+        )
         self.ollama_url = "http://localhost:11434/api/generate"
         self.openrouter_url = "https://openrouter.ai/api/v1/chat/completions"
-        # Using the ACTUAL key from config.yaml
-        self.openrouter_api_key = "sk-or-v1-740971014248407694964424444444444444444444444444444444444444444" # I will replace this in the final run with the one from config.yaml
+        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
         self.required_metadata = ["region", "climate"]
 
-    def _call_llm(self, prompt: str, model: str = "llama3", retries: int = 3) -> str:
-        for attempt in range(retries + 1):
-            try:
-                if self.openrouter_api_key:
-                    response = requests.post(
-                        self.openrouter_url,
-                        headers={"Authorization": f"Bearer {self.openrouter_api_key}"},
-                        json={"model": "google/gemini-pro-1.5", "messages": [{"role": "user", "content": prompt}]},
-                        timeout=30
-                    )
-                    if response.status_code == 200:
-                        return response.json()["choices"][0]["message"]["content"]
-            except Exception:
-                pass
-            try:
-                response = requests.post(
-                    self.ollama_url,
-                    json={"model": model, "prompt": prompt, "stream": False},
-                    timeout=15
-                )
-                if response.status_code == 200:
-                    return response.json().get("response", "")
-            except Exception:
-                pass
-        return "Error: All LLM providers failed."
+    def _call_llm(self, prompt: str, model: str = "llama3") -> str:
+        """Call Ollama first and use OpenRouter only as an explicit fallback."""
+
+        try:
+            import requests
+        except ImportError:
+            return "Error: requests is not installed; install requirements.txt first."
+
+        try:
+            response = requests.post(
+                self.ollama_url,
+                json={"model": model, "prompt": prompt, "stream": False},
+                timeout=15,
+            )
+            if response.status_code == 200:
+                return response.json().get("response", "")
+        except Exception as exc:
+            print(f"[Log] Ollama unavailable: {exc}")
+
+        if not self.openrouter_api_key:
+            return LLM_UNAVAILABLE_RESPONSE
+
+        try:
+            response = requests.post(
+                self.openrouter_url,
+                headers={"Authorization": f"Bearer {self.openrouter_api_key}"},
+                json={
+                    "model": "google/gemini-pro-1.5",
+                    "messages": [{"role": "user", "content": prompt}],
+                },
+                timeout=30,
+            )
+            if response.status_code == 200:
+                return response.json()["choices"][0]["message"]["content"]
+        except Exception as exc:
+            print(f"[Log] OpenRouter unavailable: {exc}")
+
+        return LLM_UNAVAILABLE_RESPONSE
 
     def _extract_metadata(self, user_input: str) -> Dict[str, str]:
-        extracted = {}
-        u_low = user_input.lower()
-        regions = {"mato grosso": "mato grosso", "mt": "mato grosso", "minas gerais": "minas gerais", "mg": "minas gerais", "parana": "parana", "pr": "parana", "goias": "goias", "go": "goias"}
-        climates = {"tropical": "tropical", "equatorial": "equatorial", "semiarido": "semiarido", "subtropical": "subtropical"}
-        for r, val in regions.items():
-            if r in u_low:
-                extracted["region"] = val
+        """Extract only explicit, deterministic region/climate mentions."""
+
+        normalized = user_input.casefold()
+        extracted: Dict[str, str] = {}
+        for alias in REGION_ALIASES:
+            if alias in normalized:
+                extracted["region"] = canonicalize("region", alias)
                 break
-        for c, val in climates.items():
-            if c in u_low:
-                extracted["climate"] = val
+        for alias in CLIMATE_ALIASES:
+            if alias in normalized:
+                extracted["climate"] = canonicalize("climate", alias)
                 break
-        if len(extracted) < 2:
-            prompt = f"Extract region and climate from: '{user_input}'. Return ONLY JSON: {{\"region\": \"...\", \"climate\": \"...\"}}. Use 'null' if missing."
-            try:
-                res = self._call_llm(prompt)
-                cleaned = res.strip().replace('```json', '').replace('```', '').strip()
-                start, end = cleaned.find('{'), cleaned.rfind('}') + 1
-                if start != -1 and end != 0:
-                    data = json.loads(cleaned[start:end])
-                    for k, v in data.items():
-                        if v and v != "null": extracted[k] = v
-            except:
-                pass
         return extracted
 
-    def rag_query(self, query: str, context_filters: Dict[str, Any] = None) -> str:
-        dna_path = "docs/agent_dna.md"
-        system_dna = ""
-        if os.path.exists(dna_path):
-            with open(dna_path, 'r') as f:
-                system_dna = f.read()
+    def rag_query(self, query: str, context_filters: Optional[Dict[str, Any]] = None) -> str:
+        """Retrieve validated context before constructing an LLM prompt."""
+
+        dna_path = PROJECT_ROOT / "docs" / "agent_dna.md"
+        system_dna = dna_path.read_text(encoding="utf-8") if dna_path.exists() else ""
         docs = self.db.query(query, filters=context_filters)
-        context_text = "\n".join([d["text"] for d in docs])
-        prompt = f"{system_dna}\n\nContext:\n{context_text}\n\nUser Query: {query}\nAnswer:"
+        if not docs:
+            return NO_CONTEXT_RESPONSE
+
+        context_text = "\n".join(document.get("text", "") for document in docs)
+        if not context_text.strip():
+            return NO_CONTEXT_RESPONSE
+
+        prompt = f"""{system_dna}
+
+Use the following technical context to answer the user's query.
+If the answer is not in the context, say you don't have enough technical data.
+
+Context:
+{context_text}
+
+User Query: {query}
+Answer:"""
         return self._call_llm(prompt)
 
     def handle_request(self, user_input: str, session_state: Dict[str, Any]) -> str:
-        extracted = self._extract_metadata(user_input)
-        for key, value in extracted.items():
-            if value: session_state[key] = value
-        technical_keywords = ["dosage", "amount", "how much", "apply", "treatment", "dose", "npk"]
-        if any(kw in user_input.lower() for kw in technical_keywords):
-            region = session_state.get("region")
-            climate = session_state.get("climate")
-            if not region or not climate:
-                known = []
-                if region: known.append(f"region ({region})")
-                if climate: known.append(f"climate ({climate})")
-                known_text = " and ".join(known) if known else "nothing yet"
-                return f"I've already noted {known_text}, but I still need your region and climate."
-            return self.rag_query(user_input, context_filters={"region": region, "climate": climate})
-        return self.rag_query(user_input)
+        """Require region and climate before technical recommendations."""
 
-def main():
+        session_state.update(self._extract_metadata(user_input))
+        normalized_input = user_input.casefold()
+        is_technical_request = any(keyword in normalized_input for keyword in TECHNICAL_KEYWORDS)
+
+        if not is_technical_request:
+            return self.rag_query(user_input)
+
+        normalized_state = {
+            key: canonicalize(key, value)
+            for key, value in session_state.items()
+        }
+        missing = [key for key in self.required_metadata if not normalized_state.get(key)]
+        if missing:
+            return (
+                "To provide an accurate dosage, I need more information. "
+                f"Please tell me your {', '.join(missing)}."
+            )
+
+        filters = {key: normalized_state[key] for key in self.required_metadata}
+        return self.rag_query(user_input, context_filters=filters)
+
+
+def main() -> None:
     orch = Orchestrator()
-    session_state = {}
+    session_state: Dict[str, Any] = {}
+    print("--- IA_Farm Guided Interface ---")
+    print("Type 'exit' to quit.")
+
     while True:
         try:
             user_input = input("\nUser: ")
-        except EOFError: break
-        if user_input.lower() in ["exit", "quit"]: break
+        except EOFError:
+            break
+
+        if user_input.casefold() in {"exit", "quit"}:
+            break
+
         response = orch.handle_request(user_input, session_state)
         print(f"AI: {response}")
+
 
 if __name__ == "__main__":
     main()

@@ -1,52 +1,49 @@
 import os
 import sys
 import time
-from typing import Dict, Any, List
+from pathlib import Path
+from typing import Dict, Any
 
 # Add project root to sys.path
-PROJECT_ROOT = "/home/guzzbr/meus-projetos/IA_Farm"
-if PROJECT_ROOT not in sys.path:
-    sys.path.append(PROJECT_ROOT)
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-# MOCK CLASSES to allow the interface to run even if heavy dependencies are missing
-# This ensures the "Simulation Interface" logic is verified regardless of the environment's disk quota/libs.
+# The mock is available only when explicitly requested with IA_FARM_MOCK=1.
 
-try:
-    from tools.vector_db import LocalVectorDB
-    from tools.orchastrator import Orchestrator
-    HAS_DEPS = True
-except ImportError:
-    HAS_DEPS = False
-    print("[SYSTEM] Heavy dependencies missing. Running in MOCK MODE for interface demo.")
-    
-    class MockVectorDB:
-        def query(self, query, filters=None):
-            return [{"text": "Mock context: Corn requires nitrogen and phosphorous in Mato Grosso."}]
+from tools.metadata import canonicalize
+from tools.orchastrator import Orchestrator, TECHNICAL_KEYWORDS
 
-    class MockOrchestrator:
-        def __init__(self, vector_db_path=""):
-            self.db = MockVectorDB()
-            self.required_metadata = ["region", "climate"]
 
-        def handle_request(self, user_input, session_state):
-            technical_keywords = ["dosage", "amount", "how much", "apply", "treatment", "dose"]
-            is_technical = any(kw in user_input.lower() for kw in technical_keywords)
-            
-            if is_technical:
-                missing = [m for m in self.required_metadata if m not in session_state]
-                if missing:
-                    return f"To provide an accurate dosage, I need more information. Please tell me your {', '.join(missing)}."
-                return f"Based on your {session_state.get('region')} region, I recommend a standard nitrogen dosage of 120kg/ha."
-            
-            return "I am the EMBRAPA Corn Specialist. I can help you with your crop management. Please provide your region and climate for specific advice."
+class MockVectorDB:
+    def query(self, query, filters=None):
+        return [{"text": "Mock context: Corn requires nitrogen and phosphorous in Mato Grosso."}]
+
+
+class MockOrchestrator:
+    def __init__(self, vector_db_path=""):
+        self.db = MockVectorDB()
+        self.required_metadata = ["region", "climate"]
+
+    def handle_request(self, user_input, session_state):
+        is_technical = any(kw in user_input.casefold() for kw in TECHNICAL_KEYWORDS)
+
+        if is_technical:
+            missing = [m for m in self.required_metadata if not session_state.get(m)]
+            if missing:
+                return f"To provide an accurate dosage, I need more information. Please tell me your {', '.join(missing)}."
+            return f"Based on your {session_state.get('region')} region, I recommend a standard nitrogen dosage of 120kg/ha."
+
+        return "I am the EMBRAPA Corn Specialist. I can help you with your crop management. Please provide your region and climate for specific advice."
 
 class SimulationInterface:
     def __init__(self):
         print("[SYSTEM] Initializing IA_Farm Components...")
-        if HAS_DEPS:
-            self.orch = Orchestrator(vector_db_path="data/vector_index/")
-        else:
+        if os.getenv("IA_FARM_MOCK") == "1":
+            print("[SYSTEM] IA_FARM_MOCK=1; running in explicit mock mode.")
             self.orch = MockOrchestrator()
+        else:
+            self.orch = Orchestrator(vector_db_path=str(PROJECT_ROOT / "data" / "vector_index"))
         
         self.session_state = {}
         self.is_running = True
@@ -75,8 +72,8 @@ class SimulationInterface:
                 try:
                     parts = user_input.lower().split(f"{key}:")
                     value = parts[1].split(",")[0].strip().strip(".")
-                    self.session_state[key] = value
-                    print(f"  [STATE UPDATE] {key.capitalize()} set to: {value}")
+                    self.session_state[key] = canonicalize(key, value)
+                    print(f"  [STATE UPDATE] {key.capitalize()} set to: {self.session_state[key]}")
                 except Exception:
                     pass
 
@@ -133,6 +130,10 @@ class SimulationInterface:
                 print(f"\n[ERROR] An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
-    os.makedirs("data/vector_index/", exist_ok=True)
-    sim = SimulationInterface()
-    sim.start()
+    os.makedirs(PROJECT_ROOT / "data" / "vector_index", exist_ok=True)
+    try:
+        sim = SimulationInterface()
+        sim.start()
+    except RuntimeError as exc:
+        print(f"[ERROR] {exc}")
+        print("[ERROR] Install requirements.txt or set IA_FARM_MOCK=1 for a demo-only run.")

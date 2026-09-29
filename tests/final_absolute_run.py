@@ -6,8 +6,7 @@ import time
 # Set path to root for imports
 sys.path.append('/home/guzzbr/meus-projetos/IA_Farm')
 
-# Injected OpenRouter Key from session context
-os.environ["OPENROUTER_API_KEY"] = "sk-or-v1-769f750619674193b54227022c202a89"
+# Configure OPENROUTER_API_KEY in the environment before running this script.
 
 try:
     from tools.orchastrator import Orchestrator
