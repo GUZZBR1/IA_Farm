@@ -1,0 +1,1 @@
+SysteMap: /home/guzzbr/meus-projetos/IA_Farm/data -> /var/tmp/ia_farm_data

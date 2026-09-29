@@ -1,61 +1,63 @@
-import mmap
-import os
-import hashlib
+import sqlite3
 import json
-from typing import Any, Optional
+from datetime import datetime
+import os
 
 class MemoryManager:
-    """
-    MemoryManager provides RAM optimization techniques for mobile deployment,
-    specifically using memory-mapped files (mmap) for large data and 
-    local context caching for frequent queries.
-    """
+    def __init__(self, db_path="data/user_memory.db"):
+        self.db_path = db_path
+        self._init_db()
 
-    def __init__(self, cache_file: str = "context_cache.json"):
-        self.cache_file = cache_file
-        self.cache = self._load_cache()
+    def _init_db(self):
+        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("CREATE TABLE IF NOT EXISTS user_profile (key TEXT PRIMARY KEY, value TEXT, category TEXT, updated_at DATETIME)")
+            cursor.execute("CREATE TABLE IF NOT EXISTS interaction_history (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp DATETIME, query TEXT, response TEXT, metadata TEXT)")
+            conn.commit()
 
-    def _load_cache(self) -> dict:
-        if os.path.exists(self.cache_file):
-            try:
-                with open(self.cache_file, 'r') as f:
-                    return json.load(f)
-            except (json.JSONDecodeError, IOError):
-                return {}
-        return {}
+    def save_profile_fact(self, key, value, category="general"):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT OR REPLACE INTO user_profile (key, value, category, updated_at) VALUES (?, ?, ?, ?)", 
+                           (key, value, category, datetime.now().isoformat()))
+            conn.commit()
 
-    def save_cache(self):
-        """Persists the current cache to disk."""
-        try:
-            with open(self.cache_file, 'w') as f:
-                json.dump(self.cache, f)
-        except IOError as e:
-            print(f"Error saving cache: {e}")
+    def get_profile_fact(self, key):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT value FROM user_profile WHERE key = ?", (key,))
+            result = cursor.fetchone()
+            return result[0] if result else None
 
-    def mmap_load(self, file_path: str):
-        """
-        Opens a file using mmap. This allows the OS to map the file into 
-        virtual memory, loading pages only when accessed.
-        """
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"File not found: {file_path}")
+    def get_all_profile_context(self):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT key, value FROM user_profile")
+            facts = cursor.fetchall()
+            return "\n".join([f"{k}: {v}" for k, v in facts])
 
-        file_obj = open(file_path, "rb")
-        # mmap.mmap(fileno, length, access=mmap.ACCESS_READ)
-        return mmap.mmap(file_obj.fileno(), 0, access=mmap.ACCESS_READ), file_obj
+    def add_interaction(self, query, response, metadata=None):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO interaction_history (timestamp, query, response, metadata) VALUES (?, ?, ?, ?)", 
+                           (datetime.now().isoformat(), query, response, json.dumps(metadata)))
+            conn.commit()
 
-    def get_cached_context(self, query: str) -> Optional[Any]:
-        """
-        Retrieves context from cache using a hash of the query.
-        """
-        query_hash = hashlib.sha256(query.encode()).hexdigest()
-        return self.cache.get(query_hash)
+    def get_recent_history(self, limit=5):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT query, response FROM interaction_history ORDER BY timestamp DESC LIMIT ?", (limit,))
+            history = cursor.fetchall()
+            return "\n".join([f"User: {q}\nAI: {r}" for q, r in reversed(history)])
 
-    def set_cached_context(self, query: str, context: Any):
-        """
-        Stores the retrieved context in the cache for a given query.
-        """
-        query_hash = hashlib.sha256(query.encode()).hexdigest()
-        self.cache[query_hash] = context
-        # We don't auto-save every time to avoid disk I/O overhead; 
-        # call save_cache() periodically.
+if __name__ == "__main__":
+    import sys
+    # Use a fixed path for testing to avoid relative path issues
+    test_db = "/home/guzzbr/meus-projetos/IA_Farm/data/user_memory.db"
+    mem = MemoryManager(db_path=test_db)
+    mem.save_profile_fact("region", "Vale do Paraíba", "location")
+    mem.save_profile_fact("soil_type", "Latossolo Vermelho", "technical")
+    print("Profile Context:\n", mem.get_all_profile_context())
+    mem.add_interaction("Qual a dose de N?", "A dose recomendada é 100kg/ha")
+    print("\nRecent History:\n", mem.get_recent_history())
