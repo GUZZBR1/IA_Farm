@@ -19,3 +19,7 @@ before the application displays it.
 The deterministic simulation and synthetic fixtures do not establish agronomic
 correctness, field safety, or mobile performance. Those require approved
 sources and tests on the physical target device.
+
+An exploratory on-device SLM evaluation is documented in
+`docs/slm_evaluation.md`. It is a proposal only and does not change the current
+deterministic runtime policy.
