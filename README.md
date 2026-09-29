@@ -1,15 +1,19 @@
-# 🌾 AgriBrain Local
+# 🌾 AgriBrain - AI Specialist for Agriculture
 
-**AgriBrain Local** is an autonomous, offline-first AI specialist for agriculture.
+**AgriBrain** is an autonomous, offline-first AI specialist designed to bring precision agriculture to the field.
 
-## Project Status: Phase 4 (Mobile Hardening) - COMPLETE ✅
+## 🚀 Quick Start
+- **Code**: Located in `/src`
+- **Implementation Guide**: See `MINING_GUIDE.md`
+- **Project DNA**: See `CONCEPT.md`
+- **Current Status**: See `PROJECT_STATUS.md`
+- **Operator Map**: See `AGENTE.md`
 
-The hardening phase has been conceptually finalized with the following milestones:
-- [x] RAG Logic and Memory Optimization.
-- [x] MLC LLM Integration Planning (GPU acceleration, Phi-3, Vulkan/OpenCL).
-- [x] Mobile UI Specifications (Low-power, High-visibility, STT/TTS).
-- [x] Weight-sharding strategy for low-end Android devices.
+## 🛠️ Core Technology
+- **Llama/Phi-3 Quantized** (Core Intelligence)
+- **FAISS Vector Store** (Technical Knowledge)
+- **Deterministic Calculator** (Zero-Error Dosage)
+- **RAG Pipeline** (EMBRAPA/CIMMYT Sources)
 
-### Documentation
-- `docs/mlc_llm_integration.md`: Hardware acceleration and compilation pipeline.
-- `docs/mobile_ui_spec.md`: UX/UI design for field operations.
+---
+Developed by **guzzbr**
