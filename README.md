@@ -32,6 +32,7 @@ IA_FARM_MOCK=1 python main.py
 - **Operator map**: See `AGENTE.md`.
 - **Deployment**: See `docs/deployment_guide.md`.
 - **Golden Set policy**: See `docs/golden_set_policy.md` and run `python tests/run_golden_set.py`.
+- **Persona simulation**: See `docs/test_environment.md` for the ten-battery user/agronomist harness.
 - **LLM validation**: See `docs/llm_validation.md`.
 - **Security response**: See `SECURITY.md`.
 

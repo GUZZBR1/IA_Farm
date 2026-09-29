@@ -1,6 +1,8 @@
 """Safe orchestration between metadata, retrieval and local/remote LLMs."""
 
 import os
+import re
+import unicodedata
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -18,9 +20,10 @@ LLM_UNAVAILABLE_RESPONSE = (
     "OPENROUTER_API_KEY before retrying."
 )
 TECHNICAL_KEYWORDS = (
-    "dosage", "dose", "amount", "how much", "quanto", "quantidade", "kg/ha",
+    "dosage", "dosagem", "dosagens", "dose", "amount", "how much", "quanto", "quantidade", "kg/ha",
     "l/ha", "apply", "aplicar", "treatment", "tratamento", "fertilizer", "adubo",
     "fertilizante", "pesticide", "pesticida", "fungicide", "fungicida", "npk",
+    "inseticida", "herbicida", "agrotoxico", "defensivo", "veneno", "pulverizar",
 )
 REGION_ALIASES = (
     "mato grosso", "mt", "cerrado", "minas gerais", "mg", "parana", "pr",
@@ -30,6 +33,16 @@ CLIMATE_ALIASES = (
     "tropical", "equatorial", "semiarido", "semi-arido", "subtropical",
     "temperate", "temperado", "arid", "arido",
 )
+
+
+def _normalize_text(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value.casefold())
+    return "".join(char for char in normalized if not unicodedata.combining(char))
+
+
+def _contains_phrase(text: str, phrase: str) -> bool:
+    normalized_phrase = _normalize_text(phrase)
+    return bool(re.search(rf"(?<!\w){re.escape(normalized_phrase)}(?!\w)", _normalize_text(text)))
 
 
 class Orchestrator:
@@ -85,17 +98,26 @@ class Orchestrator:
     def _extract_metadata(self, user_input: str) -> Dict[str, str]:
         """Extract only explicit, deterministic region/climate mentions."""
 
-        normalized = user_input.casefold()
         extracted: Dict[str, str] = {}
         for alias in REGION_ALIASES:
-            if alias in normalized:
+            if _contains_phrase(user_input, alias):
                 extracted["region"] = canonicalize("region", alias)
                 break
         for alias in CLIMATE_ALIASES:
-            if alias in normalized:
+            if _contains_phrase(user_input, alias):
                 extracted["climate"] = canonicalize("climate", alias)
                 break
         return extracted
+
+    @staticmethod
+    def _is_technical_request(user_input: str) -> bool:
+        normalized = _normalize_text(user_input)
+        if re.search(r"(?<!\w)\d+(?:[.,]\d+)?\s*(?:kg|g|mg|l|ml)/ha\b", normalized):
+            return True
+        for keyword in TECHNICAL_KEYWORDS:
+            if _contains_phrase(normalized, keyword):
+                return True
+        return False
 
     def rag_query(self, query: str, context_filters: Optional[Dict[str, Any]] = None) -> str:
         """Retrieve validated context before constructing an LLM prompt."""
@@ -126,10 +148,7 @@ Answer:"""
         """Require region and climate before technical recommendations."""
 
         session_state.update(self._extract_metadata(user_input))
-        normalized_input = user_input.casefold()
-        is_technical_request = any(keyword in normalized_input for keyword in TECHNICAL_KEYWORDS)
-
-        if not is_technical_request:
+        if not self._is_technical_request(user_input):
             return self.rag_query(user_input)
 
         normalized_state = {

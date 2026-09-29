@@ -6,7 +6,7 @@ Este plano define a trajetória técnica para transformar o motor atual em um pr
 **Objetivo**: Garantir que a inteligência no servidor seja infalível.
 - [x] Implementação do orquestrador.
 - [x] Calculadora determinística de aritmética por área.
-- [x] Validar os guardrails do RAG com um Golden Set sem doses inventadas.
+- [x] Criar dez baterias de simulação determinística com três personas e guardrails sem doses inventadas.
 - [ ] Expandir a calculadora para outros nutrientes (P, K) e culturas.
 - [x] Adicionar CI, compilação e varredura de segredos.
 - [ ] Fazer validação agronômica dos casos com fontes e especialistas.
