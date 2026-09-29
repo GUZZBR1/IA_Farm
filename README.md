@@ -31,6 +31,9 @@ IA_FARM_MOCK=1 python main.py
 - **Current status**: See `PROJECT_STATUS.md` and `ROADMAP.md`.
 - **Operator map**: See `AGENTE.md`.
 - **Deployment**: See `docs/deployment_guide.md`.
+- **Golden Set policy**: See `docs/golden_set_policy.md` and run `python tests/run_golden_set.py`.
+- **LLM validation**: See `docs/llm_validation.md`.
+- **Security response**: See `SECURITY.md`.
 
 ## 🛠️ Core technology
 
@@ -38,6 +41,10 @@ IA_FARM_MOCK=1 python main.py
 - **FAISS vector store** (technical knowledge)
 - **Deterministic calculator** (zero-error arithmetic baseline)
 - **RAG pipeline** (EMBRAPA/CIMMYT sources)
+
+Every push and pull request runs the dependency-free test suite, Golden Set
+guardrails, Python compilation and the tracked-file security scan through
+GitHub Actions.
 
 ---
 Developed by **guzzbr**

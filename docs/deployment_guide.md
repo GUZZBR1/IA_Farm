@@ -1,9 +1,13 @@
 # 🌾 Field Deployment Guide: IA_Farm (AgriBrain Local)
 
-This guide provides step-by-step instructions for deploying the IA_Farm autonomous AI specialist onto an Android device using Ollama or MLC LLM.
+This guide provides the current deployment path for the IA_Farm offline-first
+baseline. Android and field deployment remain experimental and require hardware
+validation before production use.
 
 ## 🚀 Overview
-IA_Farm is designed for offline-first agricultural assistance. It utilizes a quantized Phi-3 model and a local Vector Database to provide expert knowledge without requiring an internet connection in the field.
+IA_Farm is designed for offline-first agricultural assistance. It uses a local
+vector database and can call a configured local Ollama runtime. OpenRouter is an
+explicit optional fallback; it is never configured in source code.
 
 ---
 
@@ -64,8 +68,10 @@ python main.py
 
 ### RAM & Memory Issues
 If the application crashes due to "Out of Memory" (OOM) or becomes sluggish:
-- **Enable mmap optimization:** The project includes a `memory_manager.py` tool. Ensure that the `mmap` flag is enabled in the configuration to map the model weights directly from disk rather than loading them entirely into RAM.
-- **Weight Sharding:** For devices with < 6GB RAM, refer to the weight-sharding strategy in the documentation to load the model in smaller segments.
+- The current `memory_manager.py` stores SQLite conversation/profile data; it
+  does not implement model mmap or weight sharding.
+- Use a smaller local model and validate memory consumption on the target device.
+- Treat mobile support as experimental until the benchmark and OOM tests pass.
 
 ### API Key Configuration (Hybrid Mode)
 While IA_Farm is offline-first, it supports **OpenRouter** as a fallback for complex queries.
@@ -73,7 +79,8 @@ While IA_Farm is offline-first, it supports **OpenRouter** as a fallback for com
    ```env
    export OPENROUTER_API_KEY=your_key_here
    ```
-3. The system will automatically switch to fallback if the local model confidence is too low.
+3. The system switches to the fallback only when Ollama is unavailable and the
+   environment variable is present. It does not infer model confidence.
 
 ---
 
@@ -82,7 +89,7 @@ While IA_Farm is offline-first, it supports **OpenRouter** as a fallback for com
 - [ ] Phi-3 model pulled and verified.
 - [ ] Vector index placed in the correct directory.
 - [ ] `requirements.txt` dependencies installed.
-- [ ] (Optional) OpenRouter API key configured.
+- [ ] (Optional) `OPENROUTER_API_KEY` configured outside the repository.
 
 For a demo without model dependencies, use `IA_FARM_MOCK=1 python main.py`.
 This mode is not a production RAG or agronomic validation path.

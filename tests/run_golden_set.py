@@ -1,90 +1,83 @@
+"""Run the safety/retrieval Golden Set without external models or APIs."""
+
+from __future__ import annotations
+
+import argparse
 import json
-import os
-from unittest.mock import MagicMock
+from pathlib import Path
+import sys
+from typing import Any
 
-# Mocking the Orchestrator to avoid heavy dependency issues (faiss, torch, etc.) 
-# and disk quota problems while still validating the Golden Set logic.
-class MockOrchestrator:
-    def handle_request(self, query, session_state):
-        # Simulated AI response logic for testing the runner
-        if "Fall Armyworm" in query:
-            return "Apply 2L/ha of Chlorantraniliprole when larvae are in L1-L3 stage."
-        if "NPK" in query:
-            return "Apply 120kg/ha N, 60kg/ha P2O5, 40kg/ha K2O."
-        if "Leaf Blight" in query:
-            return "Wrong dosage: Apply 1L/ha of Azoxystrobin." # Simulate critical failure
-        if "planting depth" in query:
-            return "The ideal planting depth is 3-5 cm."
-        return "I don't have enough technical data for this query."
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-def compare_responses(ai_response, ground_truth):
-    import re
-    gt_numbers = re.findall(r'\d+\.?\d*\s*(?:L/ha|kg/ha|mm|cm|tons/ha|%)', ground_truth)
-    if not gt_numbers:
-        return "Pass" if any(word.lower() in ai_response.lower() for word in ground_truth.split() if len(word) > 3) else "Minor Failure"
-    for num in gt_numbers:
-        if num not in ai_response:
-            return "Critical Failure"
-    return "Pass"
+from tools.orchastrator import Orchestrator
 
-def main():
-    orch = MockOrchestrator()
-    golden_set_path = 'tests/golden_set.json'
-    report_path = 'tests/validation_report.md'
-    
-    if not os.path.exists(golden_set_path):
-        print(f"Error: {golden_set_path} not found.")
-        return
 
-    with open(golden_set_path, 'r') as f:
-        test_cases = json.load(f)
-    
+class FixtureVectorDB:
+    def __init__(self, retrieval: str):
+        self.retrieval = retrieval
+
+    def query(self, query: str, k: int = 5, filters: dict[str, Any] | None = None):
+        if self.retrieval == "available":
+            return [{"text": "validated local context"}]
+        return []
+
+
+def evaluate(case: dict[str, Any]) -> tuple[str, str]:
+    orchestrator = Orchestrator(
+        db=FixtureVectorDB(case["retrieval"]),
+    )
+    orchestrator._call_llm = lambda prompt: "ANSWER_FROM_VALIDATED_CONTEXT"
+    response = orchestrator.handle_request(case["query"], dict(case["session_state"]))
+    normalized = response.casefold()
+
+    missing = [fragment for fragment in case["expected_fragments"] if fragment.casefold() not in normalized]
+    forbidden = [fragment for fragment in case["forbidden_fragments"] if fragment.casefold() in normalized]
+    if missing or forbidden:
+        details = []
+        if missing:
+            details.append(f"missing={missing}")
+        if forbidden:
+            details.append(f"forbidden={forbidden}")
+        return "FAIL", "; ".join(details)
+    return "PASS", response
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--cases",
+        type=Path,
+        default=Path(__file__).with_name("golden_set.json"),
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=None,
+        help="Optional report path; omitted in CI to avoid generated files.",
+    )
+    args = parser.parse_args()
+    cases = json.loads(args.cases.read_text(encoding="utf-8"))
     results = []
-    hallucinations = 0
-    critical_failures = 0
-    minor_failures = 0
-    passes = 0
-    
-    print(f"Running {len(test_cases)} Golden Set tests (Mock Mode)...\n")
-    
-    for i, case in enumerate(test_cases):
-        query = case['query']
-        gt = case['ground_truth']
-        critical = case['critical']
-        session_state = case['session_state']
-        
-        response = orch.handle_request(query, session_state)
-        status = compare_responses(response, gt)
-        
-        if "don't have enough technical data" in response.lower() and gt:
-            status = "Minor Failure" if not critical else "Critical Failure"
-                
-        if status == "Critical Failure":
-            critical_failures += 1
-        elif status == "Minor Failure":
-            minor_failures += 1
-        else:
-            passes += 1
-        
-        if critical and status == "Critical Failure" and "don't have enough" not in response.lower():
-            hallucinations += 1
+    for case in cases:
+        status, details = evaluate(case)
+        results.append({"id": case["id"], "status": status, "details": details})
+        print(f"{status}: {case['id']} — {details}")
 
-        results.append({"query": query, "ground_truth": gt, "ai_response": response, "status": status, "critical": critical})
+    failed = [result for result in results if result["status"] != "PASS"]
+    if args.report:
+        args.report.write_text(
+            "# Golden Set guardrail report\n\n"
+            + "\n".join(
+                f"- **{result['status']}** `{result['id']}`: {result['details']}"
+                for result in results
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+    print(f"Golden Set: {len(results) - len(failed)}/{len(results)} passed")
+    return 1 if failed else 0
 
-    accuracy = (passes / len(test_cases)) * 100
-    with open(report_path, 'w') as f:
-        f.write("# Golden Set Validation Report (Simulated)\n\n")
-        f.write(f"**Total Tests:** {len(test_cases)}\n")
-        f.write(f"**Accuracy Rate:** {accuracy:.2f}%\n")
-        f.write(f"**Hallucination Count:** {hallucinations}\n")
-        f.write(f"**Critical Failures:** {critical_failures}\n")
-        f.write(f"**Minor Failures:** {minor_failures}\n\n")
-        f.write("## Failure Details\n\n| Query | Ground Truth | AI Response | Status |\n|---|---|---|---|\n")
-        for r in results:
-            if r['status'] != "Pass":
-                f.write(f"| {r['query']} | {r['ground_truth']} | {r['ai_response']} | {r['status']} |\n")
-                
-    print(f"Validation complete. Report generated at {report_path}")
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

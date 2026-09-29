@@ -2,22 +2,26 @@
 
 Este plano define a trajetória técnica para transformar o motor atual em um produto funcional no campo.
 
-## 📍 Fase 1: Consolidação do Motor (baseline atual)
+## Fase 1: Consolidação do Motor (baseline atual)
 **Objetivo**: Garantir que a inteligência no servidor seja infalível.
 - [x] Implementação do orquestrador.
 - [x] Calculadora determinística de aritmética por área.
-- [ ] Validar a precisão do RAG com o Golden Set.
+- [x] Validar os guardrails do RAG com um Golden Set sem doses inventadas.
 - [ ] Expandir a calculadora para outros nutrientes (P, K) e culturas.
+- [x] Adicionar CI, compilação e varredura de segredos.
+- [ ] Fazer validação agronômica dos casos com fontes e especialistas.
 
-## 🚩 Stage 2: The "Corn" MVP
+## Stage 2: The "Corn" MVP
 - [ ] Curate high-quality Corn manuals (EMBRAPA/Industry).
 - [ ] Implement the Vision-to-JSON pipeline for dosage tables.
 - [x] Create the metadata tagging system (Region/Climate) — baseline tagger and canonical filters.
-- [ ] Build the Local Vector DB for the Corn dataset — ingestion command added; index generation still requires installed dependencies and validated source data.
+- [x] Build the Local Vector DB for the Corn dataset — local index generated and checked for vector/metadata parity.
+- [ ] Review every agronomic document and attach provenance, date and agronomist approval.
 
-## 📍 Fase 2: Laboratório de Estresse (Red Teaming)
+## Fase 2: Laboratório de Estresse (Red Teaming)
 **Objetivo**: Tentar quebrar o sistema antes que o usuário tente.
-- [ ] Implementar bateria de testes com o "Agricultor Cético" e "Auditor EMBRAPA".
+- [x] Implementar bateria inicial de guardrails com o "Agricultor Cético".
+- [ ] Implementar revisão com o "Auditor EMBRAPA" usando casos citados.
 - [ ] Testar a resiliência do Extrator Híbrido com dados reais e ruidosos.
 - [ ] Certificar que 100% dos cálculos de dose sejam desviados para a calculadora.
 
@@ -45,7 +49,14 @@ canonical metadata matching, deterministic area-dose arithmetic, and automated
 core tests. External validation remains pending for the real Ollama model, the
 FAISS index build, field users, and Android hardware.
 
-## 🚩 Stage 5: Deployment & Scaling
+## Stage 5: Deployment & Scaling
 - [ ] Beta test with real corn farmers.
 - [ ] Implement Delta Updates for knowledge base.
 - [ ] Expand to other cultures.
+
+## Segurança e operação
+
+- [x] Remover credenciais e caminhos específicos do estado atual.
+- [x] Documentar rotação e resposta a credenciais em `SECURITY.md`.
+- [ ] Revogar credenciais que permanecem em commits históricos.
+- [ ] Executar rewrite coordenado do histórico, se o mantenedor autorizar.
