@@ -72,6 +72,17 @@ executar explicitamente o perfil padrão:
 python tests/run_golden_set.py --device-profile android-low-mid-4gb
 ```
 
+Para um smoke test executável em Linux/WSL, iniciando o app em um processo
+fixado a um núcleo lógico e limitado a 1536 MiB de espaço virtual de endereços:
+
+```bash
+python tests/run_low_mid_smoke.py
+```
+
+Esse comando roda a interface e a demonstração com retriever vazio, sem rede e
+sem modelo generativo. O limite de espaço virtual é uma contenção de processo
+para este ensaio, não uma emulação da RAM total ou da gestão de memória Android.
+
 Se houver falhas, corrija a regra/catálogo e repita o conjunto; uma aprovação
 só confirma os contratos exercitados.
 
