@@ -1,6 +1,8 @@
 # 🌾 AgriBrain - AI Specialist for Agriculture
 
-**AgriBrain** is an autonomous, offline-first AI specialist designed to bring precision agriculture to the field.
+**AgriBrain** is an offline-first agricultural assistant. Its current response
+path is deterministic: it requests missing context, refuses unreviewed data,
+and displays reviewed local references without generating recommendations.
 
 ## Project Status: Corn MVP baseline in progress 🚧
 
@@ -32,16 +34,17 @@ IA_FARM_MOCK=1 python main.py
 - **Operator map**: See `AGENTE.md`.
 - **Deployment**: See `docs/deployment_guide.md`.
 - **Golden Set policy**: See `docs/golden_set_policy.md` and run `python tests/run_golden_set.py`.
-- **Persona simulation**: See `docs/test_environment.md` for the ten-battery user/agronomist harness.
-- **LLM validation**: See `docs/llm_validation.md`.
+- **Persona simulation**: See `docs/test_environment.md` for the 100-battery, three-persona harness.
+- **Runtime contract**: No generative LLM is used in the application response path.
+- **Runtime policy**: See `docs/runtime_policy.md` for the embedding caveat and mobile limits.
 - **Security response**: See `SECURITY.md`.
 
 ## 🛠️ Core technology
 
-- **Llama/Phi-3 quantized** (core intelligence)
-- **FAISS vector store** (technical knowledge)
-- **Deterministic calculator** (zero-error arithmetic baseline)
-- **RAG pipeline** (EMBRAPA/CIMMYT sources)
+- **Deterministic rules and reviewed source excerpts** (core response path)
+- **FAISS vector store** (local retrieval; uses embeddings, not text generation)
+- **Deterministic calculator** (exact arithmetic on an already validated input)
+- **Local retrieval** (curated EMBRAPA/CIMMYT sources)
 
 Every push and pull request runs the dependency-free test suite, Golden Set
 guardrails, Python compilation and the tracked-file security scan through

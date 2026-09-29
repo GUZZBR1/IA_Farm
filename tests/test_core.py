@@ -31,7 +31,6 @@ class CoreBehaviorTests(unittest.TestCase):
 
     def test_empty_retrieval_fails_closed(self):
         orch = Orchestrator(db=FakeVectorDB())
-        orch._call_llm = lambda prompt: self.fail("LLM must not run without retrieved context")
 
         response = orch.handle_request("What is the recommended dosage?", {
             "region": "Mato Grosso",
@@ -41,20 +40,44 @@ class CoreBehaviorTests(unittest.TestCase):
         self.assertEqual(response, NO_CONTEXT_RESPONSE)
 
     def test_metadata_filters_are_canonicalized(self):
-        db = FakeVectorDB([{"text": "validated context"}])
+        db = FakeVectorDB([{
+            "text": "A synthetic reference with no agronomic dose.",
+            "metadata": {
+                "source_id": "TEST-APPROVED-001",
+                "review_status": "approved",
+                "review_date": "2024-01-01",
+            },
+        }])
         orch = Orchestrator(db=db)
-        orch._call_llm = lambda prompt: "answer"
 
         response = orch.handle_request("What is the dosage?", {
             "region": "Mato Grosso",
             "climate": "tropical",
         })
 
-        self.assertEqual(response, "answer")
+        self.assertIn("A synthetic reference with no agronomic dose.", response)
+        self.assertIn("TEST-APPROVED-001", response)
         self.assertEqual(
             db.calls[-1][1],
             {"region": "Brazil-MatoGrosso", "climate": "Tropical"},
         )
+
+    def test_unreviewed_document_is_never_displayed(self):
+        db = FakeVectorDB([{
+            "text": "UNSAFE-SYNTHETIC-DOSE 999kg/ha",
+            "metadata": {"source_id": "TEST-PENDING", "review_status": "pending"},
+        }])
+        response = Orchestrator(db=db).handle_request("Qual a dosagem?", {
+            "region": "Mato Grosso",
+            "climate": "Tropical",
+        })
+        self.assertEqual(response, NO_CONTEXT_RESPONSE)
+        self.assertNotIn("999kg/ha", response)
+
+    def test_runtime_has_no_generation_or_remote_llm_configuration(self):
+        orch = Orchestrator(db=FakeVectorDB())
+        self.assertFalse(hasattr(orch, "_call_llm"))
+        self.assertFalse(hasattr(orch, "openrouter_api_key"))
 
     def test_dosage_calculation_is_deterministic(self):
         self.assertEqual(calculate_total_dose("120kg/ha", "2.5"), "300 kg")

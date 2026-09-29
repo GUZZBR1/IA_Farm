@@ -29,9 +29,9 @@ The UI is designed for farmers using the app in direct sunlight, often wearing g
 The UI acts as a thin client communicating with the `orchastrator.py` (converted to a mobile-compatible service or JNI bridge).
 
 - **Input Flow**: 
-  `Voice/Text Input` $\rightarrow$ `UI Controller` $\rightarrow$ `Orchestrator API (Local)` $\rightarrow$ `MLC LLM / RAG`
+  `Voice/Text Input` $\rightarrow$ `UI Controller` $\rightarrow$ `Deterministic Orchestrator` $\rightarrow$ `Local Retrieval`
 - **Output Flow**:
-  `MLC LLM` $\rightarrow$ `Orchestrator` $\rightarrow$ `UI Stream` $\rightarrow$ `Text Display + TTS Engine`
+  `Reviewed Source Excerpts / Clarification` $\rightarrow$ `UI` $\rightarrow$ `Text Display + TTS Engine`
 - **State Management**:
   - **Offline Indicator**: A clear status icon showing "Local Mode Active" (No cloud dependency).
   - **Battery Warning**: UI shifts to a "Super-Power-Save" mode (reduced animations, grayscale) when battery < 20%.

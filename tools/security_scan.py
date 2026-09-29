@@ -26,6 +26,9 @@ def tracked_files(root: Path) -> list[Path]:
 def scan(root: Path) -> list[str]:
     findings: list[str] = []
     for path in tracked_files(root):
+        # This file necessarily contains the detection signatures themselves.
+        if path.resolve() == Path(__file__).resolve():
+            continue
         try:
             text = path.read_text(encoding="utf-8")
         except (OSError, UnicodeDecodeError):

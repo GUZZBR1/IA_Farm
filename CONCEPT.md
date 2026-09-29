@@ -1,32 +1,40 @@
-# 🌾 Conceito e Visão - AgriBrain
+# Conceito e visão — AgriBrain
 
-O AgriBrain não é apenas um chatbot agrícola; é um **Sistema Especialista Autônomo** desenhado para democratizar a agricultura de precisão, levando o conhecimento de agrônomos de elite para o bolso do produtor.
+O AgriBrain é um assistente agrícola offline-first para apoiar o produtor com
+informação técnica local, rastreável e revisada. Na execução do aplicativo não
+há LLM generativo: regras determinísticas conduzem a conversa e a busca local
+recupera referências; a interface exibe o trecho original, sem inventar uma
+recomendação.
 
-## 🎯 A Grande Ideia
-Criar uma IA capaz de rodar em hardware limitado (celulares Android de 4GB RAM), funcionando de forma **offline-first**, para que o agricultor no campo tenha respostas precisas sem depender de internet.
+## Filosofia de projeto
 
-## 🧠 Filosofia de Projeto (The DNA)
+### Determinismo e segurança
 
-### 1. Determinismo vs. Probabilidade
-A maior falha das LLMs é a alucinação matemática. O AgriBrain resolve isso com a **Regra de Ouro**:
-- **A IA nunca calcula**. Ela extrai a necessidade (ex: "solo arenoso, produtividade 12t") e a entrega para um **Calculador Determinístico** (código puro).
-- **Resultado**: Erro zero em dosagens químicas.
+- Região, clima e demais campos são extraídos por regras explícitas; o sistema
+  pede esclarecimentos quando falta contexto.
+- Dados só são exibidos quando possuem texto, fonte, estado de aprovação e data
+  de revisão válida.
+- A calculadora faz aritmética sobre uma dose que já foi validada. Ela não
+  escolhe produtos nem determina uma dose agronômica.
 
-### 2. Conhecimento Estruturado (RAG)
-Em vez de confiar no treinamento geral da IA, o sistema usa **RAG (Retrieval-Augmented Generation)**:
-- **Fontes**: Manuais da EMBRAPA, CIMMYT e universidades.
-- **Processo**: A IA busca o trecho exato do manual técnico $ightarrow$ valida os metadados $ightarrow$ formula a resposta.
+### Conhecimento estruturado
 
-### 3. Eficiência Extrema (Mobile Hardening)
-Para rodar em celulares simples, o sistema utiliza:
-- **Quantização 4-bit**: Redução do peso do modelo sem perda significativa de inteligência.
-- **mmap (Memory Mapping)**: Para evitar que o Android encerre o app por consumo de RAM.
-- **Delta Updates**: Atualizações leves de conhecimento sem precisar baixar o modelo inteiro.
+Manuais e tabelas devem ser convertidos para dados estruturados durante a
+curadoria, com proveniência e revisão por profissional qualificado antes de
+serem disponibilizados. A busca pode usar embeddings locais, que servem apenas
+para localizar documentos e não geram respostas.
 
-## 🛠️ Pilares Técnicos
-- **Visão $ightarrow$ JSON**: Transformação de tabelas de PDF em dados estruturados.
-- **Extrator Híbrido**: Combinação de busca por palavras-chave e LLM para garantir que a região e o clima sejam detectados corretamente.
-- **Red Teaming**: Testes rigorosos com personas (Agricultor Cético, Auditor da EMBRAPA) para garantir a segurança do sistema.
+### Execução em celular
 
----
-*Este projeto nasceu da visão de transformar a agricultura através da tecnologia local, segura e acessível.*
+O objetivo é funcionar offline em aparelhos modestos, mas Android ainda não foi
+validado. Quantização, `mmap`, cache e consumo de bateria só podem ser afirmados
+depois de implementados e medidos no aparelho-alvo. Veja
+`docs/mobile_optimization.md`.
+
+## Pilares técnicos
+
+- Fontes agronômicas estruturadas e versionadas.
+- Extração explícita de contexto e perguntas de esclarecimento.
+- Resposta por trechos locais revisados, sem geração de texto.
+- Testes red-team determinísticos com agricultor incrédulo, profissional e
+  usuário casual.

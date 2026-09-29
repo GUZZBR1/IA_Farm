@@ -1,8 +1,8 @@
-"""Safe orchestration between metadata, retrieval and local/remote LLMs."""
+"""Deterministic orchestration between metadata, retrieval and curated references."""
 
-import os
 import re
 import unicodedata
+from datetime import date
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -15,15 +15,15 @@ NO_CONTEXT_RESPONSE = (
     "I do not have validated technical data for this query and context. "
     "Please provide the region, climate and crop details."
 )
-LLM_UNAVAILABLE_RESPONSE = (
-    "The language model is unavailable. Start Ollama or configure "
-    "OPENROUTER_API_KEY before retrying."
-)
 TECHNICAL_KEYWORDS = (
     "dosage", "dosagem", "dosagens", "dose", "amount", "how much", "quanto", "quantidade", "kg/ha",
     "l/ha", "apply", "aplicar", "treatment", "tratamento", "fertilizer", "adubo",
     "fertilizante", "pesticide", "pesticida", "fungicide", "fungicida", "npk",
     "inseticida", "herbicida", "agrotoxico", "defensivo", "veneno", "pulverizar",
+    "chemical control", "controle quimico", "chemical", "treat", "recomendacao",
+    "recommendation", "agroquimico", "aplicacao",
+    "pest control", "controle de pragas", "manejo de pragas",
+    "tratar", "quimico",
 )
 REGION_ALIASES = (
     "mato grosso", "mt", "cerrado", "minas gerais", "mg", "parana", "pr",
@@ -51,49 +51,7 @@ class Orchestrator:
         self.db = db if db is not None else LocalVectorDB(
             index_path=str(vector_db_path or default_index_path)
         )
-        self.ollama_url = "http://localhost:11434/api/generate"
-        self.openrouter_url = "https://openrouter.ai/api/v1/chat/completions"
-        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
         self.required_metadata = ["region", "climate"]
-
-    def _call_llm(self, prompt: str, model: str = "llama3") -> str:
-        """Call Ollama first and use OpenRouter only as an explicit fallback."""
-
-        try:
-            import requests
-        except ImportError:
-            return "Error: requests is not installed; install requirements.txt first."
-
-        try:
-            response = requests.post(
-                self.ollama_url,
-                json={"model": model, "prompt": prompt, "stream": False},
-                timeout=15,
-            )
-            if response.status_code == 200:
-                return response.json().get("response", "")
-        except Exception as exc:
-            print(f"[Log] Ollama unavailable: {exc}")
-
-        if not self.openrouter_api_key:
-            return LLM_UNAVAILABLE_RESPONSE
-
-        try:
-            response = requests.post(
-                self.openrouter_url,
-                headers={"Authorization": f"Bearer {self.openrouter_api_key}"},
-                json={
-                    "model": "google/gemini-pro-1.5",
-                    "messages": [{"role": "user", "content": prompt}],
-                },
-                timeout=30,
-            )
-            if response.status_code == 200:
-                return response.json()["choices"][0]["message"]["content"]
-        except Exception as exc:
-            print(f"[Log] OpenRouter unavailable: {exc}")
-
-        return LLM_UNAVAILABLE_RESPONSE
 
     def _extract_metadata(self, user_input: str) -> Dict[str, str]:
         """Extract only explicit, deterministic region/climate mentions."""
@@ -120,29 +78,46 @@ class Orchestrator:
         return False
 
     def rag_query(self, query: str, context_filters: Optional[Dict[str, Any]] = None) -> str:
-        """Retrieve validated context before constructing an LLM prompt."""
-
-        dna_path = PROJECT_ROOT / "docs" / "agent_dna.md"
-        system_dna = dna_path.read_text(encoding="utf-8") if dna_path.exists() else ""
+        """Return reviewed source excerpts without generating or inferring advice."""
         docs = self.db.query(query, filters=context_filters)
-        if not docs:
+        reviewed_docs = [document for document in docs if self._is_reviewed(document)]
+        if not reviewed_docs:
             return NO_CONTEXT_RESPONSE
 
-        context_text = "\n".join(document.get("text", "") for document in docs)
-        if not context_text.strip():
+        excerpts = []
+        for document in reviewed_docs:
+            text = str(document.get("text", "")).strip()
+            metadata = document.get("metadata", {})
+            source = metadata.get("source_id") or metadata.get("source")
+            if text and source:
+                excerpts.append(f"Source: {source}\n{text}")
+
+        if not excerpts:
             return NO_CONTEXT_RESPONSE
 
-        prompt = f"""{system_dna}
+        return (
+            "Validated local references (shown verbatim):\n\n"
+            + "\n\n---\n\n".join(excerpts)
+        )
 
-Use the following technical context to answer the user's query.
-If the answer is not in the context, say you don't have enough technical data.
-
-Context:
-{context_text}
-
-User Query: {query}
-Answer:"""
-        return self._call_llm(prompt)
+    @staticmethod
+    def _is_reviewed(document: Dict[str, Any]) -> bool:
+        """Require provenance and explicit agronomist review before displaying data."""
+        if not isinstance(document, dict):
+            return False
+        metadata = document.get("metadata", {})
+        if not isinstance(metadata, dict) or not str(document.get("text", "")).strip():
+            return False
+        status = str(metadata.get("review_status", "")).casefold()
+        source = metadata.get("source_id") or metadata.get("source")
+        reviewed_at = metadata.get("reviewed_at") or metadata.get("review_date")
+        if status not in {"approved", "validated"} or not source or not reviewed_at:
+            return False
+        try:
+            review_date = date.fromisoformat(str(reviewed_at))
+        except ValueError:
+            return False
+        return review_date <= date.today()
 
     def handle_request(self, user_input: str, session_state: Dict[str, Any]) -> str:
         """Require region and climate before technical recommendations."""

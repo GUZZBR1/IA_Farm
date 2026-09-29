@@ -25,6 +25,7 @@ ALIASES = {
         "subtropical": "Subtropical",
         "temperate": "Temperate",
         "semi arid": "Semi-arid",
+        "semiarido": "Semi-arid",
         "semi-arid": "Semi-arid",
         "arid": "Arid",
     },

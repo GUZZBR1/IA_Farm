@@ -15,8 +15,8 @@ desenvolvedor que assuma o controle do AgriBrain.
 ### Orquestração
 
 - Exige região e clima antes de recomendações técnicas.
-- Não consulta LLM quando o RAG não retorna contexto.
-- Usa `OPENROUTER_API_KEY` somente como fallback explícito.
+- Não usa LLM generativo nem serviço remoto no caminho de resposta.
+- Só exibe trechos com proveniência, aprovação e data de revisão; não gera recomendações.
 
 ### RAG
 
@@ -38,6 +38,6 @@ desenvolvedor que assuma o controle do AgriBrain.
 3. Execute `python -m unittest discover -s tests -p 'test_*.py'`.
 4. Leia `docs/agent_dna.md` antes de alterar regras de segurança.
 
-**Regra de ouro:** nunca permita que o LLM invente doses; toda recomendação
-numérica deve ser rastreável a uma fonte validada e passar por cálculo
-determinístico.
+**Regra de ouro:** o app não escolhe nem inventa doses. Só dados com fonte,
+revisão e data explícitas podem ser exibidos; a calculadora apenas faz a
+aritmética de uma dose previamente validada.

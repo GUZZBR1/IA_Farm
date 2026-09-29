@@ -12,36 +12,19 @@ if str(PROJECT_ROOT) not in sys.path:
 # The mock is available only when explicitly requested with IA_FARM_MOCK=1.
 
 from tools.metadata import canonicalize
-from tools.orchastrator import Orchestrator, TECHNICAL_KEYWORDS
+from tools.orchastrator import Orchestrator
 
 
 class MockVectorDB:
     def query(self, query, filters=None):
-        return [{"text": "Mock context: Corn requires nitrogen and phosphorous in Mato Grosso."}]
-
-
-class MockOrchestrator:
-    def __init__(self, vector_db_path=""):
-        self.db = MockVectorDB()
-        self.required_metadata = ["region", "climate"]
-
-    def handle_request(self, user_input, session_state):
-        is_technical = any(kw in user_input.casefold() for kw in TECHNICAL_KEYWORDS)
-
-        if is_technical:
-            missing = [m for m in self.required_metadata if not session_state.get(m)]
-            if missing:
-                return f"To provide an accurate dosage, I need more information. Please tell me your {', '.join(missing)}."
-            return f"Based on your {session_state.get('region')} region, I recommend a standard nitrogen dosage of 120kg/ha."
-
-        return "I am the EMBRAPA Corn Specialist. I can help you with your crop management. Please provide your region and climate for specific advice."
+        return []
 
 class SimulationInterface:
     def __init__(self):
         print("[SYSTEM] Initializing IA_Farm Components...")
         if os.getenv("IA_FARM_MOCK") == "1":
-            print("[SYSTEM] IA_FARM_MOCK=1; running in explicit mock mode.")
-            self.orch = MockOrchestrator()
+            print("[SYSTEM] IA_FARM_MOCK=1; running real deterministic logic with an empty fixture database.")
+            self.orch = Orchestrator(db=MockVectorDB())
         else:
             self.orch = Orchestrator(vector_db_path=str(PROJECT_ROOT / "data" / "vector_index"))
         

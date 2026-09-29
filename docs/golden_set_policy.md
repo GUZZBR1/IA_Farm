@@ -1,24 +1,29 @@
 # Golden Set policy
 
-The checked-in Golden Set validates safety and retrieval contracts, not agronomic
-truth. It must not contain invented product doses presented as authoritative.
+The Golden Set validates deterministic safety, metadata extraction, session
+state, and source-display contracts. It contains no generated answers and must
+not contain invented doses presented as authoritative.
 
-The deterministic persona simulation contains ten progressive batteries, each
-run by three scripted user agents. Cases cover:
+The 100-battery simulation runs three scripted personas per case. Synthetic
+fixtures are allowed only to test behavior and must be clearly labeled as test
+data. They are not evidence of agronomic truth.
 
-- requesting region and climate before a technical dosage response;
-- failing closed when retrieval returns no validated context;
-- preserving session region/climate and passing retrieved fixture context;
-- preventing ungrounded dose units in safe fallback responses.
+Production excerpts are displayed only when the record has non-empty text,
+source provenance (`source_id` or `source`), an approved/validated review
+status, and a review date. Even then, the app displays the source excerpt
+verbatim; the system does not infer a diagnosis or create a recommendation.
 
-Agronomic acceptance cases may be added only with a source citation, crop and
-region metadata, review date, and approval from a qualified agronomist. Until
-then, `tests/run_golden_set.py` is a deterministic orchestration simulation and
-not a field-certification report. A green result is not a measurement of live
-LLM safety or Android hardware behavior.
+Agronomic acceptance cases require a source citation, crop and region metadata,
+review date, and approval from a qualified agronomist. The repository currently
+does not have a fully approved production Golden Set. The numerical examples in
+`docs/corn_mvp/dataset_v0.1.md` must not be treated as validated advice until
+they receive provenance and specialist review.
 
-Run it with:
+Run the suite with:
 
 ```bash
 python tests/run_golden_set.py
 ```
+
+A green result does not measure Android hardware behavior or validate advice
+for field use.

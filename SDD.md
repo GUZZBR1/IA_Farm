@@ -1,29 +1,32 @@
 # 📘 Software Design Document (SDD) & Research Plan
 
+**Runtime decision:** the application does not use a generative LLM on the
+phone. Intent detection, guided questions, safety checks, response formatting,
+and arithmetic are deterministic. Local embeddings may be used only to retrieve
+curated passages; they do not generate answers. Any vision-assisted extraction
+is knowledge-preparation work, never a phone runtime dependency.
+
 ## 1. System Architecture
 The system follows a high-efficiency "Hybrid-Local" approach, designed for high-risk agricultural environments where reliability is non-negotiable.
 
 ### Phase 1: Knowledge Engineering (The Library)
 *   **Curation Pipeline:** 
-    - **Ingestion:** Using advanced Vision LLMs (GPT-4o/Claude 3.5) to convert legacy PDFs/images into structured JSON/Markdown.
+    - **Ingestion:** Convert source manuals into structured JSON/Markdown during knowledge preparation; assisted extraction, if used, must be reviewed before import.
     - **Verification:** Double-Verification via outlier detection (standard deviation) for numeric doses.
     - **Triangulation:** Cross-referencing multiple sources (e.g., EMBRAPA vs Company Manuals) to ensure semantic accuracy.
 *   **Structuring:** Metadata tagging by region, climate, and crop type to prevent regional misapplication.
 
 ### Phase 2: The Intelligence Layer (The Brain)
-*   **Intent Classifier (Efficiency):** Lightweight pre-processor to route queries.
-    - *General:* Simple scripts.
-    - *Technical:* Trigger SLM.
+*   **Intent Classifier (Efficiency):** Deterministic rules route queries into a guided flow and require region, climate and other fields before technical lookups.
 *   **Hybrid Local RAG (Precision):**
     - **Vector Store:** Local FAISS/ChromaDB with metadata filtering.
-    - **JSON-Pairing:** Critical dosage data is stored as deterministic JSON pairs to eliminate LLM reading errors.
+    - **JSON-Pairing:** Critical dosage data is stored as deterministic JSON pairs; the runtime displays reviewed source data without generating or inferring recommendations.
     - **Guided Interface:** A "decision-tree" chat flow that guides the user to provide precise symptoms, reducing input noise.
-*   **Deterministic Computation (Safety):** 
-    - **Tool-Use/Function Calling:** Calculation of dosages is outsourced to a deterministic Python function. The LLM extracts parameters, but a calculator performs the math to ensure 100% accuracy.
+*   **Deterministic Computation (Safety):** A Python function performs arithmetic only on a dose already validated by an approved source and qualified agronomist. It does not select or infer the dose.
 
 ### Phase 3: Mobile Deployment
-*   **Optimization:** 4-bit quantization and Memory Mapping (mmap) to fit in 2-4GB RAM.
-*   **Edge Latency:** Pre-vectorized "common context" cache to avoid on-device embedding for frequent queries.
+*   **Optimization:** Measure the local retrieval index and embedding runtime against 2-4GB devices; do not claim quantization or mmap until implemented and measured.
+*   **Edge Latency:** Evaluate a deterministic common-query cache only after correctness and invalidation rules are defined.
 *   **Safety Layer:** Mandatory warnings for chemical applications and a "Conflict Alert" when sources diverge.
 
 ## 2. Detailed Research Plan
@@ -35,7 +38,7 @@ The system follows a high-efficiency "Hybrid-Local" approach, designed for high-
 | **M4** | **Offline** | Delta Update system for knowledge versioning. |
 
 ## 3. Risk Analysis
-- **Hallucinations:** $ightarrow$ Mitigation: Strict RAG + Source Citation + Triangulation.
-- **Battery/Heat:** $ightarrow$ Mitigation: Intent Classifier + Asynchronous execution.
-- **Data Corruption:** $ightarrow$ Mitigation: Hash-based verification of local vector files.
-- **Arithmetic Error:** $ightarrow$ Mitigation: Deterministic Tool-use (External Calculator).
+- **Unsupported advice:** Mitigation: do not generate recommendations; display only reviewed source excerpts with provenance.
+- **Battery/Heat:** Mitigation: measure retrieval, memory and energy on a physical target phone before release.
+- **Data Corruption:** Mitigation: implement and test hash-based verification for local index files.
+- **Arithmetic Error:** Mitigation: use deterministic arithmetic only after an agronomist/source has approved the input dose.
