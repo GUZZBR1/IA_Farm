@@ -13,8 +13,30 @@ Ele não diagnostica culturas nem cria recomendações.
 - **Profissional:** pede fonte e condições técnicas.
 - **Casual:** pede explicações simples.
 
-Os agentes são roteiros determinísticos que variam a mensagem; não são modelos
-de linguagem nem avaliam a verdade agronômica.
+Os agentes de usuário são roteiros determinísticos que variam a mensagem; não
+são modelos de linguagem. Um agente auditor com papel de agrônomo verifica
+somente contratos de contexto, segurança, escopo regional, proveniência e
+exibição literal. Ele não valida a verdade agronômica nem substitui um
+profissional real.
+
+## Perfil de celular simulado
+
+O perfil padrão é `android-low-mid-4gb`: celular Android fraco/médio, ARM64,
+4 GB de RAM total e conectividade indisponível. O modelo generativo permanece
+desligado e a recuperação usa fixtures em memória que respeitam os filtros de
+região e clima. O perfil registra as condições pretendidas para os cenários;
+ele não impõe limites de RAM/CPU nem emula o kernel Android.
+
+A orquestração aceita proveniência tanto no formato aninhado dos fixtures
+(`metadata`) quanto no formato plano retornado pelo índice vetorial local. Essa
+compatibilidade não aprova automaticamente registros: fonte, estado de revisão
+e data válida continuam obrigatórios. Os testes exercitam o contrato sem
+depender de FAISS ou do modelo de embeddings.
+
+O relatório marca explicitamente `physical_device_validated: false`. Portanto,
+não se deve inferir deste ambiente memória disponível ao processo, velocidade
+ARM64, encerramento sob pressão, temperatura, consumo de bateria, empacotamento
+Android ou carregamento do modelo.
 
 ## As 100 baterias
 
@@ -39,9 +61,16 @@ python tests/run_golden_set.py
 python tests/run_golden_set.py --report test-results/simulation-report.json
 ```
 
-O runner avalia cada bateria e continua para que o resultado mostre a extensão
-das falhas. Se houver falhas, corrija a regra/catálogo e repita o conjunto; uma
-aprovação só confirma os contratos exercitados.
+O runner avalia cada bateria para as três personas e submete cada transcrição
+ao auditor determinístico, continuando para mostrar a extensão das falhas. Para
+executar explicitamente o perfil padrão:
+
+```bash
+python tests/run_golden_set.py --device-profile android-low-mid-4gb
+```
+
+Se houver falhas, corrija a regra/catálogo e repita o conjunto; uma aprovação
+só confirma os contratos exercitados.
 
 ## Limites
 

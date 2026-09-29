@@ -87,7 +87,7 @@ class Orchestrator:
         excerpts = []
         for document in reviewed_docs:
             text = str(document.get("text", "")).strip()
-            metadata = document.get("metadata", {})
+            metadata = document.get("metadata", document)
             source = metadata.get("source_id") or metadata.get("source")
             if text and source:
                 excerpts.append(f"Source: {source}\n{text}")
@@ -105,7 +105,9 @@ class Orchestrator:
         """Require provenance and explicit agronomist review before displaying data."""
         if not isinstance(document, dict):
             return False
-        metadata = document.get("metadata", {})
+        # LocalVectorDB stores metadata fields beside `text`; fixtures and
+        # ingestion APIs may instead wrap them under `metadata`.
+        metadata = document.get("metadata", document)
         if not isinstance(metadata, dict) or not str(document.get("text", "")).strip():
             return False
         status = str(metadata.get("review_status", "")).casefold()

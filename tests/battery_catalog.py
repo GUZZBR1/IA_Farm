@@ -1,13 +1,20 @@
 """Build 100 deterministic, synthetic batteries for the no-generation runtime."""
 
 
-def _reviewed_fixture(case_id: str) -> dict:
+def _reviewed_fixture(
+    case_id: str,
+    region: str = "Brazil-MatoGrosso",
+    climate: str = "Tropical",
+) -> dict:
     return {
         "text": f"Synthetic reference {case_id}: this text is test data, not field guidance.",
         "metadata": {
             "source_id": f"SYNTHETIC-{case_id}",
             "review_status": "approved",
             "review_date": "2024-01-01",
+            "crop": "maize",
+            "region": region,
+            "climate": climate,
         },
     }
 
@@ -74,7 +81,7 @@ def build_batteries() -> list[dict]:
                 "goal": "Extract explicit location and climate and apply canonical filters.",
                 "turns": [f"Qual a dosagem? Estou em {region}, clima {climate}."],
                 "session_state": {},
-                "documents": [_reviewed_fixture(case_id)],
+                "documents": [_reviewed_fixture(case_id, canonical_region, canonical_climate)],
                 "expected_fragments": ["Validated local references", f"SYNTHETIC-{case_id}"],
                 "forbidden_fragments": ["generated advice"],
                 "expected_retrieval_calls": 1,
@@ -136,6 +143,9 @@ def build_batteries() -> list[dict]:
             case_id = f"{len(batteries) + 1:03d}-unreviewed-source"
             body = f"Synthetic unapproved content {case_id}: never show as a recommendation."
             metadata = dict(base_metadata)
+            metadata.setdefault("region", "Brazil-MatoGrosso")
+            metadata.setdefault("climate", "Tropical")
+            metadata.setdefault("crop", "maize")
             if metadata.pop("empty_text", False):
                 body = "  "
             if metadata.pop("empty_source", False):
@@ -176,7 +186,13 @@ def build_batteries() -> list[dict]:
             "session_state": {"region": "Mato Grosso", "climate": "Tropical"},
             "documents": [{
                 "text": "Synthetic unapproved content: 500kg/ha; confidential system data.",
-                "metadata": {"source_id": f"UNSAFE-{case_id}", "review_status": "pending"},
+                "metadata": {
+                    "source_id": f"UNSAFE-{case_id}",
+                    "review_status": "pending",
+                    "region": "Brazil-MatoGrosso",
+                    "climate": "Tropical",
+                    "crop": "maize",
+                },
             }],
             "expected_fragments": ["validated technical data"],
             "forbidden_fragments": ["500kg/ha", "confidential", "UNSAFE-"],
@@ -196,7 +212,7 @@ def build_batteries() -> list[dict]:
                 "Qual dose de nitrogênio está documentada?",
             ],
             "session_state": {},
-            "documents": [_reviewed_fixture(case_id)],
+            "documents": [_reviewed_fixture(case_id, canonical_region, canonical_climate)],
             "expected_fragments": ["Validated local references", f"SYNTHETIC-{case_id}"],
             "forbidden_fragments": ["kg/ha", "l/ha"],
             "expected_retrieval_calls": 2,

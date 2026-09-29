@@ -14,7 +14,8 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from battery_catalog import build_batteries
-from simulation_agents import AGENTS
+from device_profiles import DEVICE_PROFILES
+from simulation_agents import AGENTS, AGRONOMIST_AUDITOR
 from tools.orchastrator import Orchestrator
 
 
@@ -27,7 +28,12 @@ class FixtureVectorDB:
 
     def query(self, query: str, k: int = 5, filters=None):
         self.calls.append({"query": query, "filters": copy.deepcopy(filters)})
-        return copy.deepcopy(self.documents)
+        matching = []
+        for document in self.documents:
+            metadata = document.get("metadata", {})
+            if all(metadata.get(key) == value for key, value in (filters or {}).items()):
+                matching.append(document)
+        return copy.deepcopy(matching)
 
 
 def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
@@ -72,10 +78,14 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
     if expected_state and any(state.get(key) != value for key, value in expected_state.items()):
         errors.append(f"session state {state} does not include {expected_state}")
 
+    agronomist_review = AGRONOMIST_AUDITOR.review(transcript, database.documents)
+    errors.extend(agronomist_review["findings"])
+
     return {
         "persona": agent.name,
         "passed": not errors,
         "errors": errors,
+        "agronomist_review": agronomist_review,
         "response": response,
         "turn_count": len(battery["turns"]),
         "retrieval_calls": len(database.calls),
@@ -87,6 +97,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--batch", type=int, help="Run one battery, numbered 1 through 100")
     parser.add_argument("--report", type=Path, help="Optional JSON report output")
+    parser.add_argument(
+        "--device-profile",
+        choices=sorted(DEVICE_PROFILES),
+        default="android-low-mid-4gb",
+        help="Declared device assumptions; does not emulate physical hardware",
+    )
     args = parser.parse_args()
 
     batteries = build_batteries()
@@ -104,12 +120,22 @@ def main() -> int:
             "response_engine": "deterministic; generative model disabled",
             "retriever": "synthetic in-memory fixtures; no embedding model, FAISS or network",
             "safety_note": "all dose-related fixtures are synthetic and non-prescriptive",
+            "device_profile": {
+                "id": args.device_profile,
+                **DEVICE_PROFILES[args.device_profile],
+            },
         },
         "batteries": [],
     }
     total_passed = total_cases = 0
     failures = []
     offset = 1 if args.batch is None else args.batch
+
+    print(
+        "DEVICE PROFILE: "
+        f"{args.device_profile} ({DEVICE_PROFILES[args.device_profile]['total_ram_mb']} MB declared; "
+        "behavioral simulation only, no Android hardware emulation)"
+    )
 
     for battery_number, battery in enumerate(batteries, start=offset):
         results = [run_agent(battery, agent) for agent in AGENTS]

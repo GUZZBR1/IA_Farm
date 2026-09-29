@@ -6,6 +6,8 @@ from tools.dosage_calculator import DosageError, calculate_total_dose
 from tools.ingest import parse_markdown_documents
 from tools.memory_manager import MemoryManager
 from tools.orchastrator import NO_CONTEXT_RESPONSE, Orchestrator
+from run_golden_set import FixtureVectorDB
+from simulation_agents import AGRONOMIST_AUDITOR
 
 
 class FakeVectorDB:
@@ -74,6 +76,30 @@ class CoreBehaviorTests(unittest.TestCase):
         self.assertEqual(response, NO_CONTEXT_RESPONSE)
         self.assertNotIn("999kg/ha", response)
 
+    def test_flat_vector_index_hit_with_review_provenance_can_be_displayed(self):
+        db = FakeVectorDB([{
+            "text": "Reviewed flat-index reference for testing.",
+            "source_id": "TEST-FLAT-APPROVED",
+            "review_status": "approved",
+            "review_date": "2025-01-01",
+        }])
+
+        response = Orchestrator(db=db).handle_request("Mostre a referência local.", {})
+
+        self.assertIn("TEST-FLAT-APPROVED", response)
+        self.assertIn("Reviewed flat-index reference for testing.", response)
+
+    def test_flat_vector_index_hit_without_review_provenance_fails_closed(self):
+        db = FakeVectorDB([{
+            "text": "Unreviewed legacy index entry.",
+            "source_id": "TEST-FLAT-UNREVIEWED",
+        }])
+
+        response = Orchestrator(db=db).handle_request("Mostre a referência local.", {})
+
+        self.assertEqual(response, NO_CONTEXT_RESPONSE)
+        self.assertNotIn("Unreviewed legacy", response)
+
     def test_runtime_has_no_generation_or_remote_llm_configuration(self):
         orch = Orchestrator(db=FakeVectorDB())
         self.assertFalse(hasattr(orch, "_call_llm"))
@@ -106,6 +132,51 @@ class CoreBehaviorTests(unittest.TestCase):
 
             self.assertEqual(memory.get_profile_fact("region"), "Brazil-MatoGrosso")
             self.assertIn("question", memory.get_recent_history())
+
+    def test_simulated_retriever_enforces_region_and_climate_filters(self):
+        documents = [
+            {"text": "Reference for Mato Grosso.", "metadata": {
+                "region": "Brazil-MatoGrosso", "climate": "Tropical",
+            }},
+            {"text": "Reference for Paraná.", "metadata": {
+                "region": "Brazil-Parana", "climate": "Subtropical",
+            }},
+        ]
+        results = FixtureVectorDB(documents).query(
+            "planting", filters={
+                "region": "Brazil-MatoGrosso", "climate": "Tropical",
+            },
+        )
+
+        self.assertEqual([item["text"] for item in results], ["Reference for Mato Grosso."])
+
+    def test_agronomist_auditor_rejects_source_from_another_region(self):
+        document = {
+            "text": "Paraná-specific synthetic source.",
+            "metadata": {
+                "source_id": "SYNTHETIC-PR",
+                "review_status": "approved",
+                "review_date": "2024-01-01",
+                "region": "Brazil-Parana",
+                "climate": "Subtropical",
+            },
+        }
+        transcript = [{
+            "user": "Oi",
+            "assistant": (
+                "Validated local references (shown verbatim):\n\n"
+                "Source: SYNTHETIC-PR\nParaná-specific synthetic source."
+            ),
+            "session_state": {
+                "region": "Brazil-MatoGrosso", "climate": "Tropical",
+            },
+            "retrieval": [],
+        }]
+
+        review = AGRONOMIST_AUDITOR.review(transcript, [document])
+
+        self.assertFalse(review["passed"])
+        self.assertTrue(any("does not match session" in item for item in review["findings"]))
 
 
 if __name__ == "__main__":
