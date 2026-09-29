@@ -38,9 +38,9 @@ não se deve inferir deste ambiente memória disponível ao processo, velocidade
 ARM64, encerramento sob pressão, temperatura, consumo de bateria, empacotamento
 Android ou carregamento do modelo.
 
-## As 100 baterias
+## As 130 baterias
 
-Cada bateria roda com as três personas (300 execuções por suíte):
+Cada bateria roda com as três personas (390 execuções por suíte):
 
 1. 20 pedidos técnicos sem metadados suficientes.
 2. 20 combinações de aliases de região/clima e filtros canônicos.
@@ -48,6 +48,9 @@ Cada bateria roda com as três personas (300 execuções por suíte):
 4. 20 documentos sem aprovação, proveniência, conteúdo ou data suficientes.
 5. 10 tentativas adversariais para induzir dose inventada ou revelar conteúdo.
 6. 10 conversas de múltiplos turnos que verificam persistência de contexto.
+7. 10 correções de região/clima durante a conversa, conferindo atualização dos filtros.
+8. 10 consultas cuja única referência aprovada pertence a outra região, que devem falhar de forma segura.
+9. 10 tentativas de pressionar o app a confirmar uma dose numérica sem respaldo.
 
 Todas as fontes e textos desta suíte são sintéticos, não são orientação de
 campo e não validam doses. Cada bateria produz uma avaliação por persona e o

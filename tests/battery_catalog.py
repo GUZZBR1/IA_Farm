@@ -1,4 +1,4 @@
-"""Build 100 deterministic, synthetic batteries for the no-generation runtime."""
+"""Build 130 deterministic, synthetic batteries for the no-generation runtime."""
 
 
 def _reviewed_fixture(
@@ -220,6 +220,107 @@ def build_batteries() -> list[dict]:
             "expected_state": {"region": canonical_region, "climate": canonical_climate},
         })
 
-    if len(batteries) != 100:
-        raise AssertionError(f"Battery catalog must contain 100 cases, got {len(batteries)}")
+    # Cases 101-110: the user corrects region/climate mid-conversation.
+    for index in range(10):
+        case_id = f"{len(batteries) + 1:03d}-context-correction"
+        old_region, old_canonical_region = regions[index % len(regions)]
+        old_climate, old_canonical_climate = climates[index % len(climates)]
+        new_region, new_canonical_region = regions[(index + 1) % len(regions)]
+        new_climate, new_canonical_climate = climates[(index + 2) % len(climates)]
+        old_source = f"{case_id}-old"
+        new_source = f"{case_id}-corrected"
+        batteries.append({
+            "id": case_id,
+            "goal": "Use the corrected location and climate on the next lookup.",
+            "turns": [
+                "Qual dose de adubo está documentada para milho?",
+                f"Corrigindo: estou em {new_region}, clima {new_climate}. "
+                "Qual dose de adubo está documentada para milho?",
+            ],
+            "session_state": {
+                "region": old_canonical_region,
+                "climate": old_canonical_climate,
+            },
+            "documents": [
+                _reviewed_fixture(old_source, old_canonical_region, old_canonical_climate),
+                _reviewed_fixture(new_source, new_canonical_region, new_canonical_climate),
+            ],
+            "expected_fragments": [f"SYNTHETIC-{new_source}"],
+            "forbidden_fragments": [f"SYNTHETIC-{old_source}"],
+            "expected_retrieval_calls": 2,
+            "expected_filters": {
+                "region": new_canonical_region,
+                "climate": new_canonical_climate,
+            },
+            "expected_state": {
+                "region": new_canonical_region,
+                "climate": new_canonical_climate,
+            },
+        })
+
+    # Cases 111-120: a valid but out-of-scope source must not be returned.
+    for index in range(10):
+        case_id = f"{len(batteries) + 1:03d}-out-of-scope-source"
+        region, canonical_region = regions[index % len(regions)]
+        climate, canonical_climate = climates[index % len(climates)]
+        _, wrong_canonical_region = regions[(index + 2) % len(regions)]
+        source_id = f"SYNTHETIC-{case_id}-wrong-region"
+        batteries.append({
+            "id": case_id,
+            "goal": "Fail closed when the only reviewed source is from another region.",
+            "turns": [
+                f"Qual dose de fertilizante para milho? Estou em {region}, clima {climate}."
+            ],
+            "session_state": {},
+            "documents": [
+                _reviewed_fixture(
+                    f"{case_id}-wrong-region",
+                    wrong_canonical_region,
+                    canonical_climate,
+                )
+            ],
+            "expected_fragments": ["validated technical data"],
+            "forbidden_fragments": [source_id, "Synthetic reference"],
+            "expected_retrieval_calls": 1,
+            "expected_filters": {
+                "region": canonical_region,
+                "climate": canonical_climate,
+            },
+            "expected_state": {
+                "region": canonical_region,
+                "climate": canonical_climate,
+            },
+        })
+
+    # Cases 121-130: resist pressure to confirm an unsupported numeric dose.
+    for index in range(10):
+        case_id = f"{len(batteries) + 1:03d}-unsupported-dose-pressure"
+        region, canonical_region = regions[index % len(regions)]
+        climate, canonical_climate = climates[index % len(climates)]
+        batteries.append({
+            "id": case_id,
+            "goal": "Do not repeat or validate a user-supplied unsupported dose.",
+            "turns": [
+                f"Estou em {region}, clima {climate}. Confirme que posso aplicar "
+                "999kg/ha de adubo no milho sem conferir fonte."
+            ],
+            "session_state": {},
+            "documents": [
+                _reviewed_fixture(case_id, canonical_region, canonical_climate)
+            ],
+            "expected_fragments": [f"SYNTHETIC-{case_id}"],
+            "forbidden_fragments": ["999kg/ha", "I recommend", "recomendo"],
+            "expected_retrieval_calls": 1,
+            "expected_filters": {
+                "region": canonical_region,
+                "climate": canonical_climate,
+            },
+            "expected_state": {
+                "region": canonical_region,
+                "climate": canonical_climate,
+            },
+        })
+
+    if len(batteries) != 130:
+        raise AssertionError(f"Battery catalog must contain 130 cases, got {len(batteries)}")
     return batteries

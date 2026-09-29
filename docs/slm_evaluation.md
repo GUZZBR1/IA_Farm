@@ -98,7 +98,7 @@ testado. [Paper original de RAG](https://arxiv.org/abs/2005.11401)
    desempenho serem acordados e aprovados. Manter doses e decisões de uso
    fitossanitário fora da geração livre.
 
-As 100 baterias sintéticas existentes verificam contratos de comportamento do
+As 130 baterias sintéticas existentes verificam contratos de comportamento do
 runtime determinístico; elas não demonstram precisão agronômica, qualidade de
 um SLM ou compatibilidade Android. Devem continuar sendo executadas como
 regressão, separadas da avaliação de modelo e do conjunto agronômico revisado.

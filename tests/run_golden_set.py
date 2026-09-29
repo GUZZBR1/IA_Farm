@@ -1,4 +1,4 @@
-"""Run 100 deterministic user-simulation batteries without generated responses."""
+"""Run deterministic user-simulation batteries without generated responses."""
 
 from __future__ import annotations
 
@@ -95,7 +95,7 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--batch", type=int, help="Run one battery, numbered 1 through 100")
+    parser.add_argument("--batch", type=int, help="Run one numbered battery")
     parser.add_argument("--report", type=Path, help="Optional JSON report output")
     parser.add_argument(
         "--device-profile",
@@ -106,9 +106,10 @@ def main() -> int:
     args = parser.parse_args()
 
     batteries = build_batteries()
+    total_batteries = len(batteries)
     if args.batch is not None:
         if not 1 <= args.batch <= len(batteries):
-            parser.error("--batch must be between 1 and 100")
+            parser.error(f"--batch must be between 1 and {len(batteries)}")
         batteries = [batteries[args.batch - 1]]
 
     report = {
@@ -154,7 +155,10 @@ def main() -> int:
             "review": "PASS: all persona contracts met" if passed == len(results) else "FAIL: inspect persona findings",
             "results": results,
         })
-        print(f"BATTERY {battery_number:03d}/100 [{passed}/{len(results)}] {battery['id']}")
+        print(
+            f"BATTERY {battery_number:03d}/{total_batteries} "
+            f"[{passed}/{len(results)}] {battery['id']}"
+        )
         print(f"  Review: {report['batteries'][-1]['review']}")
         for result in results:
             label = "PASS" if result["passed"] else "FAIL"
