@@ -1,5 +1,7 @@
 # 📘 Software Design Document (SDD) & Research Plan
 
+> **Classificação: DESIGN / HISTÓRICO.** Este documento contém propostas que não estão no runtime. [`ARCHITECTURE.md`](ARCHITECTURE.md) é a referência para a arquitetura implementada e para os limites atuais.
+
 **Runtime decision:** the application does not use a generative LLM on the
 phone. Intent detection, guided questions, safety checks, response formatting,
 and arithmetic are deterministic. Local embeddings may be used only to retrieve

@@ -8,6 +8,7 @@ from typing import Any, Dict, Optional
 
 from tools.metadata import canonicalize
 from tools.curation_registry import CurationRegistry
+from tools.contracts import RequestState, VectorRetriever
 from tools.vector_db import LocalVectorDB
 
 
@@ -128,7 +129,12 @@ def _has_ambiguous_alternative(text: str, aliases: tuple[str, ...]) -> bool:
 
 
 class Orchestrator:
-    def __init__(self, vector_db_path: Optional[str] = None, db=None, curation_registry=None):
+    def __init__(
+        self,
+        vector_db_path: Optional[str] = None,
+        db: Optional[VectorRetriever] = None,
+        curation_registry=None,
+    ):
         default_index_path = PROJECT_ROOT / "data" / "vector_index"
         self.db = db if db is not None else LocalVectorDB(
             index_path=str(vector_db_path or default_index_path)
@@ -261,7 +267,7 @@ class Orchestrator:
                 return False
         return True
 
-    def handle_request(self, user_input: str, session_state: Dict[str, Any]) -> str:
+    def handle_request(self, user_input: str, session_state: RequestState) -> str:
         """Require region and climate before technical recommendations."""
 
         session_state.update(self._extract_metadata(user_input))

@@ -36,6 +36,8 @@ IA_FARM_MOCK=1 python main.py
 
 ## 🚀 Project guides
 
+- **Official architecture**: See `ARCHITECTURE.md` for implemented boundaries and target layers.
+- **Baseline and technical debt**: See `BASELINE_REPORT.md` and `TECH_DEBT.md`.
 - **Implementation guide**: See `MINING_GUIDE.md`.
 - **Project DNA**: See `CONCEPT.md` and `docs/agent_dna.md`.
 - **Current status**: See `PROJECT_STATUS.md` and `ROADMAP.md`.

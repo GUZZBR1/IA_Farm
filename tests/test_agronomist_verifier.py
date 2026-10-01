@@ -5,7 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from verify_agronomist_reviews import compare_reviews, verify_report_file
+from tools.review_verifier import compare_reviews, verify_report_file
+from verify_agronomist_reviews import compare_reviews as compatibility_compare_reviews
 
 
 def review(role: str, verdict: str = "correct") -> dict:
@@ -41,6 +42,9 @@ def review(role: str, verdict: str = "correct") -> dict:
 
 
 class AgronomistVerifierTests(unittest.TestCase):
+    def test_legacy_test_module_reexports_the_runtime_verifier(self):
+        self.assertIs(compatibility_compare_reviews, compare_reviews)
+
     def test_agreement_on_official_sources_is_not_precision_or_certification(self):
         result = compare_reviews(review("maize_evidence_specialist"), review("independent_verifier"))
         self.assertEqual(result["status"], "agent_agreement_official_sources")

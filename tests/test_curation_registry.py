@@ -1,13 +1,11 @@
 import hashlib
 import json
 import tempfile
-import sys
 import unittest
 from pathlib import Path
 
 from tools.curation_registry import CurationRegistry, text_sha256
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from verify_agronomist_reviews import compare_reviews
+from tools.review_verifier import compare_reviews
 
 
 class CurationRegistryTests(unittest.TestCase):
@@ -83,6 +81,25 @@ class CurationRegistryTests(unittest.TestCase):
             self.assertTrue(registry.authorizes(document))
             document["text"] += " altered"
             self.assertFalse(registry.authorizes(document))
+
+            # A malformed later entry must not leave an earlier approval active.
+            registry_path.write_text(json.dumps({
+                "schema_version": 1,
+                "entries": [entry, {"record_id": "CURATED-001"}],
+            }), encoding="utf-8")
+            self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
+
+            registry_path.write_text(json.dumps({
+                "schema_version": 1,
+                "entries": [entry, entry],
+            }), encoding="utf-8")
+            self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
+
+    def test_legacy_test_module_reexports_runtime_verifier(self):
+        from tools.review_verifier import compare_reviews as runtime_compare_reviews
+        from verify_agronomist_reviews import compare_reviews as compatibility_compare_reviews
+
+        self.assertIs(compatibility_compare_reviews, runtime_compare_reviews)
 
     def test_invalid_artifact_hash_loads_as_empty_fail_closed_registry(self):
         with tempfile.TemporaryDirectory() as temporary:

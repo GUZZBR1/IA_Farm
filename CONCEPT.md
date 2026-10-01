@@ -1,5 +1,7 @@
 # Conceito e visão — AgriBrain
 
+> **Classificação: DESIGN / VISÃO.** Para o comportamento implementado e os limites atuais, consulte [`ARCHITECTURE.md`](ARCHITECTURE.md) e [`BASELINE_REPORT.md`](BASELINE_REPORT.md). Objetivos descritos abaixo não comprovam implementação.
+
 O AgriBrain é um assistente agrícola offline-first para apoiar o produtor com
 informação técnica local, rastreável e revisada. Na execução do aplicativo não
 há LLM generativo: regras determinísticas conduzem a conversa e a busca local

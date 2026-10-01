@@ -6,8 +6,9 @@ import hashlib
 import json
 from pathlib import Path
 import re
-import sys
 from typing import Any
+
+from tools.review_verifier import compare_reviews
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -66,8 +67,6 @@ def validate_entry(entry: dict[str, Any], base_dir: Path = PROJECT_ROOT) -> None
         ):
             raise ValueError(f"{name} review cites a source outside the frozen case")
         reviews[name] = report
-    sys.path.insert(0, str(PROJECT_ROOT / "tests"))
-    from verify_agronomist_reviews import compare_reviews
     comparison = compare_reviews(reviews["specialist"], reviews["verifier"])
     if comparison["status"] != "agent_agreement_official_sources":
         raise ValueError("the two AI reviews do not agree on supported official-source evidence")
@@ -106,10 +105,10 @@ class CurationRegistry:
                 return
             for entry in payload["entries"]:
                 if not isinstance(entry, dict) or not entry.get("record_id"):
-                    return
+                    raise ValueError("curation entry is invalid")
                 record_id = str(entry["record_id"])
                 if record_id in self.entries:
-                    return
+                    raise ValueError("duplicate curation record_id")
                 validate_entry(entry, base_dir=base_dir)
                 entry["review_artifacts_verified"] = True
                 entry["review_input_sha256"] = entry["review_input"]["sha256"]

@@ -7,6 +7,7 @@ from tools.ingest import parse_markdown_documents
 from tools.memory_manager import MemoryManager
 from tools.orchastrator import NO_CONTEXT_RESPONSE, REFERENCE_HEADER, Orchestrator
 from tools.curation_registry import CurationRegistry, text_sha256
+from tools.contracts import VectorRetriever
 from run_golden_set import FixtureVectorDB
 from simulation_agents import AGRONOMIST_AUDITOR
 
@@ -39,6 +40,9 @@ def synthetic_registry(document):
 
 
 class CoreBehaviorTests(unittest.TestCase):
+    def test_fake_retriever_implements_application_retriever_contract(self):
+        self.assertIsInstance(FakeVectorDB(), VectorRetriever)
+
     def test_missing_context_is_requested_for_technical_query(self):
         db = FakeVectorDB()
         orch = Orchestrator(db=db)
