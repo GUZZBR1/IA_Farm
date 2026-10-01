@@ -1,0 +1,4 @@
+# Core/offline application dependencies. Vector/ML runtimes are optional.
+requests>=2.31
+PyYAML>=6.0
+psutil>=5.9

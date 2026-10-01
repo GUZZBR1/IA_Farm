@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local embedding model manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["model_id", "revision", "expected_dimension", "artifact_origin", "artifact_hash"],
+  "properties": {
+    "model_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "expected_dimension": {"type": "integer", "minimum": 1},
+    "artifact_origin": {"type": "string", "minLength": 1},
+    "artifact_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -32,6 +32,8 @@ class LexicalBaselineTests(unittest.TestCase):
         self.assertEqual({key: value for key, value in first["metrics"].items() if key != "mean_latency_ms"},
                          {key: value for key, value in second["metrics"].items() if key != "mean_latency_ms"})
         self.assertFalse(first["agronomic_accuracy_claim"])
+        self.assertEqual(first["score_scope"], "SYNTHETIC_RETRIEVAL_EVALUATION")
+        self.assertEqual(first["fallback_policy"], "LEXICAL_SELECTED_EXPLICITLY_BY_CALLER")
         self.assertEqual(first["metrics"]["mean_recall_at_k"], 1.0)
         self.assertEqual(first["metrics"]["wrong_region_rate"], 0.0)
         self.assertEqual(first["metrics"]["no_result_accuracy"], 1.0)

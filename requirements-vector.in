@@ -1,0 +1,5 @@
+# Direct vector-runtime inputs; resolve and freeze transitive requirements in
+# the target OS/Python wheelhouse before production use. This is not a lockfile.
+numpy==1.26.4
+faiss-cpu==1.13.2
+sentence-transformers==5.2.0

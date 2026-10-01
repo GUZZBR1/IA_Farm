@@ -1,27 +1,34 @@
 # Retrieval evaluation
 
-## Status
+## Evaluation sets
 
-The lexical baseline and evaluation harness are implemented with the Python standard library. The checked-in synthetic suite tests token overlap, accent normalization, metadata filters, wrong-region abstention and no-result behavior; it contains no agronomic ground truth. Results are mechanics-only. The approved suite and canonical knowledge store are empty, so there is no agronomic retrieval score.
+`tests/retrieval_eval_dataset.json` is a synthetic mechanics dataset with stable queries and fixture records. Its scores are `SYNTHETIC_RETRIEVAL_EVALUATION`; they are not agronomic accuracy, field performance, or evidence that corn queries are supported. The Agronomic Golden Set remains separate and contains zero approved cases.
 
-The real vector backend uses `LocalVectorDB` + FAISS + Sentence-Transformers and reports actual dependency imports/versions. It must not fall back to mocks. In this environment, NumPy/FAISS/Sentence-Transformers availability must be probed at execution; the expected result without them is `unavailable` / `BLOCKED_BY_ENVIRONMENT`. A semantic model or source corpus is not replaced by a fixture.
+## Current run
 
-## Reproduction
+Run the lexical baseline with:
 
 ```sh
 python -m tools.retrieval_evaluation --suite synthetic --backend lexical
-python -m tools.retrieval_evaluation --suite synthetic --backend vector --model /path/to/local/model
-python -m tools.retrieval_evaluation --suite approved --backend lexical
 ```
 
-Each report binds dataset and corpus hashes, environment, configuration, per-query IDs, returned records and scores/distances, precision/recall/MRR, no-result/abstention behavior, wrong-region/filter mismatches, forbidden-source hits and latency. `wrong_region_rate` counts only returned hits from queries with an explicit region filter and divides mismatched-region hits by that returned-hit count; it is null when no such hits exist. Query labels are explicit. Synthetic labels measure only the fixture strings.
+BM25 runs on the synthetic fixture set only. Vector evaluation requires installed NumPy/FAISS/Sentence-Transformers, a local model directory, and a model manifest with an immutable revision and verified artifact hash:
 
-## Recorded experiment
+```sh
+python -m tools.retrieval_evaluation --suite synthetic --backend vector \
+  --model /path/to/local/model --model-manifest /path/to/model-manifest.json
+```
 
-On the checked-in three-record / five-query synthetic fixture (dataset SHA-256 `8dc3763bea85bb3ccfef8d416eac6d37110dff810615aa3631353684b4d5dcfa`), BM25 produced mean Recall@K `1.00`, Precision@K `0.667`, MRR `1.00`, no-result accuracy `1.00`, wrong-region rate `0.00`, and forbidden-source rate `0.00`. This tiny test fixture is not representative of maize queries or production retrieval. The precision below 1 reflects additional lexical matches; no threshold is inferred from five fixtures. The observed mean latency was about `0.14 ms` in WSL and is not a device or field benchmark.
+Current vector status: `BLOCKED_BY_ENVIRONMENT` (`DEPENDENCY_MISSING`); no vector score is reported. Hybrid is not implemented or compared because vector baseline could not run.
 
-The current vector dependency probe on WSL Python 3.12.3 found NumPy `1.26.4`, while FAISS and Sentence-Transformers imports failed (`ModuleNotFoundError`). Vector metrics are therefore unavailable (`BLOCKED_BY_ENVIRONMENT`). No packages were installed and no mock vector result was substituted. The approved query suite reports `blocked_by_no_approved_corpus` with metrics null.
+Latest BM25 result on WSL/Linux: 5 synthetic cases over 3 synthetic records; Recall@3 1.000, Precision@3 0.667, MRR@3 1.000, abstention accuracy 1.000, no-result accuracy 1.000, wrong-region rate 0.000, forbidden-source rate 0.000, mean latency 0.155 ms. These small fixture results demonstrate only lexical mechanics and are not a ranking-quality or agronomic claim.
 
-The lexical method is BM25 (k1=1.5, b=0.75), Unicode accent folding and whole-token matching; metadata is filtered before ranking. No stemming, synonyms or learned parameters are used. Vector evaluation constructs a temporary index from the selected corpus; it never modifies the current runtime index. The canonical store, not FAISS metadata, defines published records.
+## Metrics and interpretation
 
-The runtime vector query previously searched only `min(k*10, ntotal)` and filtered afterward. It now expands the candidate window until it has `k` matching records or searches the full index, and returns the FAISS distance on each hit. A regression fixture verifies a matching record beyond the old window. Published indexing copies the runtime authorization/context metadata and retains each exact approved excerpt as one index unit; it does not split the reviewed text into chunks whose hashes would fail the approval gate. This demonstrates filter-window and contract correctness only, not semantic relevance. No arbitrary score threshold or neural reranker is introduced. Threshold selection and lexical/vector/hybrid comparison require real labeled queries and records.
+The runner records recall/precision at K, MRR, no-result accuracy, wrong-region and forbidden-source rates, filter mismatch, latency, dataset/corpus hashes, configuration, Python, and platform when applicable. Metrics with no grounded labels remain null. Synthetic score values measure string retrieval mechanics only. Agronomic claims require approved evidence-backed query labels and remain unavailable until human review.
+
+Metadata filtering regression remains covered: vector top-K expands beyond the original `k * 10` candidate window before giving up. No empirical comparison of post-search expansion against prefiltered indexes has been measured. No semantic threshold is selected. No reranker is enabled.
+
+## Next experiment gate
+
+Create a complete isolated target-platform lock and local model manifest, run the actual vector suite with downloads disabled, save the environment diagnostic and JSON report, then compare against BM25 on the same synthetic cases. Only after sources are approved and queries carry qualified record labels may an agronomic retrieval comparison be scored.

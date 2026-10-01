@@ -22,6 +22,7 @@ import time
 from typing import Any
 
 from tools.lexical_baseline import LexicalBaseline, matches_filters, record_metadata
+from tools.retrieval_runtime import validate_embedding_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = Path(__file__).with_name("retrieval_eval_dataset.json")
@@ -219,7 +220,7 @@ def approved_records(store_path: Path, registry_path: Path) -> tuple[list[dict[s
 
 
 def run(dataset: dict[str, Any], suite_name: str, backend: str, model: str,
-        registry: Path, store: Path) -> dict[str, Any]:
+        registry: Path, store: Path, model_manifest_path: Path | None = None) -> dict[str, Any]:
     if dataset.get("schema_version") != 1:
         raise ValueError("unsupported retrieval dataset schema")
     suite = dataset["suites"][suite_name]
@@ -228,7 +229,7 @@ def run(dataset: dict[str, Any], suite_name: str, backend: str, model: str,
                       else (suite["records"], {}))
     report = {
         "schema_version": 1, "suite": suite_name, "backend": backend,
-        "score_scope": "synthetic_retrieval_mechanics" if suite_name == "synthetic" else "approved_corpus_retrieval",
+        "score_scope": "SYNTHETIC_RETRIEVAL_EVALUATION" if suite_name == "synthetic" else "APPROVED_CORPUS_RETRIEVAL",
         "agronomic_accuracy_claim": False, "dataset_sha256": fingerprint(dataset),
         "corpus_sha256": fingerprint(records), "python": sys.version.split()[0],
         "platform": platform.platform(), "corpus_record_count": len(records), **audit,
@@ -243,26 +244,46 @@ def run(dataset: dict[str, Any], suite_name: str, backend: str, model: str,
         return report
     if backend == "lexical":
         report.update(evaluate(LexicalBaseline(records), suite["cases"], records))
+        report["fallback_policy"] = "LEXICAL_SELECTED_EXPLICITLY_BY_CALLER"
         return report
     dependencies = vector_dependencies()
     report["dependencies"] = dependencies
     if not all(item["available"] for item in dependencies.values()):
-        report.update(status="unavailable", reason="Real vector dependencies failed to import.", metrics=None, cases=[])
+        report.update(status="blocked_by_environment", capability_state="DEPENDENCY_MISSING",
+                      reason="Real vector dependencies failed to import.", metrics=None, cases=[])
         return report
     if not Path(model).is_dir():
-        report.update(status="unavailable", reason="Vector evaluation requires an existing local model directory; downloads are disabled.",
+        report.update(status="blocked_by_environment", capability_state="MODEL_MISSING",
+                      reason="Vector evaluation requires an existing local model directory; downloads are disabled.",
                        metrics=None, cases=[])
+        return report
+    if model_manifest_path is None or not Path(model_manifest_path).is_file():
+        report.update(status="invalid", capability_state="MODEL_MISSING",
+                      reason="An explicit embedding manifest with immutable revision and artifact hash is required.",
+                      metrics=None, cases=[])
+        return report
+    model_manifest = json.loads(Path(model_manifest_path).read_text(encoding="utf-8"))
+    try:
+        validate_embedding_manifest(model_manifest, Path(model))
+    except ValueError as error:
+        report.update(status="invalid", capability_state="MODEL_MISSING",
+                      reason=str(error), metrics=None, cases=[])
         return report
     from tools.vector_db import LocalVectorDB
     try:
         with tempfile.TemporaryDirectory(prefix="ia-farm-retrieval-eval-") as directory:
-            database = LocalVectorDB(index_path=directory, model_name=model)
+            database = LocalVectorDB(index_path=directory, model_name=model,
+                                     model_revision=model_manifest["revision"],
+                                     model_id=model_manifest["model_id"])
+            if database.dimension != model_manifest["expected_dimension"]:
+                raise RuntimeError("Loaded model dimension differs from the pinned model manifest")
             database.index_documents(records)
             report["vector_count"] = database.index.ntotal
             report["vector_dimension"] = database.index.d
             report.update(evaluate(database, suite["cases"], records))
     except (RuntimeError, OSError, ImportError) as exc:
-        report.update(status="unavailable", reason=f"{type(exc).__name__}: {exc}", metrics=None, cases=[])
+        report.update(status="blocked_by_environment", capability_state="INDEX_INVALID",
+                      reason=f"{type(exc).__name__}: {exc}", metrics=None, cases=[])
     return report
 
 
@@ -272,13 +293,15 @@ def main() -> int:
     parser.add_argument("--suite", choices=("synthetic", "approved"), default="synthetic")
     parser.add_argument("--backend", choices=("lexical", "vector"), default="lexical")
     parser.add_argument("--model", default="all-MiniLM-L6-v2", help="Exact local model path preferred for reproducibility.")
+    parser.add_argument("--model-manifest", type=Path, help="Pinned revision and local model artifact hash.")
     parser.add_argument("--registry", type=Path, default=ROOT / "data" / "curation_registry.json")
     parser.add_argument("--store", type=Path, default=ROOT / "data" / "knowledge_base" / "approved_records.json")
     parser.add_argument("--output", type=Path, help="Optional JSON report; otherwise prints to stdout.")
     args = parser.parse_args()
     try:
         dataset = json.loads(args.dataset.read_text(encoding="utf-8"))
-        report = run(dataset, args.suite, args.backend, args.model, args.registry, args.store)
+        report = run(dataset, args.suite, args.backend, args.model, args.registry, args.store,
+                     args.model_manifest)
     except (ValueError, KeyError, TypeError, OSError) as exc:
         report = {"status": "invalid", "reason": f"{type(exc).__name__}: {exc}", "metrics": None}
     serialized = json.dumps(report, indent=2, ensure_ascii=False)

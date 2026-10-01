@@ -11,7 +11,7 @@ class PublishedIndexProjectionTests(unittest.TestCase):
         record = {
             "record_id": "synthetic-record", "text": "Synthetic fixture only.",
             "scope": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
-            "sources": [{"source_id": "synthetic-source"}],
+            "sources": [{"source_id": "synthetic-source", "valid_until": "2099-12-31"}],
             "approval": {"reviewed_at": "2026-01-01"},
         }
         curation = {"review_input": {"sha256": "f" * 64}}
@@ -22,6 +22,8 @@ class PublishedIndexProjectionTests(unittest.TestCase):
         self.assertEqual(metadata["curation_record_id"], record["record_id"])
         self.assertEqual(metadata["climate"], "Tropical")
         self.assertEqual(metadata["region"], "Brazil-MatoGrosso")
+        self.assertEqual(metadata["approved_scope"], record["scope"])
+        self.assertEqual(metadata["valid_until"], "2099-12-31")
 
     def test_exact_published_excerpts_are_not_split_into_unapproved_chunks(self):
         from tools.vector_db import LocalVectorDB

@@ -4,6 +4,7 @@ import re
 import unicodedata
 from datetime import date
 from pathlib import Path
+import os
 from typing import Any, Dict, Optional
 
 from tools.metadata import canonicalize
@@ -134,10 +135,18 @@ class Orchestrator:
         vector_db_path: Optional[str] = None,
         db: Optional[VectorRetriever] = None,
         curation_registry=None,
+        embedding_model_path: Optional[str] = None,
+        embedding_model_id: Optional[str] = None,
+        embedding_model_revision: Optional[str] = None,
+        expected_knowledge_release: Optional[str] = None,
     ):
         default_index_path = PROJECT_ROOT / "data" / "vector_index"
         self.db = db if db is not None else LocalVectorDB(
-            index_path=str(vector_db_path or default_index_path)
+            index_path=str(vector_db_path or default_index_path),
+            model_name=(embedding_model_path or os.environ.get("IA_FARM_EMBEDDING_MODEL_PATH", "")),
+            model_id=(embedding_model_id or os.environ.get("IA_FARM_EMBEDDING_MODEL_ID")),
+            model_revision=(embedding_model_revision or os.environ.get("IA_FARM_EMBEDDING_MODEL_REVISION")),
+            expected_release_id=(expected_knowledge_release or os.environ.get("IA_FARM_KNOWLEDGE_RELEASE")),
         )
         self.required_metadata = ["region", "climate"]
         self.curation_registry = curation_registry or CurationRegistry(

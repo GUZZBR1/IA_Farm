@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Versioned retrieval index compatibility manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifest_schema_version", "index_type", "embedding_model", "embedding_revision", "embedding_dimension", "embedding_artifact_hash", "embedding_artifact_origin", "knowledge_release", "record_count", "created_at", "index_files"],
+  "properties": {
+    "manifest_schema_version": {"const": 1},
+    "index_type": {"type": "string", "minLength": 1},
+    "embedding_model": {"type": "string", "minLength": 1},
+    "embedding_revision": {"type": "string", "minLength": 1},
+    "embedding_dimension": {"type": "integer", "minimum": 1},
+    "embedding_artifact_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "embedding_artifact_origin": {"type": "string", "minLength": 1},
+    "knowledge_release": {"type": "string", "minLength": 1},
+    "record_count": {"type": "integer", "minimum": 0},
+    "created_at": {"type": "string", "format": "date-time"},
+    "index_files": {
+      "type": "object", "additionalProperties": false,
+      "required": ["faiss.index", "metadata.json"],
+      "properties": {
+        "faiss.index": {"$ref": "#/$defs/file_hash"},
+        "metadata.json": {"$ref": "#/$defs/file_hash"}
+      }
+    }
+  },
+  "$defs": {"file_hash": {"type": "object", "additionalProperties": false, "required": ["sha256", "size"], "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "size": {"type": "integer", "minimum": 0}}}}
+}
