@@ -58,6 +58,8 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
             "crop": metadata.get("crop"),
             "review_date": reviewed_at,
             "review_artifacts_verified": True,
+            "source_snapshots_verified": True,
+            "human_approval_verified": True,
             "review_input_sha256": "synthetic-fixture-only",
         }
     database = FixtureVectorDB(documents)

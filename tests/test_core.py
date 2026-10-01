@@ -35,6 +35,8 @@ def synthetic_registry(document):
         "crop": metadata.get("crop"),
         "review_date": metadata.get("review_date") or metadata.get("reviewed_at"),
         "review_artifacts_verified": True,
+        "source_snapshots_verified": True,
+        "human_approval_verified": True,
         "review_input_sha256": "synthetic-test-only",
     }})
 

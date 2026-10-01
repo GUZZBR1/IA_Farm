@@ -9,6 +9,15 @@ from tools.review_verifier import compare_reviews
 
 
 class CurationRegistryTests(unittest.TestCase):
+    def test_duplicate_record_ids_fail_closed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "registry.json"
+            duplicate = {"record_id": "DUPLICATE"}
+            path.write_text(json.dumps({"schema_version": 2, "entries": [duplicate, duplicate]}),
+                            encoding="utf-8")
+            registry = CurationRegistry(path)
+            self.assertEqual(registry.entries, {})
+
     def test_registry_accepts_exactly_bound_independent_reviews(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -22,6 +31,12 @@ class CurationRegistryTests(unittest.TestCase):
             input_path = root / "candidates.json"
             input_path.write_text(json.dumps(candidates), encoding="utf-8")
             input_hash = hashlib.sha256(input_path.read_bytes()).hexdigest()
+            source_snapshot_path = root / "source.snapshot"
+            source_snapshot_path.write_text(
+                "TEST FIXTURE ONLY; this is not a source of agronomic information.",
+                encoding="utf-8",
+            )
+            source_snapshot_hash = hashlib.sha256(source_snapshot_path.read_bytes()).hexdigest()
             source = {
                 "url": "https://www.embrapa.br/example",
                 "title": "Official source", "publisher": "Embrapa",
@@ -60,15 +75,34 @@ class CurationRegistryTests(unittest.TestCase):
                 "record_id": "CURATED-001", "review_id": review_id,
                 "approval_status": "approved", "text_sha256": text_sha256(excerpt),
                 "source_id": "SOURCE-1", "crop": "maize", "review_date": "2026-01-02",
+                "reviewer_ids": ["maize_evidence_specialist", "independent_verifier"],
+                "approver_id": "test-human-reviewer", "approver_type": "human",
+                "approved_content_sha256": "a" * 64,
                 "review_input": artifact(input_path),
                 "review_artifacts": {
                     "specialist": artifact(specialist_path),
                     "verifier": artifact(verifier_path),
                 },
                 "comparison_artifact": artifact(comparison_path),
+                "source_snapshots": [{
+                    "source_id": "SOURCE-1", "path": source_snapshot_path.name,
+                    "sha256": source_snapshot_hash,
+                }],
             }
+            human_approval = {
+                "schema_version": 1, "decision": "approve", "approver_type": "human",
+                "approver_id": "test-human-reviewer", "approver_role": "qualified_agronomic_reviewer",
+                "qualification_reference": "TEST ONLY; not a real credential or approval",
+                "approved_at": "2026-01-03", "record_id": "CURATED-001", "review_id": review_id,
+                "text_sha256": text_sha256(excerpt), "source_id": "SOURCE-1", "crop": "maize",
+                "review_input_sha256": input_hash, "source_snapshot_sha256": source_snapshot_hash,
+                "content_sha256": "a" * 64,
+            }
+            human_approval_path = root / "human-approval.json"
+            human_approval_path.write_text(json.dumps(human_approval), encoding="utf-8")
+            entry["human_approval"] = artifact(human_approval_path)
             registry_path = root / "registry.json"
-            registry_path.write_text(json.dumps({"schema_version": 1, "entries": [entry]}), encoding="utf-8")
+            registry_path.write_text(json.dumps({"schema_version": 2, "entries": [entry]}), encoding="utf-8")
             registry = CurationRegistry(registry_path, base_dir=root)
             document = {
                 "text": excerpt,
@@ -84,15 +118,30 @@ class CurationRegistryTests(unittest.TestCase):
 
             # A malformed later entry must not leave an earlier approval active.
             registry_path.write_text(json.dumps({
-                "schema_version": 1,
+                "schema_version": 2,
                 "entries": [entry, {"record_id": "CURATED-001"}],
             }), encoding="utf-8")
             self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
 
             registry_path.write_text(json.dumps({
-                "schema_version": 1,
+                "schema_version": 2,
                 "entries": [entry, entry],
             }), encoding="utf-8")
+            self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
+
+            # AI agreement without a valid human sign-off must stay blocked.
+            human_approval["approver_type"] = "agent"
+            human_approval_path.write_text(json.dumps(human_approval), encoding="utf-8")
+            entry["human_approval"] = artifact(human_approval_path)
+            registry_path.write_text(json.dumps({"schema_version": 2, "entries": [entry]}), encoding="utf-8")
+            self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
+
+            # Source references without the exact ingested bytes are not approval evidence.
+            human_approval["approver_type"] = "human"
+            human_approval_path.write_text(json.dumps(human_approval), encoding="utf-8")
+            source_snapshot_path.write_text("changed after approval", encoding="utf-8")
+            entry["human_approval"] = artifact(human_approval_path)
+            registry_path.write_text(json.dumps({"schema_version": 2, "entries": [entry]}), encoding="utf-8")
             self.assertEqual(CurationRegistry(registry_path, base_dir=root).entries, {})
 
     def test_legacy_test_module_reexports_runtime_verifier(self):

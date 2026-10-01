@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ia-farm.invalid/schemas/knowledge-record-v1.json",
+  "title": "IA_Farm canonical knowledge record",
+  "type": "object",
+  "required": ["schema_version", "record_id", "revision", "status", "text", "text_sha256", "sources", "scope", "created_at", "updated_at", "created_by", "approval", "audit_head"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["RAW", "PARSED", "CANDIDATE", "UNDER_REVIEW", "APPROVED", "REJECTED", "DEPRECATED", "PUBLISHED"]},
+    "text": {"type": "string", "minLength": 1},
+    "text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "content_type": {"type": "string"},
+    "supersedes": {"type": "string"},
+    "sources": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["source_id", "url", "title", "publisher", "locator", "accessed_at"], "properties": {"source_id": {"type": "string", "minLength": 1}, "url": {"type": "string", "format": "uri"}, "title": {"type": "string"}, "publisher": {"type": "string"}, "locator": {"type": "string"}, "accessed_at": {"type": "string", "format": "date"}, "edition": {"type": "string"}, "version": {"type": "string"}, "publication_date": {"type": "string", "format": "date"}, "page": {"oneOf": [{"type": "string"}, {"type": "integer", "minimum": 1}]}, "section": {"type": "string"}, "license": {"type": "string"}, "valid_from": {"type": "string", "format": "date"}, "valid_until": {"type": "string", "format": "date"}, "snapshot_ref": {"type": "string"}, "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": false}},
+    "scope": {"type": "object", "minProperties": 1, "properties": {"crop": {"type": "string"}, "topic": {"type": "string"}, "subtopic": {"type": "string"}, "region": {"type": "string"}, "state": {"type": "string"}, "municipality": {"type": "string"}, "climate": {"type": "string"}, "soil": {"type": "string"}, "production_system": {"type": "string"}, "growth_stage": {"type": "string"}, "season": {"type": "string"}}, "additionalProperties": true},
+    "created_at": {"type": "string", "format": "date-time"}, "updated_at": {"type": "string", "format": "date-time"}, "created_by": {"type": "string", "minLength": 1}, "audit_head": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "approval": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["review_id", "reviewer_ids", "approver_id", "approver_type", "reviewed_at", "approved_at", "content_sha256", "review_entry_sha256"], "properties": {"review_id": {"type": "string"}, "reviewer_ids": {"type": "array", "items": {"type": "string"}, "minItems": 2}, "approver_id": {"type": "string"}, "approver_type": {"const": "human"}, "reviewed_at": {"type": "string", "format": "date"}, "approved_at": {"type": "string", "format": "date-time"}, "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "review_entry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}, "additionalProperties": false}]}
+  },
+  "additionalProperties": false
+}
