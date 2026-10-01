@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "description": "Synthetic non-agronomic fixtures for retrieval mechanics only; contains no agricultural facts or answers.",
+  "suites": {
+    "synthetic": {
+      "records": [
+        {
+          "text": "Fixture alpha describes blue widgets in region Brazil-SaoPaulo.",
+          "metadata": {
+            "eval_record_id": "fixture-alpha",
+            "region": "Brazil-SaoPaulo",
+            "crop": "fixture"
+          }
+        },
+        {
+          "text": "Fixture beta describes green gears in region Brazil-MatoGrosso.",
+          "metadata": {
+            "eval_record_id": "fixture-beta",
+            "region": "Brazil-MatoGrosso",
+            "crop": "fixture"
+          }
+        },
+        {
+          "text": "Fixture gamma describes a small blue gear in region Brazil-SaoPaulo.",
+          "metadata": {
+            "eval_record_id": "fixture-gamma",
+            "region": "Brazil-SaoPaulo",
+            "crop": "fixture"
+          }
+        }
+      ],
+      "cases": [
+        {
+          "id": "exact-token",
+          "query": "blue widgets",
+          "filters": {},
+          "k": 3,
+          "label": "relevant",
+          "expected_record_ids": [
+            "fixture-alpha"
+          ],
+          "label_evidence": "Synthetic fixture string overlap only.",
+          "query_id": "exact-token",
+          "context": {},
+          "expected_abstention": false,
+          "forbidden_record_ids": [],
+          "notes": "Synthetic fixture string overlap only."
+        },
+        {
+          "id": "accent-and-region-alias",
+          "query": "blue gear",
+          "filters": {
+            "region": "SP"
+          },
+          "k": 3,
+          "label": "relevant",
+          "expected_record_ids": [
+            "fixture-gamma"
+          ],
+          "label_evidence": "Synthetic fixture; tests metadata alias and token matching.",
+          "query_id": "accent-and-region-alias",
+          "context": {
+            "region": "SP"
+          },
+          "expected_abstention": false,
+          "forbidden_record_ids": [],
+          "notes": "Synthetic fixture; tests metadata alias and token matching."
+        },
+        {
+          "id": "wrong-region-excluded",
+          "query": "green gears",
+          "filters": {
+            "region": "SP"
+          },
+          "k": 3,
+          "label": "abstain",
+          "expected_record_ids": [],
+          "label_evidence": "Synthetic fixture; matching text exists only in an incompatible region.",
+          "query_id": "wrong-region-excluded",
+          "context": {
+            "region": "SP"
+          },
+          "expected_abstention": true,
+          "forbidden_record_ids": [
+            "fixture-beta"
+          ],
+          "notes": "Synthetic fixture; matching text exists only in an incompatible region."
+        },
+        {
+          "id": "no-result",
+          "query": "violet turbine",
+          "filters": {},
+          "k": 3,
+          "label": "abstain",
+          "expected_record_ids": [],
+          "label_evidence": "Synthetic fixture corpus has no matching terms.",
+          "query_id": "no-result",
+          "context": {},
+          "expected_abstention": true,
+          "forbidden_record_ids": [],
+          "notes": "Synthetic fixture corpus has no matching terms."
+        },
+        {
+          "id": "no-context-filter",
+          "query": "green gears",
+          "filters": {},
+          "k": 3,
+          "label": "relevant",
+          "expected_record_ids": [
+            "fixture-beta"
+          ],
+          "label_evidence": "Synthetic fixture checks retrieval without a region filter.",
+          "query_id": "no-context-filter",
+          "context": {},
+          "expected_abstention": false,
+          "forbidden_record_ids": [],
+          "notes": "Synthetic fixture checks retrieval without a region filter."
+        }
+      ]
+    },
+    "approved": {
+      "records": [],
+      "cases": [],
+      "description": "No agronomic ground truth is present."
+    }
+  }
+}

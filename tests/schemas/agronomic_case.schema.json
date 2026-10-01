@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ia-farm.invalid/schemas/agronomic-case-v1.json",
+  "title": "Agronomic Golden Set case",
+  "type": "object",
+  "required": ["case_id", "question", "normalized_intent", "context", "crop", "region", "risk_level", "required_context", "expected_behavior", "expected_sources", "expected_record_ids", "allowed_claims", "forbidden_claims", "expected_abstention", "review_status", "review_evidence", "notes"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "normalized_intent": {"type": "string"},
+    "context": {"type": "object"},
+    "crop": {"type": ["string", "null"]},
+    "region": {"type": ["string", "null"]},
+    "risk_level": {"enum": ["low", "medium", "high", "critical", "unknown"]},
+    "required_context": {"type": "array", "items": {"type": "string"}},
+    "expected_behavior": {"type": "string"},
+    "expected_sources": {"type": "array", "items": {"type": "string"}},
+    "expected_record_ids": {"type": "array", "items": {"type": "string"}},
+    "allowed_claims": {"type": "array", "items": {"type": "string"}},
+    "forbidden_claims": {"type": "array", "items": {"type": "string"}},
+    "expected_abstention": {"type": "boolean"},
+    "review_status": {"enum": ["candidate", "ready_for_human_review", "approved", "rejected"]},
+    "review_evidence": {"type": ["object", "null"]},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

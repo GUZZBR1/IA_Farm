@@ -1,0 +1,822 @@
+{
+  "schema_version": 1,
+  "policy": "source-snapshot-and-human-approval-v1",
+  "status": "audit_only_not_golden_set",
+  "frozen_inputs": {
+    "candidate_set": {
+      "path": "tests/agronomic_gold_candidates.json",
+      "sha256": "6480732e0707586f2ef5514025d48fadfc4356049b03de8da5234cc8ba3d3ccd"
+    },
+    "comparison": {
+      "path": "tests/agronomic_gold_review_comparison.json",
+      "sha256": "da95c3b73f52986eecccf27f783c8391737203018416c2c85d4ad278fe30dbf4"
+    },
+    "independent_review": {
+      "path": "tests/agronomic_gold_independent_review.json",
+      "sha256": "2522c75718ed231b6274e40980f66377f75806160d2c3155a41a39002a6e07c3"
+    },
+    "specialist_review": {
+      "path": "tests/agronomic_gold_specialist_review.json",
+      "sha256": "217cea61a028722c98b06b2032ec877e4c62d77fc3998158086fcbda5f1e9083"
+    }
+  },
+  "source_references_are_not_ingested_sources": true,
+  "human_approval_required": true,
+  "review_roles": [
+    "maize_evidence_specialist",
+    "independent_verifier"
+  ],
+  "review_outputs_are_not_agronomic_truth": true,
+  "approved_count": 0,
+  "cases": [
+    {
+      "case_id": "DRAFT-MZ-SOIL-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-SOIL-002",
+      "classification": "CONFLICTING_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {
+        "verdict": {
+          "master": "correct",
+          "verifier": "partially_correct"
+        }
+      },
+      "rationale": "AI review disagreement is unresolved; do not resolve by majority."
+    },
+    {
+      "case_id": "DRAFT-MZ-ZARC-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "season": "informar safra"
+      },
+      "source_ids": [
+        "MAPA-ZARC-GENERAL"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-ZARC-002",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "MAPA-ZARC-GENERAL",
+        "MAPA-ZARC-MT-2026"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-FERT-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "soil_analysis": null
+      },
+      "source_ids": [
+        "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-IRR-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-IRR-002",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "soil_water_data": null,
+        "weather_data": null
+      },
+      "source_ids": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-CIGARRINHA-MILHO-FAQ"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-002",
+      "classification": "CONFLICTING_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {
+        "verdict": {
+          "master": "correct",
+          "verifier": "partially_correct"
+        }
+      },
+      "rationale": "AI review disagreement is unresolved; do not resolve by majority."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-006",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-003",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "photo": null
+      },
+      "source_ids": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-004",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-PEST-005",
+      "classification": "CONFLICTING_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "production_system": "monoculture"
+      },
+      "source_ids": [
+        "EMBRAPA-MIP-CARTUCHO-2023"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": false,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {
+        "scope_correct": {
+          "master": true,
+          "verifier": false
+        }
+      },
+      "rationale": "AI review disagreement is unresolved; do not resolve by majority."
+    },
+    {
+      "case_id": "DRAFT-MZ-PHENOLOGY-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-WATER-003",
+      "classification": "CONFLICTING_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {
+        "verdict": {
+          "master": "correct",
+          "verifier": "partially_correct"
+        }
+      },
+      "rationale": "AI review disagreement is unresolved; do not resolve by majority."
+    },
+    {
+      "case_id": "DRAFT-MZ-HARVEST-001",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_ids": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-HARVEST-002",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "forecast": null
+      },
+      "source_ids": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "partially_correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {},
+      "rationale": "Reviewer agreement cannot replace retained source snapshots, exact applicability/licensing review, and qualified human approval."
+    },
+    {
+      "case_id": "DRAFT-MZ-STORAGE-001",
+      "classification": "CONFLICTING_EVIDENCE",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "grain_moisture": null
+      },
+      "source_ids": [
+        "EMBRAPA-COLHEITA-MILHO-2009",
+        "EMBRAPA-MILHO-500-PERGUNTAS-2013"
+      ],
+      "candidate_status": "pending_agronomist_review",
+      "case_snapshot_present": false,
+      "qualified_human_approval_present": false,
+      "reviewers": {
+        "maize_evidence_specialist": {
+          "verdict": "correct",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        },
+        "independent_verifier": {
+          "verdict": "appropriate_abstention",
+          "evidence_basis": "primary_source",
+          "source_supported": true,
+          "scope_correct": true,
+          "critical_error": false
+        }
+      },
+      "agent_review_disagreement_fields": {
+        "verdict": {
+          "master": "correct",
+          "verifier": "appropriate_abstention"
+        }
+      },
+      "rationale": "AI review disagreement is unresolved; do not resolve by majority."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+      "title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+      "publication_date": "2015-11",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "PDF pages 2-3 and 10-15",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "MAPA-ZARC-GENERAL",
+      "title": "Portarias do Zoneamento Agrícola de Risco Climático",
+      "institution": "Ministério da Agricultura e Pecuária",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+      "publication_date": null,
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": false,
+      "license_verified": false
+    },
+    {
+      "source_id": "MAPA-ZARC-MT-2026",
+      "title": "Portarias ZARC vigentes — Mato Grosso",
+      "institution": "Ministério da Agricultura e Pecuária",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso",
+      "publication_date": null,
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-MILHO-IRRIGACAO",
+      "title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+      "publication_date": null,
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO",
+      "title": "Planejamento da adubação e calagem — Cultivo do milho",
+      "institution": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+      "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem",
+      "publication_date": null,
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Planning guidance; verify the current page content and version during specialist review",
+      "snapshot_present": false,
+      "url_audit_status": "url_fetch_failed_during_audit",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-CIGARRINHA-MILHO-FAQ",
+      "title": "Perguntas e respostas — Controle da cigarrinha-do-milho",
+      "institution": "Embrapa",
+      "url": "https://www.embrapa.br/en/controle-da-cigarrinha-do-milho/perguntas-e-respostas",
+      "publication_date": null,
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Factors associated with disease incidence and volunteer maize plants as a possible reservoir",
+      "snapshot_present": false,
+      "url_audit_status": "url_fetch_failed_during_audit",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+      "title": "Enfezamentos do milho",
+      "institution": "Ministério da Agricultura e Pecuária",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+      "publication_date": "2021-05-17",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+      "title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+      "publication_date": "2006-12",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+      "title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+      "publication_date": "2009-09",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+      "title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+      "publication_date": "2021",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-MIP-CARTUCHO-2023",
+      "title": "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária (Comunicado Técnico 260)",
+      "institution": "Embrapa Milho e Sorgo",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf",
+      "publication_date": "2023-12",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    },
+    {
+      "source_id": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+      "title": "Milho: o produtor pergunta, a Embrapa responde (2ª edição)",
+      "institution": "Embrapa",
+      "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1124498",
+      "publication_date": "2013",
+      "reference_retrieved_at": "2026-09-29",
+      "candidate_locator": "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics",
+      "snapshot_present": false,
+      "url_audit_status": "opened_by_audit_agent",
+      "applicability_review_required": true,
+      "license_verified": false
+    }
+  ]
+}

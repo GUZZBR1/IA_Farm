@@ -69,7 +69,7 @@ class LocalVectorDB:
             chunks.append(text[i:i + chunk_size])
         return chunks
 
-    def index_documents(self, documents: List[Dict[str, Any]]):
+    def index_documents(self, documents: List[Dict[str, Any]], *, exact_documents: bool = False):
         """
         documents: List of dicts with 'text' and optional 'metadata'
         """
@@ -83,7 +83,9 @@ class LocalVectorDB:
             text = doc.get("text", "")
             meta = doc.get("metadata", {})
             
-            chunks = self.chunk_text(text)
+            # Approved excerpts are indexed as the exact reviewed unit. The
+            # published knowledge builder must not create unapproved chunks.
+            chunks = [text] if exact_documents else self.chunk_text(text)
             for chunk in chunks:
                 all_chunks.append(chunk)
                 all_metadata.append({**meta, "text": chunk})
@@ -108,22 +110,24 @@ class LocalVectorDB:
             return []
 
         query_vec = self.model.encode([query_text]).astype("float32")
-        _, indices = self.index.search(query_vec, min(k * 10, self.index.ntotal))
-
         results = []
-        for idx in indices[0]:
-            if idx == -1 or idx >= len(self.metadata):
-                continue
-            
-            meta = self.metadata[idx]
-            if filters:
-                if not all(metadata_matches(k, meta.get(k), v) for k, v in filters.items()):
+        candidate_count = min(k * 10, self.index.ntotal)
+        while candidate_count:
+            distances, indices = self.index.search(query_vec, candidate_count)
+            results = []
+            for distance, idx in zip(distances[0], indices[0]):
+                if idx == -1 or idx >= len(self.metadata):
                     continue
-            
-            results.append(meta)
-            if len(results) == k:
+                meta = self.metadata[idx]
+                if filters and not all(metadata_matches(key, meta.get(key), value)
+                                       for key, value in filters.items()):
+                    continue
+                results.append({**meta, "retrieval_distance": float(distance)})
+                if len(results) == k:
+                    break
+            if len(results) >= k or candidate_count >= self.index.ntotal:
                 break
-                
+            candidate_count = min(candidate_count * 2, self.index.ntotal)
         return results
 
 if __name__ == "__main__":

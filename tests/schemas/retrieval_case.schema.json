@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ia-farm.invalid/schemas/retrieval-case-v1.json",
+  "title": "Retrieval evaluation query",
+  "type": "object",
+  "required": ["id", "query_id", "query", "context", "filters", "expected_record_ids", "forbidden_record_ids", "expected_abstention", "label", "label_evidence", "notes", "k"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1}, "query_id": {"type": "string", "minLength": 1},
+    "query": {"type": "string", "minLength": 1}, "context": {"type": "object"}, "filters": {"type": "object"},
+    "expected_record_ids": {"type": "array", "items": {"type": "string"}}, "forbidden_record_ids": {"type": "array", "items": {"type": "string"}},
+    "expected_abstention": {"type": "boolean"}, "label": {"enum": ["relevant", "abstain", "unscored"]},
+    "label_evidence": {"type": "string", "minLength": 1}, "notes": {"type": "string"}, "k": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": false
+}
