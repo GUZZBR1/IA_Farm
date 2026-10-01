@@ -38,15 +38,15 @@ Language generation: absent from application response path
 Evaluation: tests/ (fixtures, contract tests, simulation, validation scripts)
 ```
 
-The current curation registry has zero entries. The local ignored FAISS index has nine legacy chunks and zero eligible records. The runtime consequently asks for missing context or abstains; it has no approved maize corpus to answer from.
+The current curation registry has zero entries. The local ignored FAISS index has nine legacy chunks but is unversioned and rejected by the current loader. Vector startup requires a compatible index plus an explicitly configured local embedding artifact; this WSL environment lacks the vector packages. The runtime has no approved maize corpus to answer from and remains fail-closed when retrieval capability is unavailable.
 
 ## Implemented layer inventory
 
 | Layer | Current implementation | Boundary and limit |
 |---|---|---|
-| Knowledge Preparation | `tools/ingest.py`, `tools/mining_agent.py`, `tools/knowledge_schema.py`, `tools/knowledge_lifecycle.py` | Local Markdown parse outputs candidates only. Lifecycle emits hash-linked audit events; authenticated operators and durable append-only atomic persistence remain caller responsibilities. |
+| Knowledge Preparation | `tools/ingest.py`, `tools/mining_agent.py`, `tools/knowledge_schema.py`, `tools/knowledge_lifecycle.py`, `tools/knowledge_store.py` | Local Markdown parse outputs candidates only. Lifecycle emits hash-linked audit events and `KnowledgeStore` persists state/events atomically in SQLite; authenticated operators and deployment-level access control remain caller responsibilities. |
 | Knowledge Base | `data/knowledge_base/approved_records.json`, `data/curation_registry.json` | Canonical starter store is empty. Registry is the runtime display authorization source and is empty. FAISS vectors are disposable derived files. |
-| Retrieval | `tools/vector_db.py`, `tools/contracts.py`, `tools/lexical_baseline.py`, `tools/retrieval_evaluation.py` | Runtime uses embeddings/FAISS; BM25 is an offline baseline. No agronomic threshold or semantic comparison is validated without approved labeled records. |
+| Retrieval | `tools/vector_db.py`, `tools/contracts.py`, `tools/lexical_baseline.py`, `tools/retrieval_evaluation.py`, `tools/retrieval_runtime.py` | Runtime vector path requires a pinned local model and a compatible versioned FAISS index; current environment cannot start that path. BM25 is an offline baseline and never an implicit fallback. No agronomic threshold or semantic comparison is validated without approved labeled records. |
 | Context | Helpers inside `tools/orchastrator.py`; aliases in that module and `tools/metadata.py` | Current required fields for recognized technical questions are region and climate. There is no standalone Context Engine or per-intent schema yet. |
 | Safety / evidence authorization | `Orchestrator.rag_query`, `_is_reviewed`, `_matches_context`, `CurationRegistry` | Requires eligible crop/source/review metadata, registry binding and compatible scope. This is deterministic but not a complete formal state machine. |
 | Application Orchestrator | `tools/orchastrator.py` | Coordinates request parsing, context checks, retrieval, authorization, and string response. Does not invoke memory or dosage arithmetic. |
