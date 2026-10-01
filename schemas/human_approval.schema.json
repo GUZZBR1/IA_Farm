@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Human approval bound to exact published knowledge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "decision", "approver_type", "approver_id", "approver_role",
+    "qualification_reference", "approved_at", "record_id", "review_id", "text_sha256",
+    "source_id", "crop", "review_input_sha256", "source_snapshot_sha256", "content_sha256",
+    "valid_from", "valid_until"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "decision": {"const": "approve"},
+    "approver_type": {"const": "human"},
+    "approver_id": {"type": "string", "minLength": 1},
+    "approver_role": {"const": "qualified_agronomic_reviewer"},
+    "qualification_reference": {"type": "string", "minLength": 1},
+    "approved_at": {"type": "string", "format": "date"},
+    "record_id": {"type": "string", "minLength": 1},
+    "review_id": {"type": "string", "minLength": 1},
+    "text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_id": {"type": "string", "minLength": 1},
+    "crop": {"type": "string", "minLength": 1},
+    "review_input_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "valid_from": {"type": ["string", "null"], "format": "date"},
+    "valid_until": {"type": ["string", "null"], "format": "date"}
+  }
+}

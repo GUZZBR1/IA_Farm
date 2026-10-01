@@ -127,6 +127,15 @@ def _verified_approval(record: KnowledgeRecord, review_entry: Any, *,
             or any(not isinstance(snapshot, dict) for snapshot in snapshots)):
         raise ValueError("external review requires bound source_snapshots")
     for source in record["sources"]:
+        from tools.human_review import ALLOWED_PUBLICATION_LICENSES
+        from tools.source_snapshots import validate_locator
+        if source.get("license_status") not in ALLOWED_PUBLICATION_LICENSES:
+            raise ValueError("a compatible explicit license decision is required")
+        if not source.get("license_evidence_ref") or not source.get("license_evidence_sha256"):
+            raise ValueError("verified license evidence is required")
+        if source.get("license_status") == "ATTRIBUTION_REQUIRED" and not source.get("license_attribution"):
+            raise ValueError("license-required attribution is missing")
+        validate_locator(source.get("evidence_locator"))
         if not source.get("snapshot_ref") or not source.get("snapshot_sha256"):
             raise ValueError("source URL references alone do not prove source ingestion")
         matches = [snapshot for snapshot in snapshots if snapshot.get("source_id") == source["source_id"]]
@@ -141,6 +150,17 @@ def _verified_approval(record: KnowledgeRecord, review_entry: Any, *,
                 raise ValueError("source snapshot is missing or its SHA-256 does not match")
         except OSError as error:
             raise ValueError("source snapshot cannot be read") from error
+        license_path = Path(source["license_evidence_ref"])
+        license_path = license_path if license_path.is_absolute() else base_dir / license_path
+        try:
+            license_path = license_path.resolve()
+            if Path(base_dir).resolve() not in license_path.parents:
+                raise ValueError("license evidence path escapes the approved artifact root")
+            if (not license_path.is_file()
+                    or hashlib.sha256(license_path.read_bytes()).hexdigest() != source["license_evidence_sha256"]):
+                raise ValueError("license evidence is missing or its SHA-256 does not match")
+        except OSError as error:
+            raise ValueError("license evidence cannot be read") from error
     # Agreement is supporting evidence, never the approval decision itself.
     # This checks the actual frozen input and independently hashed artifacts.
     try:

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "status": "UNRESOLVED_AI_REVIEW_DISAGREEMENTS_NOT_PROVEN_SOURCE_CONTRADICTIONS",
+  "conflicts": [
+    {
+      "conflict_id": "DRAFT-MZ-SOIL-002-DISAGREEMENT",
+      "candidate_id": "DRAFT-MZ-SOIL-002",
+      "source_a": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+      "source_b": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+      "difference_type": "AI_REVIEW_DISAGREEMENT",
+      "scope_difference": "Reviewers differ on whether the candidate's universal wording is supported by the cited spans.",
+      "publication_date_difference": null,
+      "regional_difference": null,
+      "methodological_difference": "One verdict is correct and one partially correct; no frozen passage is available to settle applicability.",
+      "unresolved_question": "Does the frozen source support the candidate's scope and wording after a qualified review?",
+      "resolution_status": "UNRESOLVED"
+    },
+    {
+      "conflict_id": "DRAFT-MZ-PEST-002-DISAGREEMENT",
+      "candidate_id": "DRAFT-MZ-PEST-002",
+      "source_a": "MAPA-ENFEZAMENTOS-MILHO-2023",
+      "source_b": "UNREGISTERED-REVIEWER-CITATION-MAPA-CARTILHA-2021",
+      "difference_type": "AI_REVIEW_DISAGREEMENT",
+      "scope_difference": "A separately cited 2021 cartilha is absent from the frozen candidate source list.",
+      "publication_date_difference": "The reviewer references different document dates/editions.",
+      "regional_difference": null,
+      "methodological_difference": "Reviewers disagree on inference versus literal evidence and diagnostic qualification.",
+      "unresolved_question": "Which exact document passage supports the claim, and what diagnostic qualification is required?",
+      "resolution_status": "UNRESOLVED"
+    },
+    {
+      "conflict_id": "DRAFT-MZ-PEST-005-DISAGREEMENT",
+      "candidate_id": "DRAFT-MZ-PEST-005",
+      "source_a": "EMBRAPA-MIP-CARTUCHO-2023",
+      "source_b": "EMBRAPA-MIP-CARTUCHO-2023",
+      "difference_type": "AI_REVIEW_DISAGREEMENT",
+      "scope_difference": "Candidate says monoculture while the cited title identifies an integrated system with braquiaria.",
+      "publication_date_difference": null,
+      "regional_difference": "Regional variation is noted in the source hint but has not been checked against captured pages.",
+      "methodological_difference": "Reviewers disagree on whether source scope transfers to the candidate context.",
+      "unresolved_question": "Can the candidate be supported in its current scope, or does a new candidate version need a narrower context?",
+      "resolution_status": "UNRESOLVED"
+    },
+    {
+      "conflict_id": "DRAFT-MZ-WATER-003-DISAGREEMENT",
+      "candidate_id": "DRAFT-MZ-WATER-003",
+      "source_a": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+      "source_b": "UNREGISTERED-REVIEWER-CITATION-HTML-PHYSIOLOGY",
+      "difference_type": "AI_REVIEW_DISAGREEMENT",
+      "scope_difference": "One reviewer cites the frozen candidate PDF; another references separately identified HTML material.",
+      "publication_date_difference": "The PDF is identified as 2006; HTML version/date is not established.",
+      "regional_difference": null,
+      "methodological_difference": "Verdicts differ between correct and partially correct; source identity and claim scope are unresolved.",
+      "unresolved_question": "Are these the same document/version, and what exact passages support the intended scope?",
+      "resolution_status": "UNRESOLVED"
+    },
+    {
+      "conflict_id": "DRAFT-MZ-STORAGE-001-DISAGREEMENT",
+      "candidate_id": "DRAFT-MZ-STORAGE-001",
+      "source_a": "EMBRAPA-COLHEITA-MILHO-2009",
+      "source_b": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+      "difference_type": "AI_REVIEW_DISAGREEMENT",
+      "scope_difference": "Reviewers reference different postharvest documents/editions; grain moisture is unspecified.",
+      "publication_date_difference": "The referenced materials identify 2009 and 2013 editions.",
+      "regional_difference": null,
+      "methodological_difference": "Verdicts differ between correct and appropriate abstention; exact evidence has not been captured.",
+      "unresolved_question": "What can be answered from each frozen passage when the candidate's grain-moisture context is absent?",
+      "resolution_status": "UNRESOLVED"
+    }
+  ]
+}

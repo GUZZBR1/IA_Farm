@@ -21,12 +21,17 @@ SOURCE = {
     "locator": "Synthetic section", "accessed_at": "2026-01-01",
     "snapshot_ref": "source-snapshot.txt",
     "snapshot_sha256": hashlib.sha256(b"Synthetic source snapshot for a contract test.").hexdigest(),
+    "license_status": "REDISTRIBUTION_ALLOWED",
+    "license_evidence_ref": "license-evidence.txt",
+    "license_evidence_sha256": hashlib.sha256(b"Synthetic license evidence for a structural test.").hexdigest(),
+    "evidence_locator": {"page": 1, "section": "Synthetic test section"},
 }
 
 
 def external_review(root, record):
     """Write structural fake reviews/signoff; no factual or qualified approval."""
     (root / SOURCE["snapshot_ref"]).write_bytes(b"Synthetic source snapshot for a contract test.")
+    (root / SOURCE["license_evidence_ref"]).write_bytes(b"Synthetic license evidence for a structural test.")
     def artifact(name, payload):
         path = root / name
         path.write_text(json.dumps(payload), encoding="utf-8")
@@ -73,7 +78,7 @@ def external_review(root, record):
             "text_sha256": record["text_sha256"], "source_id": SOURCE["source_id"],
             "crop": "synthetic", "review_input_sha256": frozen["sha256"],
             "source_snapshot_sha256": SOURCE["snapshot_sha256"],
-            "content_sha256": content_sha256(record),
+            "content_sha256": content_sha256(record), "valid_from": None, "valid_until": None,
         }),
         "review_input": frozen,
         "review_artifacts": {"specialist": artifact("specialist.json", reports[0]),

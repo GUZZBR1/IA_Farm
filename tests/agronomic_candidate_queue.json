@@ -1,0 +1,1755 @@
+{
+  "schema_version": 1,
+  "queue_status": "OPERATIONAL_TRIAGE_NOT_AGRONOMIC_VALIDATION",
+  "source_references_are_not_ingested_sources": true,
+  "reviewer_disagreement_is_not_source_conflict_proof": true,
+  "source_set_version": 1,
+  "counts": {
+    "total": 18,
+    "SOURCE_MISSING": 0,
+    "SNAPSHOT_MISSING": 13,
+    "LOCATOR_MISSING": 0,
+    "LICENSE_UNKNOWN": 18,
+    "EVIDENCE_INSUFFICIENT": 13,
+    "EVIDENCE_CONFLICT": 5,
+    "READY_FOR_HUMAN_REVIEW": 0,
+    "OUT_OF_SCOPE": 0
+  },
+  "cases": [
+    {
+      "candidate_id": "DRAFT-MZ-SOIL-001",
+      "topic": "SOIL",
+      "claim_question": "Para que serve o manejo do solo na produção de milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "required_source": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+          "document_title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+          "document_version": null,
+          "publication_date": "2015-11",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-3 and 10-15",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+          "document_title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+          "document_version": null,
+          "publication_date": "2015-11",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-3 and 10-15",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2015-11"
+      ],
+      "required_locator": [
+        "PDF pages 2-3 and 10-15"
+      ],
+      "known_locator": [
+        "PDF pages 2-3 and 10-15"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the cited PDF, map the exact claim span, and verify present applicability.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-SOIL-002",
+      "topic": "SOIL",
+      "claim_question": "O preparo convencional do solo é sempre a melhor opção para milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "EVIDENCE_CONFLICT",
+      "required_sources": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "required_source": [
+        "EMBRAPA-CULTIVO-MILHO-SOLO-2015"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+          "document_title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+          "document_version": null,
+          "publication_date": "2015-11",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-3 and 10-15",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+          "document_title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+          "document_version": null,
+          "publication_date": "2015-11",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-3 and 10-15",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2015-11"
+      ],
+      "required_locator": [
+        "PDF pages 2-3 and 10-15"
+      ],
+      "known_locator": [
+        "PDF pages 2-3 and 10-15"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "CONFLICTING_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING",
+        "AI_REVIEW_DISAGREEMENT_UNRESOLVED"
+      ],
+      "conflict_summary": "AI review disagreement is unresolved; do not resolve by majority.",
+      "conflicts": [
+        {
+          "conflict_id": "DRAFT-MZ-SOIL-002-DISAGREEMENT",
+          "candidate_id": "DRAFT-MZ-SOIL-002",
+          "source_a": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "source_b": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+          "difference_type": "AI_REVIEW_DISAGREEMENT",
+          "scope_difference": "Reviewers differ on whether the candidate's universal wording is supported by the cited spans.",
+          "publication_date_difference": null,
+          "regional_difference": null,
+          "methodological_difference": "One verdict is correct and one partially correct; no frozen passage is available to settle applicability.",
+          "unresolved_question": "Does the frozen source support the candidate's scope and wording after a qualified review?",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "next_action": "Capture the PDF and ask a qualified reviewer to resolve the scope/qualification disagreement.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-ZARC-001",
+      "topic": "ZARC",
+      "claim_question": "De que informações dependem as janelas de semeadura do ZARC para milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "MAPA-ZARC-GENERAL"
+      ],
+      "required_source": [
+        "MAPA-ZARC-GENERAL"
+      ],
+      "known_source": [
+        {
+          "source_id": "MAPA-ZARC-GENERAL",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+          "document_title": "Portarias do Zoneamento Agrícola de Risco Climático",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "MAPA-ZARC-GENERAL",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+          "document_title": "Portarias do Zoneamento Agrícola de Risco Climático",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Ministério da Agricultura e Pecuária"
+      ],
+      "source_url": [
+        "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias"
+      ],
+      "document_title": [
+        "Portarias do Zoneamento Agrícola de Risco Climático"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        null
+      ],
+      "required_locator": [
+        "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups"
+      ],
+      "known_locator": [
+        "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "season": "informar safra"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the named current ordinance/manual versions and reconcile the broad page with exact references.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-ZARC-002",
+      "topic": "ZARC",
+      "claim_question": "Qual é a data certa para plantar milho safrinha em Mato Grosso?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "MAPA-ZARC-GENERAL",
+        "MAPA-ZARC-MT-2026"
+      ],
+      "required_source": [
+        "MAPA-ZARC-GENERAL",
+        "MAPA-ZARC-MT-2026"
+      ],
+      "known_source": [
+        {
+          "source_id": "MAPA-ZARC-GENERAL",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+          "document_title": "Portarias do Zoneamento Agrícola de Risco Climático",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "MAPA-ZARC-MT-2026",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso",
+          "document_title": "Portarias ZARC vigentes — Mato Grosso",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "MAPA-ZARC-GENERAL",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+          "document_title": "Portarias do Zoneamento Agrícola de Risco Climático",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "MAPA-ZARC-MT-2026",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso",
+          "document_title": "Portarias ZARC vigentes — Mato Grosso",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Ministério da Agricultura e Pecuária",
+        "Ministério da Agricultura e Pecuária"
+      ],
+      "source_url": [
+        "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+        "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso"
+      ],
+      "document_title": [
+        "Portarias do Zoneamento Agrícola de Risco Climático",
+        "Portarias ZARC vigentes — Mato Grosso"
+      ],
+      "document_version": [
+        null,
+        null
+      ],
+      "publication_date": [
+        null,
+        null
+      ],
+      "required_locator": [
+        "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+        "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026"
+      ],
+      "known_locator": [
+        "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+        "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Acquire the exact current ordinance and annex covering municipality and season; the listing page is insufficient.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-FERT-001",
+      "topic": "FERT",
+      "claim_question": "Quanto de NPK devo aplicar no milho sem análise de solo?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO"
+      ],
+      "required_source": [
+        "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO",
+          "institution": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+          "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem",
+          "document_title": "Planejamento da adubação e calagem — Cultivo do milho",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Planning guidance; verify the current page content and version during specialist review",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO",
+          "institution": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+          "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem",
+          "document_title": "Planejamento da adubação e calagem — Cultivo do milho",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Planning guidance; verify the current page content and version during specialist review",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo / Agência de Informação Tecnológica"
+      ],
+      "source_url": [
+        "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem"
+      ],
+      "document_title": [
+        "Planejamento da adubação e calagem — Cultivo do milho"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        null
+      ],
+      "required_locator": [
+        "Planning guidance; verify the current page content and version during specialist review"
+      ],
+      "known_locator": [
+        "Planning guidance; verify the current page content and version during specialist review"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "soil_analysis": null
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the current page, establish version/date, and review the evidence supporting abstention.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-IRR-001",
+      "topic": "IRR",
+      "claim_question": "De quanta água o milho precisa durante o ciclo?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "required_source": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-MILHO-IRRIGACAO",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+          "document_title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-MILHO-IRRIGACAO",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+          "document_title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Irrigação (Sistema de Produção, 1)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        null
+      ],
+      "required_locator": [
+        "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability"
+      ],
+      "known_locator": [
+        "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the cited artifact and reconcile the PDF reference with the separately cited HTML material.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-IRR-002",
+      "topic": "IRR",
+      "claim_question": "Calcule a lâmina e o turno de irrigação para minha lavoura de milho.",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "required_source": [
+        "EMBRAPA-MILHO-IRRIGACAO"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-MILHO-IRRIGACAO",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+          "document_title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-MILHO-IRRIGACAO",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+          "document_title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Irrigação (Sistema de Produção, 1)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        null
+      ],
+      "required_locator": [
+        "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability"
+      ],
+      "known_locator": [
+        "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "soil_water_data": null,
+        "weather_data": null
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture exact sources and preserve the no-calculation boundary while required inputs are absent.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-001",
+      "topic": "PEST",
+      "claim_question": "Plantas voluntárias de milho podem importar para o risco de cigarrinha e enfezamentos?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-CIGARRINHA-MILHO-FAQ"
+      ],
+      "required_source": [
+        "EMBRAPA-CIGARRINHA-MILHO-FAQ"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-CIGARRINHA-MILHO-FAQ",
+          "institution": "Embrapa",
+          "url": "https://www.embrapa.br/en/controle-da-cigarrinha-do-milho/perguntas-e-respostas",
+          "document_title": "Perguntas e respostas — Controle da cigarrinha-do-milho",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Factors associated with disease incidence and volunteer maize plants as a possible reservoir",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-CIGARRINHA-MILHO-FAQ",
+          "institution": "Embrapa",
+          "url": "https://www.embrapa.br/en/controle-da-cigarrinha-do-milho/perguntas-e-respostas",
+          "document_title": "Perguntas e respostas — Controle da cigarrinha-do-milho",
+          "document_version": null,
+          "publication_date": null,
+          "updated_at": null,
+          "locator_hint_unverified": "Factors associated with disease incidence and volunteer maize plants as a possible reservoir",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa"
+      ],
+      "source_url": [
+        "https://www.embrapa.br/en/controle-da-cigarrinha-do-milho/perguntas-e-respostas"
+      ],
+      "document_title": [
+        "Perguntas e respostas — Controle da cigarrinha-do-milho"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        null
+      ],
+      "required_locator": [
+        "Factors associated with disease incidence and volunteer maize plants as a possible reservoir"
+      ],
+      "known_locator": [
+        "Factors associated with disease incidence and volunteer maize plants as a possible reservoir"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Register and capture the exact FAQ/cartilha cited by each reviewer, then reconcile source identity.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-002",
+      "topic": "PEST",
+      "claim_question": "Toda cigarrinha-do-milho encontrada na lavoura está transmitindo enfezamento?",
+      "current_status": "pending_agronomist_review",
+      "queue": "EVIDENCE_CONFLICT",
+      "required_sources": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "required_source": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "known_source": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Ministério da Agricultura e Pecuária",
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+        "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039"
+      ],
+      "document_title": [
+        "Enfezamentos do milho",
+        "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho"
+      ],
+      "document_version": [
+        null,
+        null
+      ],
+      "publication_date": [
+        "2021-05-17",
+        "2021"
+      ],
+      "required_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "known_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "CONFLICTING_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING",
+        "AI_REVIEW_DISAGREEMENT_UNRESOLVED"
+      ],
+      "conflict_summary": "AI review disagreement is unresolved; do not resolve by majority.",
+      "conflicts": [
+        {
+          "conflict_id": "DRAFT-MZ-PEST-002-DISAGREEMENT",
+          "candidate_id": "DRAFT-MZ-PEST-002",
+          "source_a": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "source_b": "UNREGISTERED-REVIEWER-CITATION-MAPA-CARTILHA-2021",
+          "difference_type": "AI_REVIEW_DISAGREEMENT",
+          "scope_difference": "A separately cited 2021 cartilha is absent from the frozen candidate source list.",
+          "publication_date_difference": "The reviewer references different document dates/editions.",
+          "regional_difference": null,
+          "methodological_difference": "Reviewers disagree on inference versus literal evidence and diagnostic qualification.",
+          "unresolved_question": "Which exact document passage supports the claim, and what diagnostic qualification is required?",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "next_action": "Capture each cited document and have a qualified reviewer assess inference and diagnostic scope.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-006",
+      "topic": "PEST",
+      "claim_question": "A cigarrinha-do-milho transmite apenas os agentes dos enfezamentos?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "required_source": [
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039"
+      ],
+      "document_title": [
+        "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2021"
+      ],
+      "required_locator": [
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "known_locator": [
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the exact cited cartilha; repository landing metadata alone does not locate claim evidence.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-003",
+      "topic": "PEST",
+      "claim_question": "Essas listras e o avermelhamento confirmam enfezamento vermelho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "required_source": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023",
+        "EMBRAPA-PROTOCOLO-DALBULUS-2021"
+      ],
+      "known_source": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+          "document_title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+          "document_version": null,
+          "publication_date": "2021",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms.",
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Ministério da Agricultura e Pecuária",
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+        "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039"
+      ],
+      "document_title": [
+        "Enfezamentos do milho",
+        "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho"
+      ],
+      "document_version": [
+        null,
+        null
+      ],
+      "publication_date": [
+        "2021-05-17",
+        "2021"
+      ],
+      "required_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "known_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+        "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "photo": null
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the diagnostic pages and determine what evidence a photo can and cannot support.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-004",
+      "topic": "PEST",
+      "claim_question": "Me diga um produto e uma dose para acabar com enfezamento do milho.",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023"
+      ],
+      "required_source": [
+        "MAPA-ENFEZAMENTOS-MILHO-2023"
+      ],
+      "known_source": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+          "institution": "Ministério da Agricultura e Pecuária",
+          "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+          "document_title": "Enfezamentos do milho",
+          "document_version": null,
+          "publication_date": "2021-05-17",
+          "updated_at": "2023-03-09",
+          "locator_hint_unverified": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Ministério da Agricultura e Pecuária"
+      ],
+      "source_url": [
+        "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho"
+      ],
+      "document_title": [
+        "Enfezamentos do milho"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2021-05-17"
+      ],
+      "required_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management"
+      ],
+      "known_locator": [
+        "Page lines 481-490 on causal agents, vector, symptoms, and integrated management"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the cited source; no pesticide/product registration or dose evidence is currently identified.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PEST-005",
+      "topic": "PEST",
+      "claim_question": "Como devo acompanhar a lagarta-do-cartucho no milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "EVIDENCE_CONFLICT",
+      "required_sources": [
+        "EMBRAPA-MIP-CARTUCHO-2023"
+      ],
+      "required_source": [
+        "EMBRAPA-MIP-CARTUCHO-2023"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-MIP-CARTUCHO-2023",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf",
+          "document_title": "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária (Comunicado Técnico 260)",
+          "document_version": null,
+          "publication_date": "2023-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Publication licensing was not confirmed; use for internal evidence review only pending rights check.",
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-MIP-CARTUCHO-2023",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf",
+          "document_title": "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária (Comunicado Técnico 260)",
+          "document_version": null,
+          "publication_date": "2023-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Publication licensing was not confirmed; use for internal evidence review only pending rights check.",
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf"
+      ],
+      "document_title": [
+        "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária (Comunicado Técnico 260)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2023-12"
+      ],
+      "required_locator": [
+        "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation"
+      ],
+      "known_locator": [
+        "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "production_system": "monoculture"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "CONFLICTING_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING",
+        "AI_REVIEW_DISAGREEMENT_UNRESOLVED"
+      ],
+      "conflict_summary": "AI review disagreement is unresolved; do not resolve by majority.",
+      "conflicts": [
+        {
+          "conflict_id": "DRAFT-MZ-PEST-005-DISAGREEMENT",
+          "candidate_id": "DRAFT-MZ-PEST-005",
+          "source_a": "EMBRAPA-MIP-CARTUCHO-2023",
+          "source_b": "EMBRAPA-MIP-CARTUCHO-2023",
+          "difference_type": "AI_REVIEW_DISAGREEMENT",
+          "scope_difference": "Candidate says monoculture while the cited title identifies an integrated system with braquiaria.",
+          "publication_date_difference": null,
+          "regional_difference": "Regional variation is noted in the source hint but has not been checked against captured pages.",
+          "methodological_difference": "Reviewers disagree on whether source scope transfers to the candidate context.",
+          "unresolved_question": "Can the candidate be supported in its current scope, or does a new candidate version need a narrower context?",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "next_action": "Resolve the integrated-braquiaria source scope against the candidate's declared monoculture context.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PHENOLOGY-001",
+      "topic": "PHENOLOGY",
+      "claim_question": "O que significam VE, V3, VT, R1 e R6 no milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "required_source": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+          "document_title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+          "document_version": null,
+          "publication_date": "2006-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+          "document_title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+          "document_version": null,
+          "publication_date": "2006-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf"
+      ],
+      "document_title": [
+        "Fisiologia da Produção de Milho (Circular Técnica 76)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2006-12"
+      ],
+      "required_locator": [
+        "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period"
+      ],
+      "known_locator": [
+        "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the PDF and locate each requested stage label and mapping for review.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-WATER-003",
+      "topic": "WATER",
+      "claim_question": "Em qual fase a falta de água pode mais prejudicar a produtividade do milho?",
+      "current_status": "pending_agronomist_review",
+      "queue": "EVIDENCE_CONFLICT",
+      "required_sources": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "required_source": [
+        "EMBRAPA-FISIOLOGIA-MILHO-2006"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+          "document_title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+          "document_version": null,
+          "publication_date": "2006-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+          "document_title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+          "document_version": null,
+          "publication_date": "2006-12",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf"
+      ],
+      "document_title": [
+        "Fisiologia da Produção de Milho (Circular Técnica 76)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2006-12"
+      ],
+      "required_locator": [
+        "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period"
+      ],
+      "known_locator": [
+        "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "CONFLICTING_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING",
+        "AI_REVIEW_DISAGREEMENT_UNRESOLVED"
+      ],
+      "conflict_summary": "AI review disagreement is unresolved; do not resolve by majority.",
+      "conflicts": [
+        {
+          "conflict_id": "DRAFT-MZ-WATER-003-DISAGREEMENT",
+          "candidate_id": "DRAFT-MZ-WATER-003",
+          "source_a": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+          "source_b": "UNREGISTERED-REVIEWER-CITATION-HTML-PHYSIOLOGY",
+          "difference_type": "AI_REVIEW_DISAGREEMENT",
+          "scope_difference": "One reviewer cites the frozen candidate PDF; another references separately identified HTML material.",
+          "publication_date_difference": "The PDF is identified as 2006; HTML version/date is not established.",
+          "regional_difference": null,
+          "methodological_difference": "Verdicts differ between correct and partially correct; source identity and claim scope are unresolved.",
+          "unresolved_question": "Are these the same document/version, and what exact passages support the intended scope?",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "next_action": "Capture the PDF and separately cited HTML source; establish source identity and exact claim scope.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-HARVEST-001",
+      "topic": "HARVEST",
+      "claim_question": "A camada preta quer dizer que já devo colher o milho com a colhedora?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "required_source": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2009-09"
+      ],
+      "required_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices"
+      ],
+      "known_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical"
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture the PDF and review whether the historical passage supports the candidate's exact scope.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-HARVEST-002",
+      "topic": "HARVEST",
+      "claim_question": "Posso deixar o milho no campo secando sem acompanhar o clima?",
+      "current_status": "pending_agronomist_review",
+      "queue": "SNAPSHOT_MISSING",
+      "required_sources": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "required_source": [
+        "EMBRAPA-COLHEITA-MILHO-2009"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)"
+      ],
+      "document_version": [
+        null
+      ],
+      "publication_date": [
+        "2009-09"
+      ],
+      "required_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices"
+      ],
+      "known_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "forecast": null
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "INSUFFICIENT_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING"
+      ],
+      "conflict_summary": null,
+      "conflicts": [],
+      "next_action": "Capture and locate the relevant harvest/weather passages; forecast context is currently absent.",
+      "approved": false
+    },
+    {
+      "candidate_id": "DRAFT-MZ-STORAGE-001",
+      "topic": "STORAGE",
+      "claim_question": "É só colocar o milho colhido no silo para guardar por vários meses?",
+      "current_status": "pending_agronomist_review",
+      "queue": "EVIDENCE_CONFLICT",
+      "required_sources": [
+        "EMBRAPA-COLHEITA-MILHO-2009",
+        "EMBRAPA-MILHO-500-PERGUNTAS-2013"
+      ],
+      "required_source": [
+        "EMBRAPA-COLHEITA-MILHO-2009",
+        "EMBRAPA-MILHO-500-PERGUNTAS-2013"
+      ],
+      "known_source": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+          "institution": "Embrapa",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1124498",
+          "document_title": "Milho: o produtor pergunta, a Embrapa responde (2ª edição)",
+          "document_version": null,
+          "publication_date": "2013",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; verify terms before redistribution or derivative use.",
+          "snapshot_present": false
+        }
+      ],
+      "known_sources": [
+        {
+          "source_id": "EMBRAPA-COLHEITA-MILHO-2009",
+          "institution": "Embrapa Milho e Sorgo",
+          "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+          "document_title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+          "document_version": null,
+          "publication_date": "2009-09",
+          "updated_at": null,
+          "locator_hint_unverified": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": null,
+          "snapshot_present": false
+        },
+        {
+          "source_id": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+          "institution": "Embrapa",
+          "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1124498",
+          "document_title": "Milho: o produtor pergunta, a Embrapa responde (2ª edição)",
+          "document_version": null,
+          "publication_date": "2013",
+          "updated_at": null,
+          "locator_hint_unverified": "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics",
+          "license_status": "UNKNOWN",
+          "license_note_unverified": "Repository reports CC BY-NC-ND 4.0; verify terms before redistribution or derivative use.",
+          "snapshot_present": false
+        }
+      ],
+      "source_institution": [
+        "Embrapa Milho e Sorgo",
+        "Embrapa"
+      ],
+      "source_url": [
+        "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+        "https://www.infoteca.cnptia.embrapa.br/handle/doc/1124498"
+      ],
+      "document_title": [
+        "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+        "Milho: o produtor pergunta, a Embrapa responde (2ª edição)"
+      ],
+      "document_version": [
+        null,
+        null
+      ],
+      "publication_date": [
+        "2009-09",
+        "2013"
+      ],
+      "required_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+        "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics"
+      ],
+      "known_locator": [
+        "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+        "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics"
+      ],
+      "license_status": "UNKNOWN",
+      "context": {
+        "crop": "maize",
+        "region": "Brazil-MatoGrosso",
+        "climate": "Tropical",
+        "grain_moisture": null
+      },
+      "source_snapshot_status": "MISSING",
+      "locator_status": "UNVERIFIED_NARRATIVE_HINT_ONLY",
+      "evidence_status": "CONFLICTING_EVIDENCE",
+      "review_blockers": [
+        "SOURCE_SNAPSHOT_MISSING",
+        "EXACT_EVIDENCE_NOT_HASHED",
+        "LOCATOR_NOT_VERIFIED_AGAINST_SNAPSHOT",
+        "LICENSE_UNKNOWN",
+        "QUALIFIED_HUMAN_APPROVAL_MISSING",
+        "AI_REVIEW_DISAGREEMENT_UNRESOLVED"
+      ],
+      "conflict_summary": "AI review disagreement is unresolved; do not resolve by majority.",
+      "conflicts": [
+        {
+          "conflict_id": "DRAFT-MZ-STORAGE-001-DISAGREEMENT",
+          "candidate_id": "DRAFT-MZ-STORAGE-001",
+          "source_a": "EMBRAPA-COLHEITA-MILHO-2009",
+          "source_b": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+          "difference_type": "AI_REVIEW_DISAGREEMENT",
+          "scope_difference": "Reviewers reference different postharvest documents/editions; grain moisture is unspecified.",
+          "publication_date_difference": "The referenced materials identify 2009 and 2013 editions.",
+          "regional_difference": null,
+          "methodological_difference": "Verdicts differ between correct and appropriate abstention; exact evidence has not been captured.",
+          "unresolved_question": "What can be answered from each frozen passage when the candidate's grain-moisture context is absent?",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "next_action": "Reconcile the two cited postharvest editions and resolve answer-versus-abstention evidence.",
+      "approved": false
+    }
+  ]
+}

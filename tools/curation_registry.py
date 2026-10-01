@@ -50,6 +50,8 @@ def validate_entry(entry: dict[str, Any], base_dir: Path = PROJECT_ROOT) -> None
     if (not candidate or entry["source_id"] not in candidate.get("source_ids", [])
             or candidate.get("context", {}).get("crop") != entry["crop"]):
         raise ValueError("record source/crop does not match the frozen reviewed case")
+    if not isinstance(candidate.get("context"), dict) or not candidate["context"]:
+        raise ValueError("curation approval must bind a non-empty reviewed scope")
     known_sources = {
         item.get("id"): item.get("url")
         for item in candidate_set.get("sources", []) if isinstance(item, dict)
@@ -120,6 +122,7 @@ def validate_entry(entry: dict[str, Any], base_dir: Path = PROJECT_ROOT) -> None
         "schema_version", "decision", "approver_type", "approver_id", "approver_role",
         "qualification_reference", "approved_at", "record_id", "review_id", "text_sha256",
         "source_id", "crop", "review_input_sha256", "source_snapshot_sha256", "content_sha256",
+        "valid_from", "valid_until",
     }
     if not isinstance(approval, dict) or set(approval) != approval_required:
         raise ValueError("human approval artifact has an invalid schema")
@@ -155,6 +158,16 @@ def validate_entry(entry: dict[str, Any], base_dir: Path = PROJECT_ROOT) -> None
     }
     if any(approval.get(key) != value for key, value in expected_approval.items()):
         raise ValueError("human approval does not bind the exact reviewed source and excerpt")
+    validity = {key: approval[key] for key in ("valid_from", "valid_until")}
+    for key, value in validity.items():
+        if value is not None:
+            try:
+                if date.fromisoformat(value).isoformat() != value:
+                    raise ValueError()
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"human approval {key} must be null or an ISO date") from exc
+    if validity["valid_from"] and validity["valid_until"] and validity["valid_from"] > validity["valid_until"]:
+        raise ValueError("human approval validity range is inverted")
     if (approval["approver_id"] != entry["approver_id"]
             or approval["approver_type"] != entry["approver_type"]):
         raise ValueError("human approval identity must match the registry entry")
@@ -186,10 +199,22 @@ class CurationRegistry:
                 if record_id in self.entries:
                     raise ValueError("duplicate curation record_id")
                 validate_entry(entry, base_dir=base_dir)
+                frozen_path = Path(entry["review_input"]["path"])
+                frozen_path = frozen_path if frozen_path.is_absolute() else base_dir / frozen_path
+                frozen = json.loads(frozen_path.read_text(encoding="utf-8"))
+                candidate = next(item for item in frozen.get("cases", [])
+                                 if item.get("id") == entry["review_id"])
                 entry["review_artifacts_verified"] = True
                 entry["source_snapshots_verified"] = True
                 entry["human_approval_verified"] = True
                 entry["review_input_sha256"] = entry["review_input"]["sha256"]
+                entry["_validated_scope"] = candidate["context"]
+                approval_path = Path(entry["human_approval"]["path"])
+                approval_path = approval_path if approval_path.is_absolute() else base_dir / approval_path
+                approval = json.loads(approval_path.read_text(encoding="utf-8"))
+                entry["_validated_validity"] = {
+                    key: approval[key] for key in ("valid_from", "valid_until")
+                }
                 self.entries[record_id] = entry
         except (OSError, ValueError, TypeError, AttributeError, KeyError):
             self.entries = {}
@@ -204,12 +229,48 @@ class CurationRegistry:
         entry = self.entries.get(str(record_id)) if record_id else None
         if not entry or entry.get("approval_status") != "approved":
             return False
+        approved_scope = entry.get("_validated_scope", entry.get("approved_scope"))
+        document_scope = metadata.get("approved_scope")
+        if not isinstance(approved_scope, dict) or not approved_scope or document_scope != approved_scope:
+            return False
+        # The flat scope fields are consumed by retrieval filters. Bind them to the
+        # exact object reviewed in the frozen candidate so edited metadata cannot widen scope.
+        if any(metadata.get(key) != value for key, value in approved_scope.items()):
+            return False
+        non_scope_fields = {
+            "curation_record_id", "knowledge_record_id", "knowledge_release_id",
+            "source_id", "source", "knowledge_status", "review_status", "review_date",
+            "reviewed_at", "review_input_sha256", "approved_scope", "valid_from", "valid_until",
+            "text", "retrieval_distance",
+        }
+        flat_scope = {key: value for key, value in metadata.items()
+                      if key not in non_scope_fields}
+        if flat_scope != approved_scope:
+            return False
         text = str(document.get("text", "")).strip()
         source = metadata.get("source_id") or metadata.get("source")
         crop = str(metadata.get("crop", "")).strip().casefold()
         review_date = metadata.get("review_date") or metadata.get("reviewed_at")
+        validity_ok = True
+        valid_from = metadata.get("valid_from")
+        valid_until = metadata.get("valid_until")
+        approved_validity = entry.get("_validated_validity", {
+            "valid_from": entry.get("approved_valid_from"),
+            "valid_until": entry.get("approved_valid_until"),
+        })
+        if (valid_from != approved_validity.get("valid_from")
+                or valid_until != approved_validity.get("valid_until")):
+            return False
+        try:
+            if valid_from is not None:
+                validity_ok = validity_ok and date.fromisoformat(valid_from) <= date.today()
+            if valid_until is not None:
+                validity_ok = validity_ok and date.today() <= date.fromisoformat(valid_until)
+        except (TypeError, ValueError):
+            validity_ok = False
         return bool(
             text
+            and validity_ok
             and entry.get("text_sha256") == text_sha256(text)
             and entry.get("source_id") == source
             and str(entry.get("crop", "")).casefold() == crop

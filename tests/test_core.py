@@ -27,6 +27,13 @@ def synthetic_registry(document):
     metadata = document.get("metadata", document)
     record_id = "TEST-" + str(metadata.get("source_id") or metadata.get("source"))
     metadata["curation_record_id"] = record_id
+    metadata["approved_scope"] = {
+        key: value for key, value in metadata.items()
+        if key not in {"curation_record_id", "knowledge_record_id", "knowledge_release_id",
+                       "source_id", "source", "knowledge_status", "review_status",
+                       "review_date", "reviewed_at", "review_input_sha256",
+                           "approved_scope", "valid_from", "valid_until", "text", "retrieval_distance"}
+    }
     return CurationRegistry(entries={record_id: {
         "record_id": record_id,
         "approval_status": "approved",
@@ -38,6 +45,7 @@ def synthetic_registry(document):
         "source_snapshots_verified": True,
         "human_approval_verified": True,
         "review_input_sha256": "synthetic-test-only",
+        "approved_scope": metadata["approved_scope"],
     }})
 
 

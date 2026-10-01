@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Human review package",
+  "type": "object",
+  "required": ["schema_version", "candidate_id", "claim", "context", "source_metadata", "snapshot_hash", "candidate_content_hash", "locator", "exact_evidence", "conflicting_evidence", "ai_reviewer_notes", "risk_classification", "questions_for_reviewer", "proposed_decision", "decision_is_suggestion_only"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "candidate_id": {"type": ["string", "null"]},
+    "claim": {},
+    "context": {"type": "object"},
+    "source_metadata": {"type": ["object", "null"]},
+    "snapshot_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "candidate_content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "locator": {"type": ["object", "null"]},
+    "exact_evidence": {"type": ["string", "null"]},
+    "conflicting_evidence": {"type": "array"},
+    "ai_reviewer_notes": {"type": "array", "items": {"type": "object", "required": ["origin", "not_human_review", "note"], "properties": {"origin": {"const": "AI"}, "not_human_review": {"const": true}, "note": {"type": "string"}}}},
+    "risk_classification": {"type": "string"},
+    "questions_for_reviewer": {"type": "array", "items": {"type": "string"}},
+    "proposed_decision": {"enum": ["APPROVE", "REJECT", "NEEDS_CHANGES", "INSUFFICIENT_EVIDENCE", "CONFLICT_REQUIRES_RESOLUTION"]},
+    "decision_is_suggestion_only": {"const": true}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Qualified human review decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reviewer_id", "reviewer_role", "qualification", "reviewed_at", "decision", "scope", "comments", "source_snapshot_hash", "candidate_content_hash", "limitations"],
+  "properties": {
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "reviewer_role": {"type": "string", "minLength": 1},
+    "qualification": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "format": "date"},
+    "decision": {"enum": ["APPROVE", "REJECT", "NEEDS_CHANGES", "INSUFFICIENT_EVIDENCE", "CONFLICT_REQUIRES_RESOLUTION"]},
+    "scope": {"type": "object", "minProperties": 1},
+    "comments": {"type": "string", "minLength": 1},
+    "source_snapshot_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "candidate_content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

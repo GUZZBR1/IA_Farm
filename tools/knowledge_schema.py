@@ -33,6 +33,11 @@ class SourceMetadata(TypedDict, total=False):
     valid_until: str
     snapshot_ref: str
     snapshot_sha256: str
+    license_status: str
+    license_attribution: str
+    license_evidence_ref: str
+    license_evidence_sha256: str
+    evidence_locator: dict[str, Any]
 
 
 class SourceReference(SourceMetadata):
@@ -203,7 +208,9 @@ def validate_record(record: Any) -> None:
         except ValueError as error:
             raise ValueError("source.url must be an HTTPS URL without credentials") from error
         _date(source["accessed_at"], "source.accessed_at")
-        for field in ("edition", "version", "section", "license", "snapshot_ref"):
+        for field in ("edition", "version", "section", "license", "snapshot_ref",
+                      "license_status", "license_attribution", "license_evidence_ref",
+                      "license_evidence_sha256"):
             if field in source:
                 _string(source[field], f"source.{field}")
         for field in ("publication_date", "valid_from", "valid_until"):
@@ -212,6 +219,9 @@ def validate_record(record: Any) -> None:
         if ("valid_from" in source and "valid_until" in source
                 and source["valid_until"] < source["valid_from"]):
             raise ValueError("source.valid_until cannot precede source.valid_from")
+        if (record["status"] in {"APPROVED", "PUBLISHED"}
+                and "valid_until" in source and date.today().isoformat() > source["valid_until"]):
+            raise ValueError("expired source cannot be approved or published")
         if "page" in source:
             if isinstance(source["page"], str):
                 _string(source["page"], "source.page")
@@ -219,9 +229,28 @@ def validate_record(record: Any) -> None:
                 raise ValueError("source.page must be a positive integer or non-empty string")
         if "snapshot_sha256" in source:
             _sha256(source["snapshot_sha256"], "source.snapshot_sha256")
+        if "license_evidence_sha256" in source:
+            _sha256(source["license_evidence_sha256"], "source.license_evidence_sha256")
+        if "license_status" in source:
+            from tools.source_snapshots import validate_license_status, validate_locator
+            validate_license_status(source["license_status"])
+            if source.get("license_status") == "ATTRIBUTION_REQUIRED" and not source.get("license_attribution"):
+                raise ValueError("attribution-required source must define attribution text")
+            if "evidence_locator" in source:
+                validate_locator(source["evidence_locator"])
         if record["status"] in {"APPROVED", "PUBLISHED"} and (
                 not source.get("snapshot_ref") or not source.get("snapshot_sha256")):
             raise ValueError("approved/published sources require immutable snapshot provenance")
+        if record["status"] in {"APPROVED", "PUBLISHED"}:
+            from tools.human_review import ALLOWED_PUBLICATION_LICENSES
+            from tools.source_snapshots import validate_locator
+            if source.get("license_status") not in ALLOWED_PUBLICATION_LICENSES:
+                raise ValueError("approved/published sources require a compatible explicit license decision")
+            if not source.get("license_evidence_ref"):
+                raise ValueError("approved/published sources require a license evidence reference")
+            if not source.get("license_evidence_sha256"):
+                raise ValueError("approved/published sources require a license evidence hash")
+            validate_locator(source.get("evidence_locator"))
         if source["source_id"] in source_ids:
             raise ValueError("source_id must be unique within a record")
         source_ids.add(source["source_id"])

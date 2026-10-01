@@ -48,6 +48,13 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
         metadata = document.get("metadata", document)
         record_id = f"SIMULATION-{battery['id']}-{index}"
         metadata["curation_record_id"] = record_id
+        metadata["approved_scope"] = {
+            key: value for key, value in metadata.items()
+            if key not in {"curation_record_id", "knowledge_record_id", "knowledge_release_id",
+                           "source_id", "source", "knowledge_status", "review_status",
+                           "review_date", "reviewed_at", "review_input_sha256",
+                               "approved_scope", "valid_from", "valid_until", "text", "retrieval_distance"}
+        }
         source = metadata.get("source_id") or metadata.get("source")
         reviewed_at = metadata.get("review_date") or metadata.get("reviewed_at")
         entries[record_id] = {
@@ -61,6 +68,7 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
             "source_snapshots_verified": True,
             "human_approval_verified": True,
             "review_input_sha256": "synthetic-fixture-only",
+            "approved_scope": metadata["approved_scope"],
         }
     database = FixtureVectorDB(documents)
     app = Orchestrator(db=database, curation_registry=CurationRegistry(entries=entries))

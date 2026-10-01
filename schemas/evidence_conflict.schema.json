@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unresolved evidence or reviewer disagreement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["conflict_id", "candidate_id", "source_a", "source_b", "difference_type", "scope_difference", "publication_date_difference", "regional_difference", "methodological_difference", "unresolved_question", "resolution_status"],
+  "properties": {
+    "conflict_id": {"type": "string", "minLength": 1},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "source_a": {"type": "string", "minLength": 1},
+    "source_b": {"type": "string", "minLength": 1},
+    "difference_type": {"enum": ["SOURCE_CONTRADICTION", "AI_REVIEW_DISAGREEMENT", "SCOPE_DIFFERENCE", "VERSION_DIFFERENCE", "REGIONAL_DIFFERENCE", "METHOD_DIFFERENCE", "SOURCE_IDENTITY_UNRESOLVED"]},
+    "scope_difference": {"type": ["string", "null"]},
+    "publication_date_difference": {"type": ["string", "null"]},
+    "regional_difference": {"type": ["string", "null"]},
+    "methodological_difference": {"type": ["string", "null"]},
+    "unresolved_question": {"type": "string", "minLength": 1},
+    "resolution_status": {"const": "UNRESOLVED"}
+  }
+}

@@ -96,7 +96,7 @@ class CurationRegistryTests(unittest.TestCase):
                 "approved_at": "2026-01-03", "record_id": "CURATED-001", "review_id": review_id,
                 "text_sha256": text_sha256(excerpt), "source_id": "SOURCE-1", "crop": "maize",
                 "review_input_sha256": input_hash, "source_snapshot_sha256": source_snapshot_hash,
-                "content_sha256": "a" * 64,
+                "content_sha256": "a" * 64, "valid_from": None, "valid_until": "2099-12-31",
             }
             human_approval_path = root / "human-approval.json"
             human_approval_path.write_text(json.dumps(human_approval), encoding="utf-8")
@@ -110,9 +110,31 @@ class CurationRegistryTests(unittest.TestCase):
                     "curation_record_id": "CURATED-001", "source_id": "SOURCE-1",
                     "crop": "maize", "review_date": "2026-01-02",
                     "review_status": "approved",
+                "approved_scope": {"crop": "maize"},
+                "valid_until": "2099-12-31",
                 },
             }
             self.assertTrue(registry.authorizes(document))
+            flat_document = {"text": excerpt, **document["metadata"], "retrieval_distance": 0.25}
+            self.assertTrue(registry.authorizes(flat_document))
+            document["metadata"]["approved_scope"] = {"crop": "maize", "region": "SP"}
+            document["metadata"]["region"] = "SP"
+            self.assertFalse(registry.authorizes(document))
+            document["metadata"]["approved_scope"] = {"crop": "maize"}
+            document["metadata"].pop("region")
+            document["metadata"].pop("valid_until")
+            self.assertFalse(registry.authorizes(document))
+            document["metadata"]["valid_until"] = "2099-12-31"
+            self.assertTrue(registry.authorizes(document))
+            document["metadata"]["valid_until"] = "2100-12-31"
+            self.assertFalse(registry.authorizes(document))
+            document["metadata"]["valid_until"] = "2099-12-31"
+            expired_entry = dict(registry.entries["CURATED-001"])
+            expired_entry["_validated_validity"] = {"valid_from": None, "valid_until": "2026-01-02"}
+            expired_registry = CurationRegistry(entries={"CURATED-001": expired_entry})
+            document["metadata"]["valid_until"] = "2026-01-02"
+            self.assertFalse(expired_registry.authorizes(document))
+            document["metadata"]["valid_until"] = "2099-12-31"
             document["text"] += " altered"
             self.assertFalse(registry.authorizes(document))
 

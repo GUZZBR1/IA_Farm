@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Immutable source snapshot manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["snapshot_id", "source_id", "original_url", "retrieved_at", "content_hash", "mime_type", "file_size", "document_title", "institution", "publication_date", "document_version", "license_status", "local_path", "snapshot_status", "previous_snapshot_hashes"],
+  "properties": {
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "original_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mime_type": {"type": "string", "minLength": 1},
+    "file_size": {"type": "integer", "minimum": 1},
+    "document_title": {"type": "string", "minLength": 1},
+    "institution": {"type": "string", "minLength": 1},
+    "publication_date": {"type": ["string", "null"]},
+    "document_version": {"type": ["string", "null"]},
+    "license_status": {"enum": ["UNKNOWN", "LINK_ONLY", "REDISTRIBUTION_ALLOWED", "ATTRIBUTION_REQUIRED", "RESTRICTED", "PUBLIC_DOMAIN"]},
+    "local_path": {"type": "string", "minLength": 1},
+    "snapshot_status": {"enum": ["CAPTURED", "CHANGED_SINCE_PRIOR_SNAPSHOT"]},
+    "previous_snapshot_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+  }
+}

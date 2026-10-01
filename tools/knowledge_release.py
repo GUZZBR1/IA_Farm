@@ -59,6 +59,12 @@ def validate_published_authority(records: list[dict[str, Any]], registry_path: P
         if (snapshot is None or source.get("snapshot_ref") != snapshot.get("path")
                 or source.get("snapshot_sha256") != snapshot.get("sha256")):
             raise ValueError("published source snapshot does not match the externally reviewed snapshot")
+        approval_artifact = entry["human_approval"]
+        approval_path = Path(approval_artifact["path"])
+        approval_path = approval_path if approval_path.is_absolute() else base_dir / approval_path
+        human_approval = json.loads(approval_path.read_text(encoding="utf-8"))
+        if any(source.get(field) != human_approval[field] for field in ("valid_from", "valid_until")):
+            raise ValueError("published source validity differs from the human-approved validity")
         frozen_path = Path(entry["review_input"]["path"])
         frozen_path = frozen_path if frozen_path.is_absolute() else base_dir / frozen_path
         frozen = json.loads(frozen_path.read_text(encoding="utf-8"))
@@ -76,6 +82,9 @@ def validate_published_authority(records: list[dict[str, Any]], registry_path: P
             "review_status": "approved", "crop": record["scope"].get("crop"),
             "review_date": approval.get("reviewed_at"), "reviewed_at": approval.get("reviewed_at"),
             "review_input_sha256": entry["review_input"]["sha256"],
+            "approved_scope": record["scope"],
+            **{key: record["sources"][0][key] for key in ("valid_from", "valid_until")
+               if key in record["sources"][0]},
             **{key: value for key, value in record["scope"].items() if key != "crop"},
         }}
         if not registry.authorizes(excerpt):
