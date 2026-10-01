@@ -22,11 +22,11 @@ python main.py
 Do not ingest `docs/corn_mvp/dataset_v0.1.md` as production knowledge: its
 examples are unreviewed and not approved field guidance. Markdown ingestion now
 marks all records pending; approval must come from a separate curation process.
-For now, that curation process uses two independent AI evidence reviewers
-against official primary sources; no human agronomist approval is required or
-claimed. AI agreement is not professional certification or a global accuracy
-measurement. Physical Android validation is the final readiness phase and has
-not been completed.
+Knowledge promotion requires exact retained source snapshots, two linked review
+artifacts, and a separate qualified human agronomic approval. AI agreement alone
+cannot approve content. The canonical published store and Golden Set are empty;
+retrieval or agronomic precision has not been measured. Physical Android
+validation remains pending and is not part of the current phase.
 
 For a demo-only run without model dependencies:
 
@@ -37,13 +37,16 @@ IA_FARM_MOCK=1 python main.py
 ## 🚀 Project guides
 
 - **Official architecture**: See `ARCHITECTURE.md` for implemented boundaries and target layers.
+- **Knowledge pipeline**: See `KNOWLEDGE_PIPELINE.md` for source snapshots, lifecycle and publication boundaries.
+- **Golden Set policy**: See `GOLDEN_SET_POLICY.md` for current agronomic case approval requirements.
+- **Retrieval evaluation**: See `RETRIEVAL_EVALUATION.md` for the lexical baseline and vector dependency status.
 - **Baseline and technical debt**: See `BASELINE_REPORT.md` and `TECH_DEBT.md`.
 - **Implementation guide**: See `MINING_GUIDE.md`.
 - **Project DNA**: See `CONCEPT.md` and `docs/agent_dna.md`.
 - **Current status**: See `PROJECT_STATUS.md` and `ROADMAP.md`.
 - **Operator map**: See `AGENTE.md`.
 - **Deployment**: See `docs/deployment_guide.md`.
-- **Golden Set policy**: See `docs/golden_set_policy.md` and run `python tests/run_golden_set.py`.
+- **Behavioral simulation**: See `docs/test_environment.md` and run `python tests/run_golden_set.py`.
 - **Persona simulation**: See `docs/test_environment.md` for the 165-battery, four-persona harness.
 - **Runtime contract**: No generative LLM is used in the application response path.
 - **Runtime policy**: See `docs/runtime_policy.md` for the embedding caveat and mobile limits.

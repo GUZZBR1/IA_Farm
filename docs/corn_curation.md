@@ -1,5 +1,7 @@
 # Corn Curation for IA_Farm Knowledge Base
 
+> **DESIGN / HISTORICAL SOURCE LEADS — NOT APPROVED KNOWLEDGE.** URLs below are references, not ingested source snapshots. Do not index these notes or treat their contents as agronomic recommendations. Current promotion policy requires exact retained source bytes, source locator/scope, independent review artifacts and explicit qualified human agronomic approval; see `/GOLDEN_SET_POLICY.md` and `/KNOWLEDGE_PIPELINE.md`.
+
 This document contains a curated list of high-quality resources for corn cultivation, focusing on reliable agricultural research institutions like EMBRAPA.
 
 ## 🌽 Core Cultivation & Management (EMBRAPA & Reliable Sources)
@@ -73,9 +75,7 @@ freshness review.
 
 Do not bulk-ingest search results or PDFs directly into production. Before a
 source is used, record its edition/date and scope, check applicable reuse terms,
-verify extracted content against the original source with the AI Especialista
-de Evidências Agronômicas and independent AI Verificador, and retain both reports plus precise evidence
-locators. No human agronomist approval gate is required. Conflicts, stale
-versions, missing scope, or unsupported claims remain pending and cannot enter
-the offline knowledge index. Only source-supported excerpts may then be
-promoted to the controlled curation register.
+retain exact source bytes with a hash, verify precise locators and obtain the
+required independent reviews plus explicit qualified human approval. Conflicts,
+stale versions, missing scope, or unsupported claims remain pending and cannot
+enter the offline knowledge index.

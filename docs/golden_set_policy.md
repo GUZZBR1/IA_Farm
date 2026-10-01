@@ -1,5 +1,7 @@
 # Golden Set policy
 
+> **HISTORICAL POLICY TEXT.** This document contains former policy statements that allowed promotion based on AI reviewer agreement and explicitly said human review was unnecessary. Those statements are superseded and must not be followed. The current policy is `/GOLDEN_SET_POLICY.md`: qualified human agronomic approval, source snapshots and exact provenance are mandatory; the agronomic set remains empty.
+
 The Golden Set validates deterministic safety, metadata extraction, session
 state, and source-display contracts. It contains no generated answers and must
 not contain invented doses presented as authoritative.

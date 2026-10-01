@@ -1,7 +1,7 @@
 # IA_Farm architecture
 
 **Status:** CURRENT ARCHITECTURE for the implemented system, with target boundaries clearly marked as future work.
-**Baseline:** `264a66a` plus the phase-2 changes described in this document.
+**Baseline:** `2c2082f304ba93531cfea2988946f622089f38ef`.
 
 This document describes the real runtime first. The target architecture is a direction for incremental work; it does not imply that a layer is already implemented.
 
@@ -29,7 +29,9 @@ Application orchestration: tools/orchastrator.py
                 │
                 └── Metadata policy: tools/metadata.py
 
-Knowledge preparation: Markdown parser → pending documents → chunk/index tool
+Knowledge preparation: Markdown parser → candidate artifact only (no automatic index publication)
+Canonical knowledge store: `data/knowledge_base/approved_records.json` (currently empty)
+Release: validated PUBLISHED records → hashed manifest → disposable index builder
 Farm memory: SQLite helper, called by compatibility wrapper, not CLI context
 Deterministic arithmetic: isolated utility, not selected by the orchestrator
 Language generation: absent from application response path
@@ -42,9 +44,9 @@ The current curation registry has zero entries. The local ignored FAISS index ha
 
 | Layer | Current implementation | Boundary and limit |
 |---|---|---|
-| Knowledge Preparation | `tools/ingest.py`, `tools/mining_agent.py` | Local Markdown only; imports remain pending and cannot approve their own provenance. PDF/OCR/Vision-to-JSON is not an integrated production pipeline. |
-| Knowledge Base | `data/vector_index/` when locally built; `data/curation_registry.json` | FAISS vectors and positional JSON metadata are derived files. The index is ignored by Git. Registry is the display authorization source and is empty. |
-| Retrieval | `tools/vector_db.py`, `tools/contracts.py` | `VectorRetriever.query(query, filters)` returns candidate documents. The current implementation uses embeddings/FAISS; relevance threshold and lexical baseline are not yet implemented. |
+| Knowledge Preparation | `tools/ingest.py`, `tools/mining_agent.py`, `tools/knowledge_schema.py`, `tools/knowledge_lifecycle.py` | Local Markdown parse outputs candidates only. Lifecycle emits hash-linked audit events; authenticated operators and durable append-only atomic persistence remain caller responsibilities. |
+| Knowledge Base | `data/knowledge_base/approved_records.json`, `data/curation_registry.json` | Canonical starter store is empty. Registry is the runtime display authorization source and is empty. FAISS vectors are disposable derived files. |
+| Retrieval | `tools/vector_db.py`, `tools/contracts.py`, `tools/lexical_baseline.py`, `tools/retrieval_evaluation.py` | Runtime uses embeddings/FAISS; BM25 is an offline baseline. No agronomic threshold or semantic comparison is validated without approved labeled records. |
 | Context | Helpers inside `tools/orchastrator.py`; aliases in that module and `tools/metadata.py` | Current required fields for recognized technical questions are region and climate. There is no standalone Context Engine or per-intent schema yet. |
 | Safety / evidence authorization | `Orchestrator.rag_query`, `_is_reviewed`, `_matches_context`, `CurationRegistry` | Requires eligible crop/source/review metadata, registry binding and compatible scope. This is deterministic but not a complete formal state machine. |
 | Application Orchestrator | `tools/orchastrator.py` | Coordinates request parsing, context checks, retrieval, authorization, and string response. Does not invoke memory or dosage arithmetic. |
@@ -112,10 +114,10 @@ This phase corrects the concrete runtime-to-tests import in curation validation.
 
 | Classification | Documents | Use |
 |---|---|---|
-| CURRENT | `ARCHITECTURE.md`, `BASELINE_REPORT.md`, `PROJECT_STATUS.md`, `SECURITY.md`, `docs/runtime_policy.md` | Implemented behavior, current state and verified limits |
+| CURRENT | `ARCHITECTURE.md`, `BASELINE_REPORT.md`, `PROJECT_STATUS.md`, `SECURITY.md`, `KNOWLEDGE_PIPELINE.md`, `GOLDEN_SET_POLICY.md`, `RETRIEVAL_EVALUATION.md`, `MINING_GUIDE.md`, `docs/runtime_policy.md` | Implemented behavior, current policy and verified limits |
 | DESIGN / ROADMAP | `ROADMAP.md`, `docs/product_readiness_plan.md`, `docs/slm_evaluation.md`, mobile specifications | Future proposals only; not evidence of implementation |
-| HISTORICAL / EXPERIMENTAL | `CONCEPT.md`, `SDD.md`, `MINING_GUIDE.md`, research notes, scripts named `final_*` or `audit_runner_*` | Preserve context; where they conflict with current code and this document, they are not the runtime contract |
+| HISTORICAL / EXPERIMENTAL | `CONCEPT.md`, `SDD.md`, `docs/golden_set_policy.md`, source-lead and corn MVP draft documents, research notes, scripts named `final_*` or `audit_runner_*` | Preserve context; where they conflict with current code and policies, they are not the runtime contract |
 
 ## Non-goals of this phase
 
-No source is approved, no agronomic truth is invented, and no retrieval semantics or user-visible response behavior is changed here. Android, Phi-3/MLC, STT/TTS and generative SLM work remain out of scope.
+No source is approved and no agronomic truth is invented. Retrieval filtering now expands beyond the previous fixed `k*10` candidate window when metadata filters exclude initial hits; returned vector hits include their distance. This mechanics change is regression-tested but does not establish semantic relevance. Android, Phi-3/MLC, STT/TTS and generative SLM work remain out of scope.

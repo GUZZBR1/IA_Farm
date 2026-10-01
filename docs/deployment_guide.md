@@ -17,12 +17,16 @@ python tests/run_golden_set.py
 ```
 
 The optional local vector index uses FAISS and Sentence-Transformers embeddings
-for retrieval; these embeddings do not generate answers. Build an index from
-curated documents with:
+for retrieval; these embeddings do not generate answers. Parse documents to an
+unapproved candidate artifact with:
 
 ```bash
-python -m tools.ingest docs/corn_mvp/dataset_v0.1.md
+python -m tools.ingest docs/corn_mvp/dataset_v0.1.md --output /tmp/ia-farm-candidates.json
 ```
+
+Candidate output does not build or modify a runtime index. Published indexes can
+only be built from the canonical published store after external curation and
+qualified human approval; the current store and registry are empty.
 
 Run the terminal application with `python main.py`. For a dependency-light demo,
 `IA_FARM_MOCK=1 python main.py` uses the real deterministic orchestration logic
@@ -38,12 +42,15 @@ measured. See `docs/mobile_optimization.md` for the validation checklist.
 
 ## Knowledge safety
 
-The application displays only excerpts with provenance, completed dual-agent
-official-source review, approved curation status and a valid review date. It
+The application displays only excerpts with provenance, completed independent
+review artifacts, qualified human agronomic approval, approved curation status
+and a valid review date. It
 does not calculate or choose an agronomic dose. Existing example values in the
-dataset are not approved field guidance until the agents verify the source,
-version, exact evidence and case scope; unresolved cases remain blocked. The
-runtime requires an exact-text hash match in `data/curation_registry.json`;
-run `python -m tools.curation_registry` to validate both linked reviews and the
-frozen input before release. The registry is currently empty. Do not add
+dataset are not approved field guidance until immutable source snapshots, exact
+evidence and case scope are reviewed and a qualified human agronomic reviewer
+approves the exact content. Agent agreement alone is insufficient; unresolved
+cases remain blocked. The runtime requires an exact-text hash match and human
+approval evidence in `data/curation_registry.json`; run
+`python -m tools.curation_registry` to validate the linked artifacts before
+release. The registry is currently empty. Do not add
 `approved` records manually or use this build for agronomic beta responses.

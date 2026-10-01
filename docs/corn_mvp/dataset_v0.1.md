@@ -105,3 +105,10 @@
   }
 }
 ```
+# HISTORICAL / UNVALIDATED EXAMPLES — NOT APPROVED KNOWLEDGE
+
+The numerical values and recommendation-like statements in this document have
+not been established as current, source-bound agronomic facts. Do not ingest,
+index, cite, or use them as runtime advice or Golden Set expected answers.
+Preserved for historical context only. Current publication requirements are in
+`KNOWLEDGE_PIPELINE.md` and `GOLDEN_SET_POLICY.md`.

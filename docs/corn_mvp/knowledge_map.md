@@ -26,3 +26,9 @@
 2. **Processing:** Vision LLM -> JSON-Pairing -> Markdown.
 3. **Verification:** Standard deviation check for numeric values.
 4. **Deployment:** Vectorized into Local FAISS DB.
+# HISTORICAL / UNVALIDATED KNOWLEDGE MAP
+
+This map is not a source registry and its claim-like entries have not been
+approved. Do not index it or use it as a source for Golden Set answers. Use the
+current source-snapshot and human-approval gates documented in
+`KNOWLEDGE_PIPELINE.md`.
