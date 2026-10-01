@@ -1,29 +1,37 @@
-"""Command-line entry point for indexing curated local knowledge."""
+"""Parse local documents into candidate artifacts; never publish or index them."""
 
 import argparse
 from pathlib import Path
 
 from tools.ingest import ingest_paths
-from tools.vector_db import LocalVectorDB
+import json
 
 
-def mine_knowledge(sources: list[Path], index_path: str = "data/vector_index") -> int:
+def mine_knowledge(sources: list[Path], output_path: str = "data/knowledge_candidates.json") -> int:
     documents = ingest_paths(sources)
     if not documents:
         raise ValueError("No source documents were found")
 
-    db = LocalVectorDB(index_path=index_path)
-    db.index_documents(documents)
+    # Parsing is not curation approval. Keep candidate data out of the runtime
+    # retrieval index until it passes the explicit review/publication lifecycle.
+    target = Path(output_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps({
+        "schema_version": 1,
+        "status": "CANDIDATE",
+        "promotion_allowed": False,
+        "records": documents,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return len(documents)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Index curated IA_Farm knowledge")
+    parser = argparse.ArgumentParser(description="Parse local documents into non-published knowledge candidates")
     parser.add_argument("sources", nargs="+", type=Path)
-    parser.add_argument("--index-path", default="data/vector_index")
+    parser.add_argument("--output", default="data/knowledge_candidates.json")
     args = parser.parse_args()
-    count = mine_knowledge(args.sources, args.index_path)
-    print(f"Indexed {count} source documents into {args.index_path}")
+    count = mine_knowledge(args.sources, args.output)
+    print(f"Wrote {count} candidates to {args.output}; approval and index publication are separate steps")
 
 
 if __name__ == "__main__":

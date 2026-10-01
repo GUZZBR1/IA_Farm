@@ -1,4 +1,4 @@
-"""Turn curated Markdown knowledge into documents for the local vector index."""
+"""Parse Markdown sources into unapproved candidate documents."""
 
 import argparse
 import json
@@ -71,17 +71,16 @@ def ingest_paths(paths: Iterable[str | Path]) -> List[Dict[str, Any]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Index curated IA_Farm Markdown knowledge")
+    parser = argparse.ArgumentParser(description="Parse local Markdown into unapproved candidates")
     parser.add_argument("sources", nargs="+", type=Path)
-    parser.add_argument("--index-path", default="data/vector_index")
+    parser.add_argument("--output", type=Path, default=Path("data/knowledge_candidates.json"))
     args = parser.parse_args()
-
-    from tools.vector_db import LocalVectorDB
-
     documents = ingest_paths(args.sources)
-    db = LocalVectorDB(index_path=args.index_path)
-    db.index_documents(documents)
-    print(f"Indexed {len(documents)} documents into {args.index_path}")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps({"schema_version": 1, "status": "CANDIDATE",
+                                      "promotion_allowed": False, "records": documents},
+                                     ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {len(documents)} candidate documents to {args.output}; no index was built")
 
 
 if __name__ == "__main__":
