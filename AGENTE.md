@@ -17,6 +17,15 @@ desenvolvedor que assuma o controle do AgriBrain.
 - Exige região e clima antes de recomendações técnicas.
 - Não usa LLM generativo nem serviço remoto no caminho de resposta.
 - Só exibe trechos com proveniência, aprovação e data de revisão; não gera recomendações.
+- O runtime exige hash exato do trecho no registro vazio `data/curation_registry.json`; execute `python -m tools.curation_registry` para verificar os dois pareceres, o pacote congelado, o comparador e o vínculo do trecho antes de qualquer promoção. Os pareceres atuais não têm hash de trecho e cinco candidatos divergem; não marque nada manualmente como `approved` nem habilite respostas agronômicas na beta.
+
+### Validação agronômica e limites
+
+- Por enquanto, o projeto não terá agrônomo humano como validador obrigatório.
+- O conjunto de ouro poderá usar um Especialista de Evidências de Milho com IA e um Verificador independente de IA, ambos confrontando alegações com fontes oficiais primárias.
+- Esses agentes não são agrônomos humanos nem profissionais licenciados. A concordância entre eles é revisão documental automatizada, não certificação profissional nem prova de precisão agronômica global.
+- Alegação sem fonte primária atual, localizador preciso, escopo compatível ou com divergência entre agentes permanece pendente/bloqueada. Não promover por votação ou por texto do próprio documento.
+- Validação em celular físico é a última etapa do plano e ainda não foi feita. Perfil simulado não equivale a teste Android.
 
 ### RAG
 

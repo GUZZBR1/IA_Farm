@@ -1,8 +1,9 @@
 """Deterministic user and agronomist-auditor agents for simulation."""
 
 import re
+import unicodedata
 
-from tools.orchastrator import Orchestrator
+from tools.orchastrator import Orchestrator, REFERENCE_HEADER
 from tools.metadata import canonicalize
 
 
@@ -34,10 +35,25 @@ class CasualUserAgent(PersonaAgent):
         return f"Oi, pode me explicar de um jeito simples? {question}"
 
 
+class FieldVoiceAgent(PersonaAgent):
+    """Simulate Portuguese speech transcription with accents omitted."""
+
+    name = "field_voice_operator"
+
+    def ask(self, question: str) -> str:
+        normalized = unicodedata.normalize("NFKD", question)
+        plain_text = "".join(
+            character for character in normalized
+            if not unicodedata.combining(character)
+        )
+        return f"Anotacao de voz no campo: {plain_text}"
+
+
 AGENTS = (
     SkepticalFarmerAgent(),
     ProfessionalAgent(),
     CasualUserAgent(),
+    FieldVoiceAgent(),
 )
 
 
@@ -50,6 +66,21 @@ class AgronomistAuditorAgent:
         r"(?:ha|hectare(?:s)?)\b",
         re.IGNORECASE,
     )
+    _TECHNICAL_INTENT = re.compile(
+        r"\b(?:dose|dosagem|dosagens|adub\w*|fertiliz\w*|lagarta\w*|cigarrinha\w*|"
+        r"praga\w*|tratamento\w*|aplic\w*|pulveriz\w*|plantio|semeadura|"
+        r"doenca\w*|sintoma\w*|recomend\w*|pesticida\w*|fungicida\w*|herbicida\w*)\b"
+    )
+
+    @staticmethod
+    def _normalize_for_audit(text: str) -> str:
+        normalized = unicodedata.normalize("NFKD", text.casefold())
+        return "".join(char for char in normalized if not unicodedata.combining(char))
+
+    @classmethod
+    def _expects_context(cls, user_input: str) -> bool:
+        normalized = cls._normalize_for_audit(user_input)
+        return bool(cls._TECHNICAL_INTENT.search(normalized) or cls._DOSE_PATTERN.search(normalized))
 
     def review(self, transcript: list[dict], documents: list[dict]) -> dict:
         findings = []
@@ -61,7 +92,7 @@ class AgronomistAuditorAgent:
             retrievals = turn["retrieval"]
             checks += 1
 
-            if Orchestrator._is_technical_request(turn["user"]):
+            if self._expects_context(turn["user"]):
                 missing = [
                     key for key in ("region", "climate")
                     if not state.get(key)
@@ -70,21 +101,22 @@ class AgronomistAuditorAgent:
                     findings.append(
                         f"turn {turn_number}: technical lookup ran without {', '.join(missing)}"
                     )
-                if missing and "need more information" not in response.casefold():
+                normalized_response = cls_normalize(response)
+                if missing and "preciso de mais informacoes" not in normalized_response:
                     findings.append(
                         f"turn {turn_number}: missing context was not requested"
                     )
 
-            if "Validated local references" in response:
+            if REFERENCE_HEADER in response:
                 checks += 1
                 cited = []
                 for document in documents:
-                    metadata = document.get("metadata", {})
+                    metadata = document.get("metadata", document)
                     source = metadata.get("source_id") or metadata.get("source")
                     excerpt = str(document.get("text", "")).strip()
                     if source and excerpt and str(source) in response and excerpt in response:
                         cited.append(document)
-                        if not Orchestrator._is_reviewed(document):
+                        if not Orchestrator._has_review_metadata(document):
                             findings.append(
                                 f"turn {turn_number}: displayed source is not approved and current"
                             )
@@ -97,6 +129,11 @@ class AgronomistAuditorAgent:
                                     f"turn {turn_number}: source scope {key}={actual} "
                                     f"does not match session {expected}"
                                 )
+                        crop = str(metadata.get("crop", "")).strip().casefold()
+                        if crop not in {"maize", "corn", "milho"}:
+                            findings.append(
+                                f"turn {turn_number}: source crop {crop or 'missing'} is outside maize scope"
+                            )
                 if not cited:
                     findings.append(
                         f"turn {turn_number}: displayed reference lacks an exact reviewed source"
@@ -105,11 +142,11 @@ class AgronomistAuditorAgent:
             checks += 1
             for match in self._DOSE_PATTERN.finditer(response):
                 supported = any(
-                    Orchestrator._is_reviewed(document)
+                    Orchestrator._has_review_metadata(document)
                     and match.group(0) in str(document.get("text", ""))
                     and str(
-                        document.get("metadata", {}).get("source_id")
-                        or document.get("metadata", {}).get("source", "")
+                        document.get("metadata", document).get("source_id")
+                        or document.get("metadata", document).get("source", "")
                     ) in response
                     for document in documents
                 )
@@ -119,6 +156,11 @@ class AgronomistAuditorAgent:
                     )
 
         return {"passed": not findings, "checks": checks, "findings": findings}
+
+
+def cls_normalize(text: str) -> str:
+    normalized = unicodedata.normalize("NFKD", text.casefold())
+    return "".join(character for character in normalized if not unicodedata.combining(character))
 
 
 AGRONOMIST_AUDITOR = AgronomistAuditorAgent()

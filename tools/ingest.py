@@ -9,6 +9,10 @@ from typing import Any, Dict, Iterable, List
 
 HEADING_RE = re.compile(r"^###\s+(.+?)\s*$", re.MULTILINE)
 METADATA_RE = re.compile(r"\*\*Metadata:\*\*\s*(\{.*?\})", re.DOTALL)
+TRUSTED_METADATA_FIELDS = {
+    "source", "source_id", "review_status", "reviewed_at", "review_date",
+    "reviewer", "reviewer_id", "approval_id",
+}
 
 
 def _sections(markdown: str) -> Iterable[tuple[str, str]]:
@@ -34,13 +38,23 @@ def parse_markdown_documents(path: str | Path) -> List[Dict[str, Any]]:
         if not section.strip():
             continue
 
-        metadata: Dict[str, Any] = {"source": str(source), "section": title}
+        metadata: Dict[str, Any] = {
+            "source": str(source),
+            "section": title,
+            # Source files are untrusted input; approval must come from a
+            # separate curation process, never from the document itself.
+            "review_status": "pending",
+        }
         metadata_match = METADATA_RE.search(section)
         if metadata_match:
             try:
                 parsed_metadata = json.loads(metadata_match.group(1))
                 if isinstance(parsed_metadata, dict):
-                    metadata.update(parsed_metadata)
+                    metadata.update({
+                        key: value
+                        for key, value in parsed_metadata.items()
+                        if key.casefold() not in TRUSTED_METADATA_FIELDS
+                    })
             except json.JSONDecodeError as exc:
                 raise ValueError(f"Invalid metadata JSON in {source}:{title}") from exc
 

@@ -1,9 +1,9 @@
 # Deployment guide: IA_Farm
 
 The current response runtime is deterministic and does not use a generative
-LLM, cloud endpoint, or LLM APK. Android deployment remains experimental and
-must not be considered production-ready until physical-device validation is
-complete.
+LLM, cloud endpoint, or LLM APK. Android deployment remains experimental.
+Physical-device validation is the last readiness phase, after evidence review,
+RAG validation and the pre-beta audit; it has not been completed.
 
 ## Local development
 
@@ -38,7 +38,12 @@ measured. See `docs/mobile_optimization.md` for the validation checklist.
 
 ## Knowledge safety
 
-The application displays only excerpts with provenance, approved review status
-and a valid review date. It does not calculate or choose an agronomic dose.
-Existing example values in the dataset are not approved field guidance until a
-qualified agronomist verifies the source and record.
+The application displays only excerpts with provenance, completed dual-agent
+official-source review, approved curation status and a valid review date. It
+does not calculate or choose an agronomic dose. Existing example values in the
+dataset are not approved field guidance until the agents verify the source,
+version, exact evidence and case scope; unresolved cases remain blocked. The
+runtime requires an exact-text hash match in `data/curation_registry.json`;
+run `python -m tools.curation_registry` to validate both linked reviews and the
+frozen input before release. The registry is currently empty. Do not add
+`approved` records manually or use this build for agronomic beta responses.

@@ -83,7 +83,7 @@ testado. [Paper original de RAG](https://arxiv.org/abs/2005.11401)
    comprovada.
 2. Fixar artefato, quantização, tokenizer, runtime, parâmetros de geração e
    hash de cada candidato. Não versionar pesos grandes no repositório de código.
-3. Comparar os mesmos casos para as três personas já usadas no simulador —
+3. Comparar os mesmos casos para as quatro personas já usadas no simulador —
    incrédulo, profissional e casual — e acrescentar casos agronômicos reais
    apenas quando suas respostas de referência tiverem fonte e revisão técnica.
 4. Medir compreensão de português, extração de contexto, qualidade e
@@ -98,7 +98,7 @@ testado. [Paper original de RAG](https://arxiv.org/abs/2005.11401)
    desempenho serem acordados e aprovados. Manter doses e decisões de uso
    fitossanitário fora da geração livre.
 
-As 130 baterias sintéticas existentes verificam contratos de comportamento do
+As 165 baterias sintéticas existentes verificam contratos de comportamento do
 runtime determinístico; elas não demonstram precisão agronômica, qualidade de
 um SLM ou compatibilidade Android. Devem continuar sendo executadas como
 regressão, separadas da avaliação de modelo e do conjunto agronômico revisado.

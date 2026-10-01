@@ -11,7 +11,6 @@ if str(PROJECT_ROOT) not in sys.path:
 
 # The mock is available only when explicitly requested with IA_FARM_MOCK=1.
 
-from tools.metadata import canonicalize
 from tools.orchastrator import Orchestrator
 
 
@@ -21,9 +20,9 @@ class MockVectorDB:
 
 class SimulationInterface:
     def __init__(self):
-        print("[SYSTEM] Initializing IA_Farm Components...")
+        print("[SISTEMA] Inicializando componentes do IA_Farm...")
         if os.getenv("IA_FARM_MOCK") == "1":
-            print("[SYSTEM] IA_FARM_MOCK=1; running real deterministic logic with an empty fixture database.")
+            print("[SISTEMA] IA_FARM_MOCK=1; lógica determinística com base vazia de demonstração.")
             self.orch = Orchestrator(db=MockVectorDB())
         else:
             self.orch = Orchestrator(vector_db_path=str(PROJECT_ROOT / "data" / "vector_index"))
@@ -37,69 +36,56 @@ class SimulationInterface:
     def greet(self):
         self.clear_screen()
         print("="*60)
-        print("           🌾 EMBRAPA CORN SPECIALIST AI SYSTEM 🌾")
-        print("               Unified Simulation Interface")
+        print("       🌾 IA_Farm — Referências técnicas sobre milho 🌾")
+        print("                  Protótipo de simulação")
         print("="*60)
-        print("\nWelcome! I am your specialized assistant for corn cultivation.")
-        print("I can help with dosage, climate analysis, and crop management.")
-        print("\nCommands:")
-        print("  - 'reset' : Clear current session state (Region, Climate, Soil)")
-        print("  - 'exit'  : Terminate simulation")
-        print("  - 'demo'  : Run a predefined demo sequence")
+        print("\nO sistema consulta trechos locais com revisão registrada.")
+        print("Não faz diagnóstico nem prescreve ou confirma doses.")
+        print("\nComandos:")
+        print("  - 'reset' : Limpar o contexto da sessão (região e clima)")
+        print("  - 'exit'  : Encerrar a simulação")
+        print("  - 'demo'  : Executar uma demonstração predefinida")
         print("-"*60)
 
     def process_input(self, user_input: str):
-        # Handle session state updates naturally
-        for key in ["region", "climate", "soil"]:
-            if f"{key}:" in user_input.lower():
-                try:
-                    parts = user_input.lower().split(f"{key}:")
-                    value = parts[1].split(",")[0].strip().strip(".")
-                    self.session_state[key] = canonicalize(key, value)
-                    print(f"  [STATE UPDATE] {key.capitalize()} set to: {self.session_state[key]}")
-                except Exception:
-                    pass
-
         # Visual feedback
-        print("\n  [RETRIEVING CONTEXT...]", end="\r")
-        time.sleep(0.3)
-        print("  [CONSULTING SPECIALIST...]", end="\r")
+        print("\n  [BUSCANDO REFERÊNCIAS LOCAIS...]", end="\r")
         time.sleep(0.3)
         
         response = self.orch.handle_request(user_input, self.session_state)
-        print("  [RESPONSE] ", end="")
+        print("  [RESPOSTA] ", end="")
         print(response)
 
     def run_demo(self):
-        print("\n--- Starting Demo Mode ---")
+        print("\n--- Iniciando modo de demonstração ---")
         demo_queries = [
-            "Hello! I'm starting a farm in the Mato Grosso region with tropical climate.",
-            "What is the recommended nitrogen dosage for my corn crop?",
-            "How should I manage pest control in this environment?"
+            "Minha fazenda fica em Mato Grosso, com clima tropical.",
+            "Qual informação sobre milho existe na base local?",
+            "Como devo tratar uma praga nesta lavoura?"
         ]
         
         for i, q in enumerate(demo_queries, 1):
-            print(f"\nDemo Query {i}: {q}")
+            print(f"\nPergunta de demonstração {i}: {q}")
             self.process_input(q)
             time.sleep(0.5)
         
-        print("\n--- Demo Completed ---")
-        print("Returning to interactive mode...")
+        print("\n--- Demonstração concluída ---")
+        print("Voltando ao modo interativo...")
 
     def start(self):
         self.greet()
         while self.is_running:
             try:
-                user_input = input("\nUser > ").strip()
+                user_input = input("\nVocê > ").strip()
                 if not user_input:
                     continue
                 
                 if user_input.lower() in ["exit", "quit"]:
-                    print("\nShutting down simulation. Goodbye!")
+                    print("\nEncerrando a simulação. Até mais!")
                     self.is_running = False
                 elif user_input.lower() == "reset":
                     self.session_state = {}
-                    print("\n[SYSTEM] Session state has been reset.")
+                    print("\n[SISTEMA] O contexto da sessão foi limpo.")
                 elif user_input.lower() == "demo":
                     self.run_demo()
                 else:
@@ -107,10 +93,10 @@ class SimulationInterface:
             except EOFError:
                 break
             except KeyboardInterrupt:
-                print("\n\nSimulation interrupted by user. Exiting...")
+                print("\n\nSimulação interrompida. Encerrando...")
                 break
             except Exception as e:
-                print(f"\n[ERROR] An unexpected error occurred: {e}")
+                print(f"\n[ERRO] Ocorreu um erro inesperado: {e}")
 
 if __name__ == "__main__":
     os.makedirs(PROJECT_ROOT / "data" / "vector_index", exist_ok=True)

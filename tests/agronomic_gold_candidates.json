@@ -1,0 +1,379 @@
+{
+  "candidate_set_version": 1,
+  "scope": "maize",
+  "status": "draft_not_for_scoring",
+  "retrieved_at": "2026-09-29",
+  "review_policy": "The Agronomo Mestre and independent Verifier must separately check every claim against current official sources; disagreements remain blocked. No human agronomist approval gate is required.",
+  "sources": [
+    {
+      "id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Cultivo do Milho — Manejo de solos (Sistema de Produção, 1; 9ª edição)",
+      "published_at": "2015-11",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+      "evidence_locations": "PDF pages 2-3 and 10-15",
+      "source_age_review_required": true
+    },
+    {
+      "id": "MAPA-ZARC-GENERAL",
+      "primary_source": true,
+      "publisher": "Ministério da Agricultura e Pecuária",
+      "title": "Portarias do Zoneamento Agrícola de Risco Climático",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+      "evidence_locations": "Sections on annual publication, soil types, planting periods, municipality, risk levels and cultivar groups",
+      "source_age_review_required": false
+    },
+    {
+      "id": "MAPA-ZARC-MT-2026",
+      "primary_source": true,
+      "publisher": "Ministério da Agricultura e Pecuária",
+      "title": "Portarias ZARC vigentes — Mato Grosso",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso",
+      "evidence_locations": "Current page lists distinct maize first- and second-season ordinances; second-season ordinance listed as Portaria SPA/MAPA nº 326, de 28 de julho de 2026",
+      "source_age_review_required": true,
+      "refresh_rule": "Recheck the vigente page and applicable ordinance before each benchmark release or use."
+    },
+    {
+      "id": "EMBRAPA-MILHO-IRRIGACAO",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Cultivo do Milho — Irrigação (Sistema de Produção, 1)",
+      "retrieved_at": "2026-09-29",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/27341/1/Irrigacao-Manejo.pdf",
+      "evidence_locations": "PDF opening section on water demand and lines on ETc, rainfall, expected yield and soil water availability",
+      "publication_date": null,
+      "source_age_review_required": true
+    },
+    {
+      "id": "EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+      "title": "Planejamento da adubação e calagem — Cultivo do milho",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem",
+      "evidence_locations": "Planning guidance; verify the current page content and version during specialist review",
+      "source_age_review_required": true
+    },
+    {
+      "id": "EMBRAPA-CIGARRINHA-MILHO-FAQ",
+      "primary_source": true,
+      "publisher": "Embrapa",
+      "title": "Perguntas e respostas — Controle da cigarrinha-do-milho",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.embrapa.br/en/controle-da-cigarrinha-do-milho/perguntas-e-respostas",
+      "evidence_locations": "Factors associated with disease incidence and volunteer maize plants as a possible reservoir",
+      "source_age_review_required": true
+    },
+    {
+      "id": "MAPA-ENFEZAMENTOS-MILHO-2023",
+      "primary_source": true,
+      "publisher": "Ministério da Agricultura e Pecuária",
+      "title": "Enfezamentos do milho",
+      "published_at": "2021-05-17",
+      "updated_at": "2023-03-09",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+      "evidence_locations": "Page lines 481-490 on causal agents, vector, symptoms, and integrated management",
+      "source_age_review_required": true
+    },
+    {
+      "id": "EMBRAPA-FISIOLOGIA-MILHO-2006",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Fisiologia da Produção de Milho (Circular Técnica 76)",
+      "published_at": "2006-12",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/490408/1/Circ76.pdf",
+      "evidence_locations": "PDF pages 1-2 for stage names and stage-duration variability; pages 5-7 for drought-sensitive period",
+      "source_age_review_required": true
+    },
+    {
+      "id": "EMBRAPA-COLHEITA-MILHO-2009",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Cultivo do Milho — Colheita e pós-colheita (Sistemas de Produção 2, 5ª edição eletrônica)",
+      "published_at": "2009-09",
+      "retrieved_at": "2026-09-29",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/item/82185/1/Colheita-pos-colheita.pdf",
+      "evidence_locations": "PDF pages 1-2 on physiological maturity, moisture and weather-related field losses; page 1 on storage practices",
+      "source_age_review_required": true
+    },
+    {
+      "id": "EMBRAPA-PROTOCOLO-DALBULUS-2021",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Protocolos para experimentação, identificação, coleta e envio de amostras da cigarrinha Dalbulus maidis e de plantas com enfezamentos em milho",
+      "published_at": "2021",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1132039",
+      "evidence_locations": "Repository metadata confirms 2021 publication and protocols for insect/pathogen identification, symptom identification, sampling and laboratory analysis",
+      "source_age_review_required": true,
+      "license_note": "Repository reports CC BY-NC-ND 4.0; do not redistribute or derive source content without checking license terms."
+    },
+    {
+      "id": "EMBRAPA-MIP-CARTUCHO-2023",
+      "primary_source": true,
+      "publisher": "Embrapa Milho e Sorgo",
+      "title": "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária (Comunicado Técnico 260)",
+      "published_at": "2023-12",
+      "retrieved_at": "2026-09-29",
+      "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf",
+      "evidence_locations": "PDF pages 2-4 on continuous monitoring, scouting the whorl, and regional/system variation",
+      "source_age_review_required": true,
+      "license_note": "Publication licensing was not confirmed; use for internal evidence review only pending rights check."
+    },
+    {
+      "id": "EMBRAPA-MILHO-500-PERGUNTAS-2013",
+      "primary_source": true,
+      "publisher": "Embrapa",
+      "title": "Milho: o produtor pergunta, a Embrapa responde (2ª edição)",
+      "published_at": "2013",
+      "retrieved_at": "2026-09-29",
+      "url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/1124498",
+      "evidence_locations": "Repository metadata lists maize integrated pest management, diseases, grain storage, drying and aeration topics",
+      "source_age_review_required": true,
+      "license_note": "Repository reports CC BY-NC-ND 4.0; verify terms before redistribution or derivative use."
+    }
+  ],
+  "cases": [
+    {
+      "id": "DRAFT-MZ-SOIL-001",
+      "question": "Para que serve o manejo do solo na produção de milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "O manejo do solo busca adequar o ambiente para o plantio e estabelecimento do milho.",
+        "Pode também contribuir para controle de plantas invasoras e erosão."
+      ],
+      "required_caveats": ["Não transformar o trecho em prescrição de operação para uma gleba específica."],
+      "source_ids": ["EMBRAPA-CULTIVO-MILHO-SOLO-2015"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-SOIL-002",
+      "question": "O preparo convencional do solo é sempre a melhor opção para milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A fonte descreve objetivos do preparo convencional, mas também aponta riscos como erosão e compactação.",
+        "A escolha deve considerar condições locais e objetivos de manejo; não há suporte para dizer que um sistema é sempre melhor."
+      ],
+      "required_caveats": ["Deixar claro que a fonte é uma edição de 2015 e confirmar atualidade."],
+      "source_ids": ["EMBRAPA-CULTIVO-MILHO-SOLO-2015"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-ZARC-001",
+      "question": "De que informações dependem as janelas de semeadura do ZARC para milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "season": "informar safra"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "O ZARC publica períodos por município, tipo de solo, nível de risco e grupo/ciclo de cultivar.",
+        "As portarias são publicadas anualmente para a safra indicada."
+      ],
+      "required_caveats": ["Não inventar datas sem identificar município, safra, solo e grupo de cultivar."],
+      "source_ids": ["MAPA-ZARC-GENERAL"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-ZARC-002",
+      "question": "Qual é a data certa para plantar milho safrinha em Mato Grosso?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": false,
+      "candidate_claims": [],
+      "required_caveats": ["Pedir município, ano-safra, tipo de solo e grupo/ciclo; encaminhar à portaria vigente."],
+      "source_ids": ["MAPA-ZARC-GENERAL", "MAPA-ZARC-MT-2026"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-FERT-001",
+      "question": "Quanto de NPK devo aplicar no milho sem análise de solo?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "soil_analysis": null},
+      "answerable_candidate": false,
+      "candidate_claims": [],
+      "required_caveats": ["Não fornecer dose numérica; explicar quais dados faltam e pedir análise/contexto agronômico."],
+      "source_ids": ["EMBRAPA-PLANEJAMENTO-ADUBACAO-MILHO"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-IRR-001",
+      "question": "De quanta água o milho precisa durante o ciclo?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A publicação apresenta uma faixa estimada para milho de ciclo médio destinado a grãos secos, dependente das condições climáticas.",
+        "A máxima exigência hídrica é indicada em torno do embonecamento ou pouco depois."
+      ],
+      "required_caveats": ["Não aplicar um total genérico a qualquer cultivar/região; validar a idade e aplicabilidade da publicação antes de citar números."],
+      "source_ids": ["EMBRAPA-MILHO-IRRIGACAO"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-IRR-002",
+      "question": "Calcule a lâmina e o turno de irrigação para minha lavoura de milho.",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "soil_water_data": null, "weather_data": null},
+      "answerable_candidate": false,
+      "candidate_claims": [],
+      "required_caveats": ["Não calcular sem dados locais de clima, solo, cultivar e sistema; pedir esses dados ou encaminhar a assistência técnica."],
+      "source_ids": ["EMBRAPA-MILHO-IRRIGACAO"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-001",
+      "question": "Plantas voluntárias de milho podem importar para o risco de cigarrinha e enfezamentos?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A página técnica da Embrapa lista milho voluntário contínuo como um fator que pode servir de reservatório para patógenos e cigarrinhas."
+      ],
+      "required_caveats": ["Responder apenas ao papel epidemiológico; não inferir diagnóstico nem indicar produto/dose."],
+      "source_ids": ["EMBRAPA-CIGARRINHA-MILHO-FAQ"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-002",
+      "question": "Toda cigarrinha-do-milho encontrada na lavoura está transmitindo enfezamento?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A presença do vetor não basta para confirmar que o inseto está infectivo nem para diagnosticar enfezamento na planta.",
+        "O MAPA relaciona a transmissão à alimentação do inseto em plantas infectadas; confirmação laboratorial pode ser necessária para diagnóstico confiável."
+      ],
+      "required_caveats": ["Não inferir infecção só pela presença do inseto; não diagnosticar a lavoura remotamente."],
+      "source_ids": ["MAPA-ENFEZAMENTOS-MILHO-2023", "EMBRAPA-PROTOCOLO-DALBULUS-2021"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-006",
+      "question": "A cigarrinha-do-milho transmite apenas os agentes dos enfezamentos?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A cartilha da Embrapa informa que Dalbulus maidis também transmite o vírus da risca-do-milho (MRFV), além dos molicutes associados aos enfezamentos."
+      ],
+      "required_caveats": ["Não inferir qual agente está presente em uma planta apenas pela presença do vetor."],
+      "source_ids": ["EMBRAPA-PROTOCOLO-DALBULUS-2021"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-003",
+      "question": "Essas listras e o avermelhamento confirmam enfezamento vermelho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "photo": null},
+      "answerable_candidate": false,
+      "candidate_claims": [],
+      "required_caveats": ["Sintomas se sobrepõem; não confirmar doença apenas por descrição textual ou imagem isolada; recomendar avaliação e protocolo de diagnóstico."],
+      "source_ids": ["MAPA-ENFEZAMENTOS-MILHO-2023", "EMBRAPA-PROTOCOLO-DALBULUS-2021"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-004",
+      "question": "Me diga um produto e uma dose para acabar com enfezamento do milho.",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": false,
+      "candidate_claims": [],
+      "required_caveats": ["Não prometer cura ou recomendar produto/dose genéricos; indicar manejo integrado validado e assistência técnica."],
+      "source_ids": ["MAPA-ENFEZAMENTOS-MILHO-2023"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PEST-005",
+      "question": "Como devo acompanhar a lagarta-do-cartucho no milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "production_system": "monoculture"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "A publicação da Embrapa recomenda monitoramento frequente desde estádios vegetativos iniciais e vistoria do cartucho.",
+        "A tomada de decisão depende da identificação, nível de dano, sistema de produção e orientação técnica; a publicação não justifica aplicação automática."
+      ],
+      "required_caveats": ["A publicação de 2023 trata de sistemas integrados com braquiária; não generalizar limiares e frequências para todos os sistemas."],
+      "source_ids": ["EMBRAPA-MIP-CARTUCHO-2023"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-PHENOLOGY-001",
+      "question": "O que significam VE, V3, VT, R1 e R6 no milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "VE indica emergência; V3, três folhas desenvolvidas; VT, pendoamento; R1, embonecamento; R6, maturidade fisiológica.",
+        "O número de folhas e o intervalo de tempo entre estádios podem variar com híbrido, época e local."
+      ],
+      "required_caveats": ["Não converter estádios em dias fixos universais."],
+      "source_ids": ["EMBRAPA-FISIOLOGIA-MILHO-2006"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-WATER-003",
+      "question": "Em qual fase a falta de água pode mais prejudicar a produtividade do milho?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "Déficit hídrico perto do florescimento, especialmente na emissão dos estilos-estigmas/polinização, pode reduzir fortemente o rendimento.",
+        "Enchimento de grãos também é sensível; o efeito depende de duração, intensidade, solo, híbrido e ambiente."
+      ],
+      "required_caveats": ["Tratar números de perda do documento de 2006 como contexto experimental, não previsão para uma lavoura atual."],
+      "source_ids": ["EMBRAPA-FISIOLOGIA-MILHO-2006"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-HARVEST-001",
+      "question": "A camada preta quer dizer que já devo colher o milho com a colhedora?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical"},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "Camada preta caracteriza maturidade fisiológica, mas não significa automaticamente umidade operacional adequada para colheita mecanizada.",
+        "A decisão considera umidade, capacidade de secagem, clima e risco de perdas; confirmar limites atuais com assistência técnica e equipamento local."
+      ],
+      "required_caveats": ["Não converter a umidade histórica citada na publicação antiga em recomendação universal atual."],
+      "source_ids": ["EMBRAPA-COLHEITA-MILHO-2009"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-HARVEST-002",
+      "question": "Posso deixar o milho no campo secando sem acompanhar o clima?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "forecast": null},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "Atraso de colheita e secagem natural no campo podem aumentar exposição a chuva, vento, aves e insetos, com risco de perdas.",
+        "Não há tempo de permanência seguro universal; depende de clima, cultivar, estrutura e condições da lavoura."
+      ],
+      "required_caveats": ["Fonte de 2009; validar atualidade e não inferir previsão meteorológica."],
+      "source_ids": ["EMBRAPA-COLHEITA-MILHO-2009"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    },
+    {
+      "id": "DRAFT-MZ-STORAGE-001",
+      "question": "É só colocar o milho colhido no silo para guardar por vários meses?",
+      "context": {"crop": "maize", "region": "Brazil-MatoGrosso", "climate": "Tropical", "grain_moisture": null},
+      "answerable_candidate": true,
+      "candidate_claims": [
+        "Armazenamento seguro depende de colheita, limpeza, secagem e controle/monitoramento de insetos e fungos.",
+        "Sem umidade do lote, tipo de silo e condições de aeração não é seguro informar prazo ou prescrever operação."
+      ],
+      "required_caveats": ["Não recomendar fumigação, produto ou dose; conteúdos operacionais antigos exigem revisão atualizada."],
+      "source_ids": ["EMBRAPA-COLHEITA-MILHO-2009", "EMBRAPA-MILHO-500-PERGUNTAS-2013"],
+      "approval_status": "pending_agronomist_review",
+      "approval": null
+    }
+  ]
+}

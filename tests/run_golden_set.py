@@ -16,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from battery_catalog import build_batteries
 from device_profiles import DEVICE_PROFILES
 from simulation_agents import AGENTS, AGRONOMIST_AUDITOR
+from tools.metadata import canonicalize
+from tools.curation_registry import CurationRegistry, text_sha256
 from tools.orchastrator import Orchestrator
 
 
@@ -30,15 +32,36 @@ class FixtureVectorDB:
         self.calls.append({"query": query, "filters": copy.deepcopy(filters)})
         matching = []
         for document in self.documents:
-            metadata = document.get("metadata", {})
-            if all(metadata.get(key) == value for key, value in (filters or {}).items()):
+            metadata = document.get("metadata", document)
+            if all(
+                canonicalize(key, metadata.get(key)) == canonicalize(key, value)
+                for key, value in (filters or {}).items()
+            ):
                 matching.append(document)
         return copy.deepcopy(matching)
 
 
 def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
-    database = FixtureVectorDB(battery["documents"])
-    app = Orchestrator(db=database)
+    documents = copy.deepcopy(battery["documents"])
+    entries = {}
+    for index, document in enumerate(documents):
+        metadata = document.get("metadata", document)
+        record_id = f"SIMULATION-{battery['id']}-{index}"
+        metadata["curation_record_id"] = record_id
+        source = metadata.get("source_id") or metadata.get("source")
+        reviewed_at = metadata.get("review_date") or metadata.get("reviewed_at")
+        entries[record_id] = {
+            "record_id": record_id,
+            "approval_status": "approved",
+            "text_sha256": text_sha256(str(document.get("text", "")).strip()),
+            "source_id": source,
+            "crop": metadata.get("crop"),
+            "review_date": reviewed_at,
+            "review_artifacts_verified": True,
+            "review_input_sha256": "synthetic-fixture-only",
+        }
+    database = FixtureVectorDB(documents)
+    app = Orchestrator(db=database, curation_registry=CurationRegistry(entries=entries))
     state = copy.deepcopy(battery["session_state"])
     responses = []
     transcript = []
@@ -96,7 +119,12 @@ def run_agent(battery: dict[str, Any], agent) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--batch", type=int, help="Run one numbered battery")
-    parser.add_argument("--report", type=Path, help="Optional JSON report output")
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path(__file__).resolve().parents[1] / "test-results" / "latest-simulation-report.json",
+        help="JSON evidence packet for the Agronomist Master review",
+    )
     parser.add_argument(
         "--device-profile",
         choices=sorted(DEVICE_PROFILES),
@@ -127,6 +155,15 @@ def main() -> int:
             },
         },
         "batteries": [],
+        "summary": {
+            "status": "running",
+            "batteries_completed": 0,
+            "persona_runs": 0,
+            "persona_runs_passed": 0,
+            "behavioral_pass_rate": None,
+            "agronomic_precision": None,
+            "agronomic_precision_status": "not_measured",
+        },
     }
     total_passed = total_cases = 0
     failures = []
@@ -166,16 +203,29 @@ def main() -> int:
             for error in result["errors"]:
                 print(f"    Finding: {error}")
 
-        if args.report:
-            args.report.parent.mkdir(parents=True, exist_ok=True)
-            args.report.write_text(
-                json.dumps(report, indent=2, ensure_ascii=False) + "\n",
-                encoding="utf-8",
-            )
+        report["summary"].update({
+            "batteries_completed": len(report["batteries"]),
+            "persona_runs": total_cases,
+            "persona_runs_passed": total_passed,
+            "behavioral_pass_rate": total_passed / total_cases if total_cases else None,
+        })
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(
+            json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
 
     print(f"\nSIMULATION RESULT: {total_passed}/{total_cases} persona runs passed")
     if failures:
         print("Batteries requiring evaluation/fix: " + ", ".join(failures))
+    report["run"]["finished_at_utc"] = datetime.now(timezone.utc).isoformat()
+    report["summary"]["status"] = "completed_with_failures" if failures else "completed"
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    print(f"REVIEW PACKET: {args.report}")
     return 0 if total_passed == total_cases else 1
 
 

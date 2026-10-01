@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 from tools.orchastrator import Orchestrator
 
-# Training set: complex corn-related scenarios and their ideal technical responses
+# Scripted contract checks; these cases are not training data or agronomic ground truth.
 TRAINING_SET = [
     {
         "id": "TS_001",
@@ -76,7 +76,7 @@ class AgentTrainer:
         return True, "Pass"
 
     def run_training_loop(self):
-        print(f"Starting behavioral alignment training...\nDNA Path: {self.dna_path}")
+        print(f"Starting scripted behavioral checks (no model training).\nDNA Path: {self.dna_path}")
         
         results = []
         total = len(TRAINING_SET)
@@ -104,7 +104,7 @@ class AgentTrainer:
         self.orch.rag_query = patched_rag_query
 
         with open(self.log_path, 'w') as log:
-            log.write("# Training Log - IA_Farm Behavioral Alignment\n\n")
+            log.write("# Scripted Behavioral Checks - IA_Farm\n\n")
             log.write("| ID | Result | Analysis |\n|---|---|---|\n")
 
             for scenario in TRAINING_SET:
@@ -121,13 +121,12 @@ class AgentTrainer:
                 log.write(f"| {scenario['id']} | {status} | {analysis} |\n")
                 results.append((scenario['id'], success, analysis))
 
-        accuracy = (passed / total) * 100
-        print(f"\nTraining Complete. Accuracy: {accuracy:.2f}%")
-        
-        if accuracy < 95:
-            print("Accuracy below 95%. Please refine docs/agent_dna.md and run again.")
-        else:
-            print("Behavioral alignment achieved!")
+        pass_rate = (passed / total) * 100
+        print(f"\nBehavioral rule-check pass rate: {pass_rate:.2f}% ({passed}/{total})")
+        print(
+            "This script neither trains a model nor measures agronomic accuracy. "
+            "Its four scripted cases are not evidence for the 95% target."
+        )
 
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parents[1]

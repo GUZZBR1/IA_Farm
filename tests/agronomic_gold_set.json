@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "scope": "maize",
+  "minimum_answer_precision": 0.95,
+  "minimum_answer_coverage": null,
+  "cases": []
+}

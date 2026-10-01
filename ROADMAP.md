@@ -1,61 +1,48 @@
-# 🗺️ Roadmap de Evolução - AgriBrain
+# Roadmap do IA_Farm
 
-Este plano define a trajetória técnica para transformar o motor atual em um produto funcional no campo.
+## Fase 1 — Segurança e estabilidade do runtime
 
-## Fase 1: Consolidação do Motor (baseline atual)
-**Objetivo**: Garantir que a inteligência no servidor seja infalível.
-- [x] Implementação do orquestrador.
-- [x] Calculadora determinística de aritmética por área.
-- [x] Criar 100 baterias de simulação determinística com três personas e guardrails sem doses inventadas.
-- [ ] Expandir a calculadora para outros nutrientes (P, K) e culturas.
-- [x] Adicionar CI, compilação e varredura de segredos.
-- [ ] Fazer validação agronômica dos casos com fontes e especialistas.
+- [x] Orquestrador determinístico e calculadora limitada a aritmética de dose já validada.
+- [x] Fail-closed sem fonte/contexto aprovado e filtros de região/clima.
+- [x] Ingestão Markdown marca os registros como pendentes e ignora autoprovação.
+- [x] CI, testes unitários, compilação e varredura de credenciais na árvore atual.
+- [x] Smoke de inicialização, demonstração e encerramento em Windows e WSL; o perfil Linux limita CPU/espaço virtual e não simula Android.
+- [ ] Definir retenção e consentimento para persistência de conversas antes de beta.
+- [ ] Verificar com o mantenedor/provedor se credenciais dos commits antigos foram revogadas; decidir reescrita coordenada do histórico.
 
-## Stage 2: The "Corn" MVP
-- [ ] Curate high-quality Corn manuals (EMBRAPA/Industry).
-- [ ] Implement the Vision-to-JSON pipeline for dosage tables.
-- [x] Create the metadata tagging system (Region/Climate) — baseline tagger and canonical filters.
-- [x] Build the Local Vector DB for the Corn dataset — local index generated and checked for vector/metadata parity.
-- [ ] Review every agronomic document and attach provenance, date and agronomist approval.
+## Fase 2 — Evidências de milho e conjunto de avaliação
 
-## Fase 2: Laboratório de Estresse (Red Teaming)
-**Objetivo**: Tentar quebrar o sistema antes que o usuário tente.
-- [x] Implementar bateria inicial de guardrails com o "Agricultor Cético".
-- [ ] Implementar revisão com o "Auditor EMBRAPA" usando casos citados.
-- [ ] Testar a resiliência do Extrator Híbrido com dados reais e ruidosos.
-- [ ] Certificar que 100% dos cálculos de dose sejam desviados para a calculadora.
+- [x] Catálogo de candidatos com fontes oficiais e perguntas em rascunho.
+- [x] Especialista de Evidências Agronômicas de IA e Verificador independente definidos; não são humanos nem profissionais licenciados.
+- [ ] Revisar os 18 casos candidatos contra os documentos oficiais originais, com localizadores, vigência, escopo e ressalvas.
+- [ ] Manter sem promoção todo caso divergente, inseguro, desatualizado ou sem evidência suficiente.
+- [ ] Confirmar licença antes de redistribuir ou indexar conteúdo protegido.
+- [ ] Promover apenas casos com dois pareceres IA independentes rastreáveis; nenhum agrônomo humano é validador obrigatório por enquanto.
+- [x] Implementar registro/validador que confira os dois relatórios, hash comum, fonte, escopo e hash exato do conteúdo; o registro está vazio e nenhuma aprovação manual é aceita.
+- [ ] Refazer pareceres dos trechos candidatos com hash do texto exato nos dois relatórios; os artefatos atuais não permitem promoção.
+- [ ] Executar benchmark de respostas apenas com conjunto aprovado e cobertura mínima acordada; não usar baterias sintéticas como precisão agronômica.
 
-## 📍 Fase 3: Mobile Hardening (O Desafio do Hardware)
-**Objetivo**: Fazer a IA rodar em Androids de 4GB RAM.
-- [ ] **Busca local**: Validar o empacotamento offline do índice/embeddings e comparar com busca lexical.
-- [ ] **Otimização**: Medir RAM, latência, aquecimento e recuperação após pressão de memória no Android.
-- [ ] **Benchmarks**: Medir consumo de bateria em aparelho físico; não há inferência generativa para quantizar.
+## Fase 3 — RAG e curadoria offline
 
-## 📍 Fase 4: Beta Field Test (Validação de Campo)
-**Objetivo**: Validar a utilidade real com produtores.
-- [ ] Lançar versão Alpha para grupo restrito de testes.
-- [ ] Coletar feedback sobre a interface de voz (STT/TTS).
-- [ ] Comparar recomendações da IA vs. Recomendações de Agrônomos Reais.
+- [x] Instalar dependências em venv Linux isolado via wheelhouse offline e validar execução real de FAISS/embeddings. O DNS Tailscale segue com falha; instalações online ainda dependem do admin do tailnet.
+- [ ] Excluir documentos sintéticos e registros sem proveniência/status/data válidos do índice de usuário.
+- [ ] Reconstruir e verificar paridade vetor/metadados para fontes elegíveis.
+- [ ] Comparar recuperação lexical e embeddings em consultas anotadas, registrando recall, escopo, citações e latência.
 
-## 🏁 Meta Final: MVP Autónomo
-Um app que funciona 100% offline, não alucina em cálculos e entrega precisão técnica de nível EMBRAPA no bolso do agricultor.
+## Fase 4 — Auditoria e decisão de beta restrito
 
-## Baseline implementation status
+- [ ] Revisar avisos de produto, escopo, fonte/licença, segurança, privacidade, atualização/rollback e comportamento de abstenção.
+- [ ] Executar baterias completas e revisar falhas encontradas por auditoria IA; registrar cobertura, lacunas e ações pendentes.
+- [ ] Decidir sobre beta restrito com limitações explícitas. Não anunciar certificação, precisão agronômica global ou prontidão de produção sem evidência compatível.
 
-The repository now has a dependency manifest, portable project paths, an explicit
-mock mode, fail-closed retrieval when no context is found, Markdown ingestion,
-canonical metadata matching, deterministic area-dose arithmetic, and automated
-core tests. External validation remains pending for approved agronomic sources,
-field users, offline embedding packaging, and Android hardware.
+## Fase final — Android físico
 
-## Stage 5: Deployment & Scaling
-- [ ] Beta test with real corn farmers.
-- [ ] Implement Delta Updates for knowledge base.
-- [ ] Expand to other cultures.
+Só começar após as fases anteriores. Não inferir desempenho físico de perfis simulados.
 
-## Segurança e operação
+- [ ] Preparar build Android e registrar aparelho, versão do sistema e dependências empacotadas.
+- [ ] Medir instalação, armazenamento, início offline, RAM, latência, bateria, temperatura e recuperação após pressão de memória.
+- [ ] Registrar metodologia e limites aceitáveis; se não houver aparelho disponível, manter Android como pendente.
 
-- [x] Remover credenciais e caminhos específicos do estado atual.
-- [x] Documentar rotação e resposta a credenciais em `SECURITY.md`.
-- [ ] Revogar credenciais que permanecem em commits históricos.
-- [ ] Executar rewrite coordenado do histórico, se o mantenedor autorizar.
+## Situação atual
+
+As 165 baterias comportamentais (660 execuções) e 58 testes unitários passaram na revalidação de 2026-09-30. Smoke Windows/WSL, compilação, scanner, validador do registro e validação real de FAISS em WSL também passaram. O registro de curadoria segue vazio. Os 18 candidatos anteriores não incluem hash de trecho; 5 divergem em julgamento/escopo. O conjunto-ouro segue vazio e precisão agronômica não foi medida. A validação do RAG foi contornada via wheelhouse offline; DNS Tailscale ainda requer correção administrativa para instalações online. Android físico fica deliberadamente para a etapa final.

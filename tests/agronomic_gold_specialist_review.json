@@ -1,0 +1,379 @@
+{
+  "reviewer_role": "maize_evidence_specialist",
+  "run_report": "tests/agronomic_gold_candidates.json",
+  "run_report_sha256": "6480732e0707586f2ef5514025d48fadfc4356049b03de8da5234cc8ba3d3ccd",
+  "reviewed_at": "2026-09-29",
+  "reviewer_disclosure": "Sou uma IA de pesquisa documental, não sou agrônomo humano, responsável técnico ou profissional licenciado. Este parecer não é certificação nem aprovação final; a promoção depende também de segundo parecer independente compatível.",
+  "reviews": [
+    {
+      "review_id": "DRAFT-MZ-SOIL-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: a publicação diz que operações de manejo visam adequar o ambiente ao plantio e estabelecimento do milho. C2 supports: a mesma passagem diz que podem ajudar no controle de plantas invasoras e erosão. Ressalva avaliada: correto não converter finalidade geral em operação prescrita para a gleba. Fonte: Sistema de Produção 1, 9ª edição eletrônica (novembro de 2015); conteúdo técnico antigo, não é recomendação localizada para Mato Grosso.",
+      "sources": [{
+        "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+        "title": "Cultivo do Milho — Manejo de solos",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Sistema de Produção 1, 9ª edição eletrônica, novembro de 2015; conteúdo técnico histórico",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, página impressa 2/33, seção ‘Manejo de solos’, parágrafos iniciais, linhas extraídas 14–18",
+        "evidence": "As operações visam adequar o ambiente para plantio e estabelecimento do milho e podem ajudar no controle de plantas invasoras e erosão.",
+        "claim_ids": ["C1", "C2"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-SOIL-002",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: o documento descreve objetivos do preparo convencional e também riscos de erosão, alteração estrutural e compactação. C2 supports: afirma que vantagens e desvantagens do plantio direto dependem de solo e clima e que o sistema deve ser adaptado regionalmente; isso não sustenta um sistema universalmente melhor. Ressalva: fonte de 2015, útil para documentar o que a publicação afirma, mas sua atualidade agronômica não foi validada para decisão atual ou talhão específico.",
+      "sources": [{
+        "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+        "title": "Cultivo do Milho — Manejo de solos",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Sistema de Produção 1, 9ª edição eletrônica, novembro de 2015",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, páginas impressas 2/33 e 10/33, seções ‘Preparo convencional do solo’ e ‘Sistema plantio direto’",
+        "evidence": "O texto menciona germinação, emergência e controle mecânico de plantas daninhas como objetivos do preparo convencional, junto a riscos de erosão e compactação; diz que vantagens/desvantagens do plantio direto dependem de solo e clima regionais.",
+        "claim_ids": ["C1", "C2"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-ZARC-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: a página oficial enumera município, tipo de solo, níveis de risco e grupo/ciclo da cultivar como elementos das tabelas de períodos de plantio. C2 supports: informa que portarias são divulgadas anualmente para vigência na safra indicada. A pergunta é respondível no nível geral. Ressalva avaliada: não fornece datas; para uma data real ainda seriam necessários município, safra, solo, grupo/ciclo e nível de risco, além da portaria vigente.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+        "title": "Portarias do Zoneamento Agrícola de Risco Climático — metodologia e lista de cultivares",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página institucional consultada em 2026-09-29; portarias publicadas anualmente e válidas para a safra indicada",
+        "accessed_at": "2026-09-29",
+        "locator": "Seções ‘Metodologia de estudos e lista de cultivares indicada para cada região’ e ‘Tabela de períodos de plantio’, linhas 477–493; especialmente 479, 488–493",
+        "evidence": "A página descreve períodos por município, tipo de solo e risco, e, nas tabelas aplicáveis, por grupo/ciclo de cultivar; as portarias têm vigência na safra indicada e são divulgadas anualmente.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-ZARC-002",
+      "verdict": "appropriate_abstention",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C0 (abstenção): não há claims candidatos; a ressalva de pedir município, ano-safra, tipo de solo e grupo/ciclo é apropriada. Sem esses dados não existe uma única data estadual que possa ser extraída da tabela do ZARC. A página oficial informa que os períodos são por município, solo, nível de risco e grupo/ciclo, e que a vigência depende da safra. Não converti a listagem corrente de Mato Grosso em uma data de plantio nem afirmo qual portaria específica se aplicaria sem os dados ausentes.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias",
+        "title": "Portarias do Zoneamento Agrícola de Risco Climático",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página institucional; portarias anuais com vigência na safra indicada",
+        "accessed_at": "2026-09-29",
+        "locator": "Seções sobre tipos de solo e tabela de períodos, linhas 479–493",
+        "evidence": "Os períodos dependem de município, tipo de solo, níveis de risco e grupo/ciclo da cultivar; portarias têm safra de vigência indicada.",
+        "claim_ids": ["C0"]
+      }, {
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/mato-grosso-mt",
+        "title": "Mato Grosso — Portarias ZARC vigentes",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página de portarias vigentes para Mato Grosso, consultada em 2026-09-29; selecionar a safra e a cultura aplicáveis",
+        "accessed_at": "2026-09-29",
+        "locator": "Página estadual ‘Mato Grosso’; listagem de atos vigentes por cultura e safra",
+        "evidence": "O MAPA mantém listagem estadual de portarias vigentes; essa listagem não determina uma data única sem os parâmetros definidos na própria página geral do ZARC.",
+        "claim_ids": ["C0"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-FERT-001",
+      "verdict": "appropriate_abstention",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C0 (abstenção): pergunta por dose numérica sem análise do solo. A fonte oficial explica que a recomendação de calagem/adubação depende da amostragem, análise laboratorial, interpretação e recomendação; as classes e equações citadas têm recortes regionais e não autorizam uma dose universal para Mato Grosso. A ressalva de não fornecer número e pedir análise/contexto é adequada. Não usei tabelas de Minas Gerais nem equações antigas como prescrição atual para o caso.",
+      "sources": [{
+        "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/manejo-do-solo-e-adubacao/adubacao-e-fertilidade-do-solo/planejamento-da-adubacao-e-calagem",
+        "title": "Planejamento da Adubação e Calagem — Cultivo do milho",
+        "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+        "source_type": "official_research",
+        "edition_or_validity": "Conteúdo migrado integralmente em 2021-12-08; conteúdo técnico regional, com seções e tabelas baseadas em recomendações estaduais",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção ‘Introdução’, lista das etapas da análise de solo; seções de acidez, fósforo e métodos de recomendação",
+        "evidence": "A fonte define análise do solo para determinar oferta de nutrientes e necessidades de calcário/fertilizantes e enumera amostragem, laboratório, interpretação e recomendação; informa que as tabelas incluem classes para Minas Gerais e que métodos variam regionalmente.",
+        "claim_ids": ["C0"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-IRR-001",
+      "verdict": "partially_correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: uma página técnica da Embrapa informa 400–700 mm para milho de produção média, ciclo de grãos secos, conforme clima. C2 supports: indica exigência máxima no embonecamento ou pouco depois. A alegação está qualificada e não oferece número como prescrição; a ressalva sobre cultivar/região está correta. Veredito parcial porque a pergunta ampla pode ser confundida com demanda total universal: é uma faixa de página migrada em 2021, baseada em material técnico anterior, não estimativa para qualquer híbrido, local ou ciclo atual.",
+      "sources": [{
+        "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/irrigacao/manejo",
+        "title": "Manejo da irrigação — Cultivo do milho",
+        "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+        "source_type": "official_research",
+        "edition_or_validity": "Conteúdo migrado integralmente em 2021-12-08; material técnico histórico, sem atualização agronômica contemporânea indicada na página",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção ‘Introdução’, parágrafo sobre consumo do ciclo e máxima exigência; página oficial Ageitec",
+        "evidence": "A página fornece faixa de 400 a 700 mm para ciclo completo de milho de produção média para grãos secos, dependente das condições climáticas, e situa a exigência máxima no embonecamento ou pouco depois.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-IRR-002",
+      "verdict": "appropriate_abstention",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C0 (abstenção): lâmina e turno são valores localizados e não podem ser calculados com dados de água do solo e clima ausentes. A fonte Embrapa lista ETc, chuva (altura, intensidade, distribuição e probabilidade), rendimento esperado e água total disponível no solo por profundidade radicular entre os fatores a considerar. Faltam ainda sistema, cultivar/estádio e dados operacionais. A ressalva evita cálculo inventado; não há cálculo candidato a auditar.",
+      "sources": [{
+        "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/producao/irrigacao/manejo",
+        "title": "Manejo da irrigação — Cultivo do milho",
+        "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+        "source_type": "official_research",
+        "edition_or_validity": "Conteúdo migrado integralmente em 2021-12-08; método geral, não dados meteorológicos locais atuais",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção ‘Introdução’, parágrafo iniciado por ‘No caso de o fator limitante ser a água’",
+        "evidence": "Para manejo quando a água é limitante, a fonte manda considerar ETc, chuva, rendimento esperado e água total disponível no solo por profundidade do sistema radicular.",
+        "claim_ids": ["C0"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports, with wording qualification: material oficial da Embrapa diz que plantas de milho tigüera/milho-guacho com presença contínua podem servir de reservatório de molicutes e cigarrinhas. Isso sustenta que plantas voluntárias podem importar ao risco epidemiológico, não que sempre estejam infectadas, causem doença em todo local ou permitam diagnóstico. A ressalva do caso está adequada. Usei a cartilha primária da Embrapa localizada na busca oficial, não a FAQ sugerida, cujo acesso direto falhou.",
+      "sources": [{
+        "url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1130346/1/Cartilha-Manejo-cigarrinha-enfezamentos-milho.pdf",
+        "title": "Manejo da cigarrinha e enfezamentos na cultura do milho",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Cartilha técnica publicada em 2021; manejo geral, não diagnóstico de uma lavoura específica",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção ‘Como é a transmissão dos patógenos pela cigarrinha’, parágrafo sobre milho tigüera/milho-guacho e ponte verde",
+        "evidence": "A cartilha afirma que a presença contínua de plantas voluntárias oriundas de grãos remanescentes pode servir de reservatório de molicutes e cigarrinhas.",
+        "claim_ids": ["C1", "C2"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-002",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: MAPA diz que a cigarrinha adquire os agentes ao alimentar-se em plantas infectadas e depois transmite-os; portanto a mera presença do vetor não demonstra que aquele indivíduo esteja infectivo nem diagnostica a planta. C2 supports with qualification: levantamentos do MAPA confrontaram observações de campo com resultados analíticos e registraram confirmação laboratorial; isso ampara a possibilidade de confirmação laboratorial, sem dizer que seja sempre necessária em toda situação. A ressalva contra diagnóstico remoto está correta.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+        "title": "Enfezamentos do milho",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página publicada em 2021-05-17, atualizada em 2023-03-09; monitoramentos citados referem-se a 2021–2022",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção inicial sobre transmissão, linhas 482–484; seção sobre monitoramentos e diagnósticos laboratoriais, linhas 496–498",
+        "evidence": "O vetor adquire os patógenos em plantas de milho infectadas; na seção de monitoramento, MAPA relata resultados analíticos e diagnóstico positivo confirmado em laboratório relacionados às observações de campo.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-006",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: uma cartilha técnica publicada no repositório oficial do MAPA identifica Dalbulus maidis como vetor de três doenças sistêmicas, incluindo enfezamento pálido, enfezamento vermelho e risca/raiado fino do milho. Portanto, não transmite apenas agentes associados aos enfezamentos. Ressalva avaliada: não inferir o agente de uma planta pela presença do vetor; a afirmação não faz essa inferência.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/arquivos/Cartilhacigarrinhaeenfezamentos_Embrapa.pdf/view",
+        "title": "Cartilha Manejo da Cigarrinha e Enfezamentos na Cultura do Milho",
+        "publisher": "Embrapa Milho e Sorgo; arquivo disponibilizado pelo Ministério da Agricultura e Pecuária",
+        "source_type": "official_research",
+        "edition_or_validity": "Cartilha técnica de 2021",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, página impressa 6, seção ‘Quem é a Cigarrinha do milho Dalbulus maidis’, linhas extraídas 124–130",
+        "evidence": "A publicação descreve D. maidis como vetor do enfezamento pálido, enfezamento vermelho e da risca do milho/raiado fino.",
+        "claim_ids": ["C1", "C2"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-003",
+      "verdict": "appropriate_abstention",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C0 (abstenção): não há claims candidatos; a resposta proposta não confirma enfezamento vermelho a partir de listras e avermelhamento descritos sem amostra/foto contextualizada. O MAPA lista avermelhamento entre sintomas de enfezamento pálido e vermelho, além de outros sinais, evidenciando que descrição isolada não é específica. O MAPA também descreve monitoramentos que relacionaram sintomas de campo a diagnóstico laboratorial. A recomendação de avaliação e protocolo é adequada; não declarei teste laboratorial obrigatório para todo caso.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+        "title": "Enfezamentos do milho",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página atualizada em 2023-03-09; sintomas e resultados de monitoramentos nacionais de 2021–2022",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção de sintomas das duas doenças, linhas 482–484; monitoramentos laboratoriais, linhas 496–498",
+        "evidence": "O MAPA descreve avermelhamento em mais de um padrão de enfezamento e relata correlação de sintomas de campo com diagnóstico laboratorial; isso não permite confirmar a doença apenas pela descrição textual.",
+        "claim_ids": ["C0"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-004",
+      "verdict": "appropriate_abstention",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C0 (abstenção): não há claims candidatos; recusar produto/dose genéricos e promessa de cura é apropriado. A página oficial do MAPA informa que as práticas de manejo devem ser usadas em manejo integrado e que nenhuma prática, isoladamente, é suficiente. Essa fonte não é registro de produto nem bula e não fundamenta dose; portanto não foi usada para recomendar aplicação. Orientar manejo integrado e assistência técnica respeita esse limite.",
+      "sources": [{
+        "url": "https://www.gov.br/agricultura/pt-br/assuntos/sanidade-animal-e-vegetal/sanidade-vegetal/enfezamentos-do-milho",
+        "title": "Enfezamentos do milho",
+        "publisher": "Ministério da Agricultura e Pecuária",
+        "source_type": "official_regulatory",
+        "edition_or_validity": "Página atualizada em 2023-03-09; manejo integrado, sem constituir bula ou recomendação de dose",
+        "accessed_at": "2026-09-29",
+        "locator": "Parágrafo sobre práticas de manejo e Manejo Integrado de Pragas e Doenças, linha 485",
+        "evidence": "A página diz que nenhuma prática de manejo é suficiente individualmente e recomenda adoção no contexto de manejo integrado.",
+        "claim_ids": ["C0"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PEST-005",
+      "verdict": "partially_correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: o Comunicado Técnico 260 recomenda monitoramento constante desde estádios iniciais e vistoria das folhas do cartucho, onde as lagartas se alimentam. C2 supports: descreve que tomada de decisão e níveis de controle dependem de sistema e validação. Ressalva do draft é material: a publicação é de 2023 e trata principalmente de sistemas integrados com braquiária; seus resultados e parâmetros não devem ser transferidos automaticamente para o contexto declarado de monocultivo no Mato Grosso. O próprio estudo inclui monocultivo como comparador, mas isso não equivale a uma recomendação universal; logo avaliação parcial, não orientação completa para essa lavoura.",
+      "sources": [{
+        "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/1159228/1/Manejo-de-lagarta-do-cartucho-em-sistemas-de-producao-integrados.pdf",
+        "title": "Manejo de lagarta-do-cartucho em sistemas de produção integrados com braquiária",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Comunicado Técnico 260, dezembro de 2023; foco em ILP/ILPF com braquiária; inclui ensaios comparativos de monocultivo",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, páginas impressas 3 e 4, seção ‘Manejo da praga’, linhas extraídas 77–98 e 273–280",
+        "evidence": "Recomenda monitoramento constante desde estádios iniciais, vistoria das folhas do cartucho e relaciona a decisão aos níveis de dano/controle validados e ao sistema de produção.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-PHENOLOGY-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: a página técnica da Embrapa define VE como emergência, V3 como três folhas desenvolvidas, VT como pendoamento, R1 como embonecamento/polinização e R6 como maturidade fisiológica. C2 supports: informa variação do intervalo VT–R1 conforme híbrido e ambiente, além de variação de germinação/emergência com temperatura e umidade. A ressalva de não converter estádio em dias universais é necessária e está correta. Conteúdo técnico de referência migrado em 2021; não usei prazos em dias como previsão local.",
+      "sources": [{
+        "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/pre-producao/caracteristicas-da-especie-e-relacoes-com-o-ambiente/caracteristicas-da-planta",
+        "title": "Características da planta — Cultivo do milho",
+        "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+        "source_type": "official_research",
+        "edition_or_validity": "Conteúdo técnico migrado em 2021-12-08; referências de estádios de desenvolvimento",
+        "accessed_at": "2026-09-29",
+        "locator": "Seções ‘Germinação e emergência’, ‘Estádio VT’/‘Estádio R1’ e ‘Estádio R6’; página oficial Ageitec",
+        "evidence": "A página define VE e V3 e as fases reprodutivas, incluindo VT, R1 e R6; diz que o tempo entre VT e R1 varia com híbrido e condições ambientais.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-WATER-003",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: material técnico oficial da Embrapa descreve efeitos do déficit no florescimento, incluindo dessecação dos estilos-estigmas e redução de rendimento. C2 supports: também descreve efeitos durante enchimento de grãos sobre fotossíntese e translocação de assimilados. A ressalva de que efeito varia com intensidade/duração e condições da lavoura, e de não converter percentuais de publicação antiga em previsão atual, é correta. O suporte é qualitativo e não estima perda para Mato Grosso ou talhão sem dados locais.",
+      "sources": [{
+        "url": "https://www.embrapa.br/en/web/agencia-de-informacao-tecnologica/cultivos/milho/pre-producao/caracteristicas-da-especie-e-relacoes-com-o-ambiente/relacoes-com-o-clima",
+        "title": "Relações com o clima — Cultivo do milho",
+        "publisher": "Embrapa Milho e Sorgo / Agência de Informação Tecnológica",
+        "source_type": "official_research",
+        "edition_or_validity": "Conteúdo técnico de referência migrado em 2021; não é previsão de perdas para uma safra atual",
+        "accessed_at": "2026-09-29",
+        "locator": "Seção ‘Déficit hídrico’, parágrafos sobre florescimento e enchimento de grãos",
+        "evidence": "A fonte descreve dessecação dos estilos-estigmas e danos reprodutivos no florescimento e redução de fotossíntese/translocação durante enchimento de grãos.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-HARVEST-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: camada preta caracteriza maturidade fisiológica, mas o documento explica que o grão ainda tem umidade alta e a colheita imediata exige secagem artificial, com riscos de qualidade. C2 supports: o próprio documento articula colheita a umidade do grão, capacidade de secagem e capacidade de silo; logo maturidade fisiológica não determina sozinha a viabilidade operacional da colheita mecanizada. Ressalva avaliada: limites de umidade da publicação antiga não foram tratados como padrão universal atual; a decisão depende de equipamento, secagem e condição local.",
+      "sources": [{
+        "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/748767/1/Milho-Colheita-e-pos-colheita.pdf",
+        "title": "Cultivo do Milho — Colheita e pós-colheita",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Sistema de Produção, publicação técnica histórica; versão eletrônica anterior, acessada em 2026-09-29",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, páginas impressas 27–28, seção ‘A colheita’, linhas extraídas 631–638; planejamento e umidade na seção inicial de colheita",
+        "evidence": "Camada preta marca maturidade fisiológica; a colheita nessa fase implica alta umidade e secagem artificial. O planejamento considera umidade, capacidade do secador e capacidade do silo.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-HARVEST-002",
+      "verdict": "partially_correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports with qualification: publicação da Embrapa associa pré-colheita/atraso e condições de chuva a risco de perdas e qualidade, além de descrever fatores de campo e armazenamento. C2 (não existe tempo seguro universal) é uma ressalva prudente e compatível com variabilidade de cultivar, clima e estrutura, mas não foi encontrada como enunciado explícito universal na fonte; é inferência limitada, não fato atribuído diretamente ao documento. O documento é antigo e não fornece previsão meteorológica; por isso, não sustenta deixar a lavoura sem monitoramento nem um número de dias seguro.",
+      "sources": [{
+        "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/748767/1/Milho-Colheita-e-pos-colheita.pdf",
+        "title": "Cultivo do Milho — Colheita e pós-colheita",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Publicação técnica histórica; fatores de perda dependem das condições da lavoura e do armazenamento",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, seção ‘A colheita’ e discussão de pré-colheita, riscos de chuva e perdas; páginas impressas 27–28 e seção sobre armazenamento",
+        "evidence": "A fonte descreve período entre maturidade fisiológica e colheita e destaca umidade e condições de colheita/armazenamento; não estabelece prazo universal seguro nem fornece previsão de tempo.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    },
+    {
+      "review_id": "DRAFT-MZ-STORAGE-001",
+      "verdict": "correct",
+      "evidence_basis": "primary_source",
+      "source_supported": true,
+      "scope_correct": true,
+      "critical_error": false,
+      "rationale": "C1 supports: a publicação afirma que armazenamento prolongado só pode ocorrer com práticas corretas de colheita, limpeza, secagem, controle de pragas e prevenção de fungos; também relaciona temperatura, umidade e outros fatores à deterioração. C2 supports: sem umidade do lote, tipo de silo e aeração não se pode inferir prazo ou operação segura para o caso. Ressalva avaliada: não há indicação de fumigação, produto ou dose; como a fonte é antiga, procedimentos operacionais atuais exigem referência atualizada.",
+      "sources": [{
+        "url": "https://ainfo.cnptia.embrapa.br/digital/bitstream/doc/748767/1/Milho-Colheita-e-pos-colheita.pdf",
+        "title": "Cultivo do Milho — Colheita e pós-colheita",
+        "publisher": "Embrapa Milho e Sorgo",
+        "source_type": "official_research",
+        "edition_or_validity": "Publicação técnica histórica; princípios gerais de colheita e armazenagem, sem substituir norma/procedimento operacional vigente",
+        "accessed_at": "2026-09-29",
+        "locator": "PDF, página impressa 27, seção de armazenamento, linhas extraídas 622–630",
+        "evidence": "Armazenamento prolongado depende de colheita, limpeza, secagem, controle de pragas e prevenção de fungos; temperatura, umidade e outros agentes afetam deterioração e perdas.",
+        "claim_ids": ["C1", "C2", "C3"]
+      }]
+    }
+  ]
+}

@@ -1,44 +1,59 @@
-"""Launch the app under a small Linux/WSL process envelope (not Android)."""
+"""Run the CLI smoke, applying a resource envelope on supported Linux hosts only."""
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
-import resource
 import subprocess
 import sys
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ADDRESS_SPACE_LIMIT_MIB = 1536
+REQUIRED_MARKERS = (
+    "IA_FARM_MOCK=1",
+    "Demonstração concluída",
+    "Encerrando a simulação",
+)
+
+
+def _missing_markers(output: str) -> list[str]:
+    return [marker for marker in REQUIRED_MARKERS if marker not in output]
 
 
 def main() -> int:
-    if not hasattr(os, "sched_getaffinity") or not hasattr(resource, "RLIMIT_AS"):
-        print("This smoke profile requires Linux/WSL CPU affinity and RLIMIT_AS support.")
-        return 2
-
-    available_cpus = sorted(os.sched_getaffinity(0))
-    if not available_cpus:
-        print("No available CPU could be assigned to the smoke process.")
-        return 2
-
-    cpu_id = available_cpus[0]
-    address_space_limit = ADDRESS_SPACE_LIMIT_MIB * 1024 * 1024
     environment = os.environ.copy()
     environment.update({
         "IA_FARM_MOCK": "1",
         "HF_HUB_OFFLINE": "1",
         "TRANSFORMERS_OFFLINE": "1",
+        "PYTHONIOENCODING": "utf-8:replace",
         "TERM": "dumb",
     })
 
-    def apply_process_limits() -> None:
-        os.sched_setaffinity(0, {cpu_id})
-        resource.setrlimit(
-            resource.RLIMIT_AS,
-            (address_space_limit, address_space_limit),
-        )
+    cpu_id = None
+    process_limits = None
+    profile_description = "platform smoke; no CPU or memory envelope"
+    if os.name == "posix" and hasattr(os, "sched_getaffinity"):
+        import resource
+
+        available_cpus = sorted(os.sched_getaffinity(0))
+        if available_cpus and hasattr(resource, "RLIMIT_AS"):
+            cpu_id = available_cpus[0]
+            address_space_limit = ADDRESS_SPACE_LIMIT_MIB * 1024 * 1024
+
+            def apply_process_limits() -> None:
+                os.sched_setaffinity(0, {cpu_id})
+                resource.setrlimit(
+                    resource.RLIMIT_AS,
+                    (address_space_limit, address_space_limit),
+                )
+
+            process_limits = apply_process_limits
+            profile_description = (
+                f"one logical CPU (CPU {cpu_id}); {ADDRESS_SPACE_LIMIT_MIB} MiB "
+                "virtual-address-space limit"
+            )
 
     try:
         result = subprocess.run(
@@ -51,33 +66,24 @@ def main() -> int:
             env=environment,
             cwd=PROJECT_ROOT,
             timeout=30,
-            preexec_fn=apply_process_limits,
             check=False,
+            **({"preexec_fn": process_limits} if process_limits else {}),
         )
     except subprocess.TimeoutExpired:
         print("FAIL: app did not finish the startup/demo/exit smoke within 30 seconds.")
         return 1
 
     output = result.stdout + result.stderr
-    required_markers = (
-        "IA_FARM_MOCK=1",
-        "Unified Simulation Interface",
-        "Demo Completed",
-        "Shutting down simulation",
-    )
-    missing = [marker for marker in required_markers if marker not in output]
-    print(output, end="")
-    print(
-        f"\nSMOKE PROFILE: one logical CPU (CPU {cpu_id}); "
-        f"{ADDRESS_SPACE_LIMIT_MIB} MiB virtual-address-space limit; offline; "
-        "mock retrieval; generative model disabled"
-    )
+    missing = _missing_markers(output)
+    print(f"SMOKE PROFILE: {profile_description}; offline; mock retrieval; generative model disabled")
     if result.returncode or missing:
+        print("Captured output (escaped for the current terminal encoding):")
+        print(output.encode("ascii", errors="backslashreplace").decode("ascii"))
         print(f"FAIL: exit={result.returncode}; missing markers={missing}")
         return 1
 
     print("PASS: app started, ran the demo interactions, and shut down cleanly.")
-    print("LIMIT: Linux/WSL x86_64 smoke only; not an Android or ARM64 benchmark.")
+    print("LIMIT: platform startup/CLI smoke only; not an Android or ARM64 benchmark.")
     return 0
 
 

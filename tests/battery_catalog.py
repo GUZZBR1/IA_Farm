@@ -1,4 +1,4 @@
-"""Build 130 deterministic, synthetic batteries for the no-generation runtime."""
+"""Build deterministic, synthetic batteries for the no-generation runtime."""
 
 
 def _reviewed_fixture(
@@ -47,14 +47,21 @@ def build_batteries() -> list[dict]:
     )
     for index, question in enumerate(dosage_questions):
         state = ({}, {"region": "Mato Grosso"}, {"climate": "Tropical"})[index % 3]
-        missing = "region and climate" if not state else ("climate" if "region" in state else "region")
+        missing = (
+            "região da propriedade e clima local" if not state
+            else ("clima local" if "region" in state else "região da propriedade")
+        )
+        missing_fragments = (
+            ["região da propriedade", "clima local"] if not state
+            else [missing]
+        )
         batteries.append({
             "id": f"{index + 1:03d}-clarify-{index % 3}",
             "goal": f"Ask for missing {missing} before any technical recommendation.",
             "turns": [question],
             "session_state": state,
             "documents": [],
-            "expected_fragments": [missing.split()[0]],
+            "expected_fragments": missing_fragments,
             "forbidden_fragments": ["kg/ha", "l/ha", "SYNTHETIC-"],
             "expected_retrieval_calls": 0,
         })
@@ -82,7 +89,7 @@ def build_batteries() -> list[dict]:
                 "turns": [f"Qual a dosagem? Estou em {region}, clima {climate}."],
                 "session_state": {},
                 "documents": [_reviewed_fixture(case_id, canonical_region, canonical_climate)],
-                "expected_fragments": ["Validated local references", f"SYNTHETIC-{case_id}"],
+                "expected_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}"],
                 "forbidden_fragments": ["generated advice"],
                 "expected_retrieval_calls": 1,
                 "expected_filters": {"region": canonical_region, "climate": canonical_climate},
@@ -120,7 +127,7 @@ def build_batteries() -> list[dict]:
             "turns": [question],
             "session_state": {"region": "Mato Grosso", "climate": "Tropical"},
             "documents": [_reviewed_fixture(case_id)],
-            "expected_fragments": ["Validated local references", f"SYNTHETIC-{case_id}", "test data"],
+            "expected_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}", "test data"],
             "forbidden_fragments": ["I recommend", "recomendo", "kg/ha", "l/ha"],
             "expected_retrieval_calls": 1,
         })
@@ -159,7 +166,7 @@ def build_batteries() -> list[dict]:
                 "turns": ["Qual dose recomendada?"],
                 "session_state": {"region": "Mato Grosso", "climate": "Tropical"},
                 "documents": [{"text": body, "metadata": metadata}],
-                "expected_fragments": ["validated technical data"],
+                "expected_fragments": ["Não encontrei uma fonte técnica aprovada"],
                 "forbidden_fragments": ["unapproved content", "kg/ha"],
                 "expected_retrieval_calls": 1,
             })
@@ -194,7 +201,7 @@ def build_batteries() -> list[dict]:
                     "crop": "maize",
                 },
             }],
-            "expected_fragments": ["validated technical data"],
+            "expected_fragments": ["Não encontrei uma fonte técnica aprovada"],
             "forbidden_fragments": ["500kg/ha", "confidential", "UNSAFE-"],
             "expected_retrieval_calls": 1,
         })
@@ -213,7 +220,7 @@ def build_batteries() -> list[dict]:
             ],
             "session_state": {},
             "documents": [_reviewed_fixture(case_id, canonical_region, canonical_climate)],
-            "expected_fragments": ["Validated local references", f"SYNTHETIC-{case_id}"],
+            "expected_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}"],
             "forbidden_fragments": ["kg/ha", "l/ha"],
             "expected_retrieval_calls": 2,
             "expected_filters": {"region": canonical_region, "climate": canonical_climate},
@@ -279,7 +286,7 @@ def build_batteries() -> list[dict]:
                     canonical_climate,
                 )
             ],
-            "expected_fragments": ["validated technical data"],
+            "expected_fragments": ["Não encontrei uma fonte técnica aprovada"],
             "forbidden_fragments": [source_id, "Synthetic reference"],
             "expected_retrieval_calls": 1,
             "expected_filters": {
@@ -321,6 +328,120 @@ def build_batteries() -> list[dict]:
             },
         })
 
-    if len(batteries) != 130:
-        raise AssertionError(f"Battery catalog must contain 130 cases, got {len(batteries)}")
+    # Cases 131-140: a correction later in the same message must win over
+    # an earlier region/climate mention, independent of alias declaration order.
+    for index in range(10):
+        case_id = f"{len(batteries) + 1:03d}-inline-context-correction"
+        old_region, _ = regions[index % len(regions)]
+        new_region, new_canonical_region = regions[(index + 1) % len(regions)]
+        old_climate, _ = climates[index % len(climates)]
+        new_climate, new_canonical_climate = climates[(index + 1) % len(climates)]
+        batteries.append({
+            "id": case_id,
+            "goal": "Use the last affirmative region and climate in a corrected message.",
+            "turns": [
+                f"Estou em {old_region}, clima {old_climate}; corrigindo, "
+                f"na verdade estou em {new_region}, clima {new_climate}. "
+                "Qual dose de adubo está documentada?"
+            ],
+            "session_state": {},
+            "documents": [
+                _reviewed_fixture(case_id, new_canonical_region, new_canonical_climate)
+            ],
+            "expected_fragments": [f"SYNTHETIC-{case_id}"],
+            "forbidden_fragments": ["Não encontrei uma fonte técnica aprovada"],
+            "expected_retrieval_calls": 1,
+            "expected_filters": {
+                "region": new_canonical_region,
+                "climate": new_canonical_climate,
+            },
+            "expected_state": {
+                "region": new_canonical_region,
+                "climate": new_canonical_climate,
+            },
+        })
+
+    # Cases 141-150: negated metadata invalidates stale session context.
+    for index in range(10):
+        case_id = f"{len(batteries) + 1:03d}-negated-context"
+        excluded_region, _ = regions[index % len(regions)]
+        excluded_climate, _ = climates[index % len(climates)]
+        known_region, known_canonical_region = regions[(index + 1) % len(regions)]
+        known_climate, known_canonical_climate = climates[(index + 2) % len(climates)]
+        batteries.append({
+            "id": case_id,
+            "goal": "Clear contradicted context and ask again instead of using stale filters.",
+            "turns": [
+                f"Não estou em {excluded_region} e o clima não é {excluded_climate}; "
+                "qual dose de fertilizante consta na referência?"
+            ],
+            "session_state": {
+                "region": known_canonical_region,
+                "climate": known_canonical_climate,
+            },
+            "documents": [
+                _reviewed_fixture(case_id, known_canonical_region, known_canonical_climate)
+            ],
+            "expected_fragments": ["região da propriedade", "clima local"],
+            "forbidden_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}"],
+            "expected_retrieval_calls": 0,
+            "expected_state": {
+                "region": "",
+                "climate": "",
+            },
+        })
+
+    # Cases 151-160: common agronomy wording must request missing context
+    # instead of falling through to an unfiltered lookup.
+    technical_phrases = (
+        "Qual adubação recomendada para milho?",
+        "Que manejo devo usar para a lagarta-do-cartucho?",
+        "A cigarrinha apareceu na lavoura, o que faço?",
+        "Qual a época de plantio indicada?",
+        "Como faço a semeadura do milho?",
+        "Que fazer diante de uma doença nas folhas?",
+        "Quais sintomas devo observar no milho?",
+        "Qual recomendação para a praga?",
+        "Preciso de recomendação para adubação.",
+        "Como controlar a lagarta sem inventar uma dose?",
+    )
+    for question in technical_phrases:
+        case_id = f"{len(batteries) + 1:03d}-agronomy-intent"
+        batteries.append({
+            "id": case_id,
+            "goal": "Recognize common maize agronomy phrasing and request missing context.",
+            "turns": [question],
+            "session_state": {},
+            "documents": [_reviewed_fixture(case_id)],
+            "expected_fragments": ["região da propriedade", "clima local"],
+            "forbidden_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}"],
+            "expected_retrieval_calls": 0,
+        })
+
+    # Cases 161-165: an either/or location clears stale context and asks the
+    # user to clarify rather than guessing which region applies.
+    for index in range(5):
+        case_id = f"{len(batteries) + 1:03d}-ambiguous-region"
+        first_region, _ = regions[(index * 2) % len(regions)]
+        second_region, _ = regions[(index * 2 + 2) % len(regions)]
+        known_region, known_canonical_region = regions[(index + 2) % len(regions)]
+        batteries.append({
+            "id": case_id,
+            "goal": "Ask for clarification when the user gives alternative regions.",
+            "turns": [
+                f"Estou em {first_region} ou {second_region}; qual dose está documentada?"
+            ],
+            "session_state": {
+                "region": known_canonical_region,
+                "climate": "Tropical",
+            },
+            "documents": [_reviewed_fixture(case_id)],
+            "expected_fragments": ["informe região da propriedade"],
+            "forbidden_fragments": ["Trechos de fontes locais", f"SYNTHETIC-{case_id}"],
+            "expected_retrieval_calls": 0,
+            "expected_state": {"region": "", "climate": "Tropical"},
+        })
+
+    if len(batteries) != 165:
+        raise AssertionError(f"Battery catalog must contain 165 cases, got {len(batteries)}")
     return batteries

@@ -13,8 +13,22 @@ kind, including embeddings, replace the retriever with lexical lookup.
 
 Document extraction, when assisted by a model during knowledge preparation,
 must stay outside the installed phone runtime. Every imported agronomic record
-requires provenance, a valid review date, and qualified specialist approval
-before the application displays it.
+requires provenance, a valid review date, and a completed two-agent evidence
+review against official sources before the application displays it. There is no
+mandatory human agronomist approval gate; unresolved or conflicting evidence
+must remain pending and unavailable to users.
+
+Markdown metadata is untrusted input: ingestion always marks records pending
+and ignores source identity, reviewer and approval claims from the document.
+The runtime now requires an exact excerpt hash and matching record in
+`data/curation_registry.json`; metadata alone cannot authorize display. Run
+`python -m tools.curation_registry` to validate linked frozen input, both AI
+review artifacts, their shared hash, excerpt-level hashes, official-source
+agreement and comparison artifact before release. The registry is intentionally
+empty: the 18 existing candidate reviews lack excerpt-level hashes and contain
+five case disagreements. Do not manually mark records approved or use this
+build for agronomic beta responses until reviewed excerpts are admitted through
+that checked registry workflow.
 
 The deterministic simulation and synthetic fixtures do not establish agronomic
 correctness, field safety, or mobile performance. Those require approved
