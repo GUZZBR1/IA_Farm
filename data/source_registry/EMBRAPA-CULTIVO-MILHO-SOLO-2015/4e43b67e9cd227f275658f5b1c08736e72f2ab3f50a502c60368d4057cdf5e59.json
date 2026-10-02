@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015:4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+  "source_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015",
+  "original_url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+  "final_url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/749082/1/Milho-Manejo-de-solos.pdf",
+  "retrieved_at": "2026-10-02T00:04:37.975762+00:00",
+  "content_hash": "4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+  "mime_type": "application/pdf",
+  "file_size": 1079550,
+  "document_title": "Cultivo do Milho — Manejo de solos",
+  "institution": "Embrapa Milho e Sorgo",
+  "publication_date": "2015-11",
+  "document_version": "Sistema de Produção 1, 9ª edição eletrônica; Nov/2015",
+  "license_status": "RESTRICTED",
+  "license_evidence_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/749082",
+  "license_evidence_note": "Infoteca displays CC BY-NC-ND 4.0; permission to redistribute or adapt in this application not established.",
+  "filename": "iafarm-soil-2015.pdf",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "EMBRAPA-CULTIVO-MILHO-SOLO-2015/4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

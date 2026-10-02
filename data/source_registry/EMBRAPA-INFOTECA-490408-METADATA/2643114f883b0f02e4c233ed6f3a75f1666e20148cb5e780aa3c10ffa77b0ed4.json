@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "EMBRAPA-INFOTECA-490408-METADATA:2643114f883b0f02e4c233ed6f3a75f1666e20148cb5e780aa3c10ffa77b0ed4",
+  "source_id": "EMBRAPA-INFOTECA-490408-METADATA",
+  "original_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/490408",
+  "final_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/490408",
+  "retrieved_at": "2026-10-02T00:06:47.328249+00:00",
+  "content_hash": "2643114f883b0f02e4c233ed6f3a75f1666e20148cb5e780aa3c10ffa77b0ed4",
+  "mime_type": "text/html; charset=UTF-8",
+  "file_size": 17990,
+  "document_title": "Infoteca-e record — Fisiologia da produção de milho",
+  "institution": "Embrapa Infoteca-e",
+  "publication_date": "2026-10-01",
+  "document_version": "Embrapa Infoteca-e; repository metadata page, retrieved 2026-10-01",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/490408",
+  "license_evidence_note": "Frozen repository metadata record; text explicitly identifies CC BY-NC-ND 4.0. It does not establish permission to redistribute in this application.",
+  "filename": "iafarm-license-phenology.html",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "EMBRAPA-INFOTECA-490408-METADATA/2643114f883b0f02e4c233ed6f3a75f1666e20148cb5e780aa3c10ffa77b0ed4.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

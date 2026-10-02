@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "MAPA-ZARC-MT-2026-POC4001:d935a4384860b65c7fb39ed1b264e244d00ca475f2b2a2a1643fce7b318b55bb",
+  "source_id": "MAPA-ZARC-MT-2026-POC4001",
+  "original_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/POC4001.PDF",
+  "final_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/POC4001.PDF",
+  "retrieved_at": "2026-10-02T00:04:38.051882+00:00",
+  "content_hash": "d935a4384860b65c7fb39ed1b264e244d00ca475f2b2a2a1643fce7b318b55bb",
+  "mime_type": "application/pdf",
+  "file_size": 293369,
+  "document_title": "Portaria SPA/MAPA nº 326 — ZARC milho 2ª safra, Mato Grosso",
+  "institution": "Ministério da Agricultura e Pecuária (MAPA)",
+  "publication_date": "2026-07-28",
+  "document_version": "Portaria SPA/MAPA nº 326, de 28 de julho de 2026; ano-safra 2026/2027",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/mato-grosso-mt",
+  "license_evidence_note": "No explicit redistribution terms found in the captured official source set; status remains UNKNOWN.",
+  "filename": "iafarm-zarc-mt-maize-2safra-2026.pdf",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "MAPA-ZARC-MT-2026-POC4001/d935a4384860b65c7fb39ed1b264e244d00ca475f2b2a2a1643fce7b318b55bb.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

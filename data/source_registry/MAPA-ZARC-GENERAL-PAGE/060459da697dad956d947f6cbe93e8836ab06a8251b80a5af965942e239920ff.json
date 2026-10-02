@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "MAPA-ZARC-GENERAL-PAGE:060459da697dad956d947f6cbe93e8836ab06a8251b80a5af965942e239920ff",
+  "source_id": "MAPA-ZARC-GENERAL-PAGE",
+  "original_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/portarias",
+  "final_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/portarias",
+  "retrieved_at": "2026-10-02T00:04:38.057885+00:00",
+  "content_hash": "060459da697dad956d947f6cbe93e8836ab06a8251b80a5af965942e239920ff",
+  "mime_type": "text/html; charset=utf-8",
+  "file_size": 259991,
+  "document_title": "Portarias do Zoneamento Agrícola de Risco Climático",
+  "institution": "Ministério da Agricultura e Pecuária (MAPA)",
+  "publication_date": "2026-10-01",
+  "document_version": "MAPA current portarias page; snapshot retrieved 2026-10-01",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": null,
+  "license_evidence_note": "No explicit redistribution terms found in the captured official source set; status remains UNKNOWN.",
+  "filename": "iafarm-zarc-general.html",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "MAPA-ZARC-GENERAL-PAGE/060459da697dad956d947f6cbe93e8836ab06a8251b80a5af965942e239920ff.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

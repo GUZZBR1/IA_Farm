@@ -1,6 +1,6 @@
 # Human review workflow
 
-Status: **DESIGN AND STRUCTURAL CONTRACTS**. There are no ready packets and no agronomic approvals. Human review is an external professional decision; software validates required records and bindings but cannot authenticate a person's identity or qualifications by itself.
+Status: **11 LOCAL REVIEW PACKAGES PREPARED; ZERO HUMAN APPROVALS**. Human review is an external professional decision; software validates required records and bindings but cannot authenticate a person's identity or qualifications by itself.
 
 ## Flow
 
@@ -10,7 +10,7 @@ No state may jump from a reference/raw source straight into a published corpus. 
 
 ## Review package
 
-`tools.human_review.build_review_package` records the candidate/claim/context, source metadata, snapshot hash, candidate content hash, locator, exact evidence, conflicting evidence, risk class, reviewer questions, and a proposed decision. AI reviewer notes are annotated `origin=AI` and `not_human_review=true`; `proposed_decision` is explicitly a suggestion. Do not create an actionable review packet if evidence is absent. At present, all 18 remain blocked, so ready-to-sign packages count is zero.
+`tools.human_review.build_review_package` records the candidate/claim/context, source metadata, snapshot hash, candidate content hash, snapshot-bound locator, short exact evidence, AI notes marked `not_human_review`, risk and questions. It verifies the declared hash and size against retained source bytes, checks that the exact quote appears in text extracted from those bytes, validates locator/snapshot binding and quote hash, and stores a digest of the extracted page text. Eleven Markdown/JSON packages are under `human_review_packages/local/`; a tracked hash index is `data/human_review_package_index.json`. The exports contain source-derived text and are intentionally ignored by Git. These mechanical checks do not establish extraction quality or prove that a locator is visually correct: the human reviewer must inspect the frozen source page. The reviewer must access the frozen local source blob or reacquire it by URL and verify its hash.
 
 ## Human decision schema
 
@@ -31,11 +31,11 @@ These are proposed internal product safeguards, not legal or regulatory requirem
 
 ## Conflicting evidence
 
-`tests/agronomic_candidate_conflicts.json` records five unresolved AI-review disagreements and separates scope, date, region, method, and source-identity questions. It does not label them proven contradictions. If reviewer citations name a document absent from the candidate source list, register and capture that document before review. No majority vote among AI agents can resolve a conflict.
+`tests/agronomic_candidate_conflicts.json` records five unresolved AI-review disagreements; none is demonstrated to be a contradiction between sources. SOIL-002 and WATER-003 have source-bound packets, but their human reviewer must still address scope and the missing alternate WATER-003 citation. The other three stay in intake because relevant bytes and/or source identity are missing. No majority vote among AI agents can resolve a disagreement.
 
 ## Promotion gate
 
-`tools.human_review.promotion_blockers` blocks publication unless the snapshot is present and valid; locator validates; license status and hashed license evidence are compatible; schema and scope are complete; exact human approval matches the candidate and snapshot hashes; no conflict blocks; and knowledge is neither expired nor deprecated. `knowledge_lifecycle` independently verifies snapshot and license artifact bytes, attribution where required, structured locator, and the existing human action artifacts. Risk-tier-specific reviewer counts remain a design item. The registry/store stay empty.
+`tools.human_review.promotion_blockers` blocks publication unless the snapshot is present and valid; locator validates; license status and hashed license evidence are compatible; schema and scope are complete; exact human approval matches the candidate and snapshot hashes; no conflict blocks; and knowledge is neither expired nor deprecated. All acquired Embrapa material is `RESTRICTED` for app distribution; MAPA licensing remains UNKNOWN. Therefore all 11 packets are local professional-review material only. No knowledge is approved or published. Risk-tier-specific reviewer counts remain a design item.
 
 ## Failure/correction semantics
 

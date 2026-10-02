@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ONLY_REVIEW_EXPORTS",
+  "ready_count": 11,
+  "approved_count": 0,
+  "packages": [
+    {
+      "candidate_id": "DRAFT-MZ-SOIL-001",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-SOIL-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-SOIL-001.md",
+      "snapshot_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015:4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+      "snapshot_hash": "4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+      "package_hash": "33634707dc4310bf30dfcc5b56a6d8c2ddca88cfe6afda9bed3fe40f054818ae",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-SOIL-002",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-SOIL-002.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-SOIL-002.md",
+      "snapshot_id": "EMBRAPA-CULTIVO-MILHO-SOLO-2015:4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+      "snapshot_hash": "4e43b67e9cd227f275658f5b1c08736e72f2ab3f50a502c60368d4057cdf5e59",
+      "package_hash": "b76ed0f8cdc8288186aff55add8d551733cb1e0df7a3a40eb1ba689d75802f70",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-ZARC-001",
+      "priority": "P2",
+      "package_json": "human_review_packages/local/DRAFT-MZ-ZARC-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-ZARC-001.md",
+      "snapshot_id": "MAPA-ZARC-GENERAL-PAGE:060459da697dad956d947f6cbe93e8836ab06a8251b80a5af965942e239920ff",
+      "snapshot_hash": "060459da697dad956d947f6cbe93e8836ab06a8251b80a5af965942e239920ff",
+      "package_hash": "a0720f80b3b616d183685271d04f6fb41f113e2e6be75612d0c0d6e9f80d9835",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-ZARC-002",
+      "priority": "P2",
+      "package_json": "human_review_packages/local/DRAFT-MZ-ZARC-002.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-ZARC-002.md",
+      "snapshot_id": "MAPA-ZARC-MT-2026-POC4001:d935a4384860b65c7fb39ed1b264e244d00ca475f2b2a2a1643fce7b318b55bb",
+      "snapshot_hash": "d935a4384860b65c7fb39ed1b264e244d00ca475f2b2a2a1643fce7b318b55bb",
+      "package_hash": "06314a7969b86679f3b5ca89f696d0e863be7a46e47ce19db25cf448fba5cc77",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-FERT-001",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-FERT-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-FERT-001.md",
+      "snapshot_id": "EMBRAPA-MILHO-FERTILIDADE-2015:f299e4312aed63ca3e05af12d70c8a7cf6b3eb366a8d9023ac93483d1d71152a",
+      "snapshot_hash": "f299e4312aed63ca3e05af12d70c8a7cf6b3eb366a8d9023ac93483d1d71152a",
+      "package_hash": "f7128f8fbf2c54a2007439ce44f7182f27d532a7a610341c06fb16e9b8102cac",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-IRR-001",
+      "priority": "P2",
+      "package_json": "human_review_packages/local/DRAFT-MZ-IRR-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-IRR-001.md",
+      "snapshot_id": "EMBRAPA-MILHO-IRRIGACAO-2015:f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+      "snapshot_hash": "f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+      "package_hash": "3d379624e600137d372bdf1616b0c4a03ec0557403226de2f5abed848be39ffd",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-IRR-002",
+      "priority": "P2",
+      "package_json": "human_review_packages/local/DRAFT-MZ-IRR-002.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-IRR-002.md",
+      "snapshot_id": "EMBRAPA-MILHO-IRRIGACAO-2015:f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+      "snapshot_hash": "f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+      "package_hash": "f972ce0b17740963174ceaeb6e57b42c5551c006cb2f43a581a2f761e169e0ac",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-PHENOLOGY-001",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-PHENOLOGY-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-PHENOLOGY-001.md",
+      "snapshot_id": "EMBRAPA-FISIOLOGIA-MILHO-2006:2f6bb2b13f4d6694450c96e9b5b4dcf848558a5fda282d6766b51577fd4ad18d",
+      "snapshot_hash": "2f6bb2b13f4d6694450c96e9b5b4dcf848558a5fda282d6766b51577fd4ad18d",
+      "package_hash": "46ea49a86eff790dff8dade2f6cd90da56b4696183c7c594ea6e24c2ac331a53",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-WATER-003",
+      "priority": "P2",
+      "package_json": "human_review_packages/local/DRAFT-MZ-WATER-003.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-WATER-003.md",
+      "snapshot_id": "EMBRAPA-FISIOLOGIA-MILHO-2006:2f6bb2b13f4d6694450c96e9b5b4dcf848558a5fda282d6766b51577fd4ad18d",
+      "snapshot_hash": "2f6bb2b13f4d6694450c96e9b5b4dcf848558a5fda282d6766b51577fd4ad18d",
+      "package_hash": "8ce0ee405fd1361d898711f00f34d2af0d9ba85c89690caa7c5acfbbcb7efe8e",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-HARVEST-001",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-HARVEST-001.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-HARVEST-001.md",
+      "snapshot_id": "EMBRAPA-MILHO-COLHEITA-2015:6bb59370e56c58cde9bf9fc5e10ec76298daea837d02188e37d178eadab3a981",
+      "snapshot_hash": "6bb59370e56c58cde9bf9fc5e10ec76298daea837d02188e37d178eadab3a981",
+      "package_hash": "822758d2fe535937db3a5e4499b9c96891a9df6986f76374934494b294d9da4b",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    },
+    {
+      "candidate_id": "DRAFT-MZ-HARVEST-002",
+      "priority": "P1",
+      "package_json": "human_review_packages/local/DRAFT-MZ-HARVEST-002.json",
+      "package_markdown": "human_review_packages/local/DRAFT-MZ-HARVEST-002.md",
+      "snapshot_id": "EMBRAPA-MILHO-COLHEITA-2015:6bb59370e56c58cde9bf9fc5e10ec76298daea837d02188e37d178eadab3a981",
+      "snapshot_hash": "6bb59370e56c58cde9bf9fc5e10ec76298daea837d02188e37d178eadab3a981",
+      "package_hash": "903b01a2d5854ae1c7d017769cd2e0d58e8143e4fc9594c1f29e4bf566c7cbd1",
+      "status": "READY_FOR_HUMAN_REVIEW",
+      "human_decision": null,
+      "local_only_reason": "Source distribution/adaptation rights are not established; raw sources and review excerpts are excluded from Git."
+    }
+  ],
+  "distribution_notice": "Package files and source blobs are intentionally excluded from Git because redistribution/adaptation rights are not established."
+}

@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "MAPA-ZARC-MT-LISTING-2026:630e40fd94e01d618d613fbcbd08fcfc08e816be8db9c54c2e109505e33cf9fe",
+  "source_id": "MAPA-ZARC-MT-LISTING-2026",
+  "original_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/mato-grosso-mt",
+  "final_url": "https://www.gov.br/agricultura/pt-br/assuntos/riscos-seguro/programa-nacional-de-zoneamento-agricola-de-risco-climatico/portarias/safra-vigente/mato-grosso/mato-grosso-mt",
+  "retrieved_at": "2026-10-02T00:04:38.071476+00:00",
+  "content_hash": "630e40fd94e01d618d613fbcbd08fcfc08e816be8db9c54c2e109505e33cf9fe",
+  "mime_type": "text/html; charset=utf-8",
+  "file_size": 266426,
+  "document_title": "Portarias ZARC vigentes — Mato Grosso",
+  "institution": "Ministério da Agricultura e Pecuária (MAPA)",
+  "publication_date": "2026-10-01",
+  "document_version": "MAPA current Mato Grosso listing page; snapshot retrieved 2026-10-01",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": null,
+  "license_evidence_note": "No explicit redistribution terms found in the captured official source set; status remains UNKNOWN.",
+  "filename": "iafarm-zarc-mt-listing.html",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "MAPA-ZARC-MT-LISTING-2026/630e40fd94e01d618d613fbcbd08fcfc08e816be8db9c54c2e109505e33cf9fe.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "EMBRAPA-INFOTECA-783270-METADATA:e87fe7b5182fbf1694f1d25af113a7a2b9702d0b759de3f8bb76b783bffc5929",
+  "source_id": "EMBRAPA-INFOTECA-783270-METADATA",
+  "original_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/783270",
+  "final_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/783270",
+  "retrieved_at": "2026-10-02T00:06:47.321536+00:00",
+  "content_hash": "e87fe7b5182fbf1694f1d25af113a7a2b9702d0b759de3f8bb76b783bffc5929",
+  "mime_type": "text/html; charset=UTF-8",
+  "file_size": 18748,
+  "document_title": "Infoteca-e record — Irrigação",
+  "institution": "Embrapa Infoteca-e",
+  "publication_date": "2026-10-01",
+  "document_version": "Embrapa Infoteca-e; repository metadata page, retrieved 2026-10-01",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/783270",
+  "license_evidence_note": "Frozen repository metadata record; text explicitly identifies CC BY-NC-ND 4.0. It does not establish permission to redistribute in this application.",
+  "filename": "iafarm-license-irrigation.html",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "EMBRAPA-INFOTECA-783270-METADATA/e87fe7b5182fbf1694f1d25af113a7a2b9702d0b759de3f8bb76b783bffc5929.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "EMBRAPA-INFOTECA-749175-METADATA:7a660f6c7868c7faf89fe430f3e65c7ad850e1a0d6f3e81fb48a7bbf39a35ad3",
+  "source_id": "EMBRAPA-INFOTECA-749175-METADATA",
+  "original_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/749175",
+  "final_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/749175",
+  "retrieved_at": "2026-10-02T00:06:47.312625+00:00",
+  "content_hash": "7a660f6c7868c7faf89fe430f3e65c7ad850e1a0d6f3e81fb48a7bbf39a35ad3",
+  "mime_type": "text/html; charset=UTF-8",
+  "file_size": 18746,
+  "document_title": "Infoteca-e record — Fertilidade de solos e adubação",
+  "institution": "Embrapa Infoteca-e",
+  "publication_date": "2026-10-01",
+  "document_version": "Embrapa Infoteca-e; repository metadata page, retrieved 2026-10-01",
+  "license_status": "UNKNOWN",
+  "license_evidence_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/749175",
+  "license_evidence_note": "Frozen repository metadata record; text explicitly identifies CC BY-NC-ND 4.0. It does not establish permission to redistribute in this application.",
+  "filename": "iafarm-license-fertility.html",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "EMBRAPA-INFOTECA-749175-METADATA/7a660f6c7868c7faf89fe430f3e65c7ad850e1a0d6f3e81fb48a7bbf39a35ad3.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

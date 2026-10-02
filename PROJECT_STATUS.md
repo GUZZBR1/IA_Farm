@@ -1,6 +1,6 @@
 # Project status
 
-Current phase: Source acquisition and human-review operations, vector runtime reproducibility, Context Engine preparation. Starting baseline: `9e890f57864c954d7d394cfe1297fa77026df46e`.
+Current phase: Source acquisition and human-review operations, vector runtime reproducibility, Context Engine preparation. Starting baseline: `ac9c3cd2220cf43b3cae8b4f4c1615ef712b0885`.
 
 | Area | Current status | Evidence / limit |
 |---|---|---|
@@ -9,8 +9,8 @@ Current phase: Source acquisition and human-review operations, vector runtime re
 | Canonical knowledge | Empty | `data/knowledge_base/approved_records.json` contains zero published records. No agricultural claim has been approved. |
 | Candidate audit | Complete, not approval | All 18 drafts classified: 5 conflicting and 13 insufficient evidence. Zero are approved. |
 | Retrieval | Lexical mechanics baseline | Synthetic non-agronomic dataset only. Approved corpus metrics are unavailable because the corpus is empty. |
-| Source acquisition | Operational queue + snapshot code | 18/18 source references; 0 retained snapshots; no URL was refreshed in this phase. |
-| Human review | Hash-bound review/gate structures | 0 review-ready packets; 5 unresolved AI-review disagreements are not confirmed source contradictions. |
+| Source acquisition | 13 immutable source/metadata snapshots | Eight source pages/documents plus five frozen Embrapa license metadata pages; raw blobs are local/ignored and manifests are tracked. |
+| Human review | 11 local hash-bound packages prepared | 11 ready for qualified human review; 0 approved. Embrapa material is RESTRICTED for app distribution; MAPA terms UNKNOWN. |
 | Vector dependencies | `DEPENDENCY_MISSING` in current WSL | NumPy imports in system Python; FAISS, Sentence-Transformers, Torch and Transformers missing. WSL PyPI DNS fails; target wheel compatibility is plausible, complete install not verified. |
 | Retrieval evaluation | BM25 synthetic baseline only | Vector blocked; hybrid not run; approved corpus has zero records. |
 | Context | Design matrix documented | Candidate metadata only; requirements are not yet qualified or integrated into runtime. |
@@ -27,9 +27,11 @@ Validated only by tests and mechanics fixtures: schema/lifecycle invariants, fil
 
 Implemented: source snapshot/locator/license contracts; immutable content-addressed storage; 18-row operational candidate queue; five unresolved disagreement records; hash-bound human review and promotion gate; explicit vector capability diagnostics and index compatibility manifest; model downloads disabled; core/vector dependency profiles; initial Context Engine requirements; workflow challenge scenarios.
 
-Validated: 110 unit/contract tests pass in WSL; candidate queue regenerates at 18 total (13 snapshot/evidence-insufficient, 5 unresolved AI-review disagreements, 0 ready); registry validation passes with zero entries; compile and security scan pass; 660/660 behavioral simulations pass. BM25 synthetic-only run reports Recall@3 1.0, Precision@3 0.667, MRR 1.0, no-result accuracy 1.0, wrong-region rate 0.0, forbidden-source rate 0.0, and mean latency 0.155 ms on WSL. No source bytes were captured; no review packet can be marked ready; no agricultural claim has been approved.
+Current phase evidence: 13 source and license metadata manifests; eight source pages/documents captured and locally hash-verified; 11 source-bound packages; 18 candidate rows reprioritized; 0 approvals and 0 published records. The source coverage and per-candidate findings are in `SOURCE_COVERAGE.md`, `SOURCE_DISCOVERY.md`, and `data/source_discovery_report.json`.
 
-Not validated: actual source license, snapshot locator or agronomic claim; full vector dependency resolution/install; local model artifact; vector retrieval scores, hybrid comparison, context behavior in production runtime, or authenticated reviewer identity.
+Verification for this phase: 117 unit/contract tests pass; the 660-run behavioral regression passes. Snapshot bytes and quoted passages were rechecked against the local artifacts for all 11 packages. Original synthetic BM25 metrics remain historical; this phase did not alter retrieval or claim retrieval accuracy.
+
+Not validated: agronomic truth or professional approval; permission to redistribute CC BY-NC-ND source-derived material inside the app; legal rights for MAPA materials; separate citations missing for pest/storage cases; full vector dependency resolution/install; local model artifact; vector retrieval scores; hybrid comparison; context behavior in production runtime; authenticated reviewer identity.
 
 ## Historical evidence
 

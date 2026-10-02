@@ -1,0 +1,22 @@
+{
+  "snapshot_id": "EMBRAPA-MILHO-IRRIGACAO-2015:f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+  "source_id": "EMBRAPA-MILHO-IRRIGACAO-2015",
+  "original_url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/783270/1/Milho-Irrigacao.pdf",
+  "final_url": "https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/783270/1/Milho-Irrigacao.pdf",
+  "retrieved_at": "2026-10-02T00:04:38.010882+00:00",
+  "content_hash": "f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695",
+  "mime_type": "application/pdf",
+  "file_size": 1915022,
+  "document_title": "Cultivo do Milho — Irrigação",
+  "institution": "Embrapa Milho e Sorgo",
+  "publication_date": "2015-11",
+  "document_version": "Sistema de Produção 1, 9ª edição eletrônica; Nov/2015",
+  "license_status": "RESTRICTED",
+  "license_evidence_url": "https://www.infoteca.cnptia.embrapa.br/handle/doc/783270",
+  "license_evidence_note": "Infoteca displays CC BY-NC-ND 4.0; permission to redistribute or adapt in this application not established.",
+  "filename": "iafarm-irrigation-2015.pdf",
+  "acquisition_method": "PowerShell HttpClient GET; HTTP 200; response bytes saved and SHA-256 verified",
+  "local_path": "EMBRAPA-MILHO-IRRIGACAO-2015/f3b43dbc663a3f4dca2bbcb2a27545bb0bc45473c1bdc124f1476e46155b5695.blob",
+  "snapshot_status": "CAPTURED",
+  "previous_snapshot_hashes": []
+}

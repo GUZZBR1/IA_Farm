@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "ac9c3cd2220cf43b3cae8b4f4c1615ef712b0885",
+  "approved_knowledge_count": 0,
+  "topics": [
+    {
+      "topic": "SOIL",
+      "candidate_count": 2,
+      "source_found": 2,
+      "snapshot_available": 2,
+      "review_package": 2,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-SOIL-001",
+        "DRAFT-MZ-SOIL-002"
+      ]
+    },
+    {
+      "topic": "ZARC",
+      "candidate_count": 2,
+      "source_found": 2,
+      "snapshot_available": 2,
+      "review_package": 2,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-ZARC-001",
+        "DRAFT-MZ-ZARC-002"
+      ]
+    },
+    {
+      "topic": "FERT",
+      "candidate_count": 1,
+      "source_found": 1,
+      "snapshot_available": 1,
+      "review_package": 1,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-FERT-001"
+      ]
+    },
+    {
+      "topic": "IRR",
+      "candidate_count": 2,
+      "source_found": 2,
+      "snapshot_available": 2,
+      "review_package": 2,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-IRR-001",
+        "DRAFT-MZ-IRR-002"
+      ]
+    },
+    {
+      "topic": "PEST",
+      "candidate_count": 6,
+      "source_found": 0,
+      "snapshot_available": 0,
+      "review_package": 0,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-PEST-001",
+        "DRAFT-MZ-PEST-002",
+        "DRAFT-MZ-PEST-006",
+        "DRAFT-MZ-PEST-003",
+        "DRAFT-MZ-PEST-004",
+        "DRAFT-MZ-PEST-005"
+      ]
+    },
+    {
+      "topic": "PHENOLOGY",
+      "candidate_count": 1,
+      "source_found": 1,
+      "snapshot_available": 1,
+      "review_package": 1,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-PHENOLOGY-001"
+      ]
+    },
+    {
+      "topic": "WATER",
+      "candidate_count": 1,
+      "source_found": 1,
+      "snapshot_available": 1,
+      "review_package": 1,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-WATER-003"
+      ]
+    },
+    {
+      "topic": "HARVEST",
+      "candidate_count": 2,
+      "source_found": 2,
+      "snapshot_available": 2,
+      "review_package": 2,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-HARVEST-001",
+        "DRAFT-MZ-HARVEST-002"
+      ]
+    },
+    {
+      "topic": "STORAGE",
+      "candidate_count": 1,
+      "source_found": 1,
+      "snapshot_available": 1,
+      "review_package": 0,
+      "approved": 0,
+      "published": 0,
+      "candidate_ids": [
+        "DRAFT-MZ-STORAGE-001"
+      ]
+    }
+  ],
+  "totals": {
+    "candidates": 18,
+    "selected_source_snapshots": 12,
+    "review_packages": 11,
+    "approved": 0,
+    "published": 0
+  },
+  "note": "Source discovery and snapshots establish provenance only; they do not validate agricultural truth or license publication."
+}
