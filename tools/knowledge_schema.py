@@ -250,7 +250,9 @@ def validate_record(record: Any) -> None:
                 raise ValueError("approved/published sources require a license evidence reference")
             if not source.get("license_evidence_sha256"):
                 raise ValueError("approved/published sources require a license evidence hash")
-            validate_locator(source.get("evidence_locator"))
+            validate_locator(source.get("evidence_locator"),
+                             snapshot_id=f"{source['source_id']}:{source['snapshot_sha256']}",
+                             snapshot_hash=source["snapshot_sha256"])
         if source["source_id"] in source_ids:
             raise ValueError("source_id must be unique within a record")
         source_ids.add(source["source_id"])

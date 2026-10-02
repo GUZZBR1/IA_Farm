@@ -22,7 +22,11 @@ def main() -> int:
     parser.add_argument("--publication-date")
     parser.add_argument("--version")
     parser.add_argument("--mime-type")
+    parser.add_argument("--final-url")
+    parser.add_argument("--acquisition-method", default="operator-provided-file")
     parser.add_argument("--license-status", default="UNKNOWN")
+    parser.add_argument("--license-evidence-url")
+    parser.add_argument("--license-evidence-note")
     parser.add_argument("--storage-root", type=Path, default=ROOT / "data/source_snapshots")
     parser.add_argument("--manifest-root", type=Path, default=ROOT / "data/source_registry")
     args = parser.parse_args()
@@ -32,7 +36,10 @@ def main() -> int:
         source_id=args.source_id, original_url=args.url, content=content,
         mime_type=mime_type, document_title=args.title,
         institution=args.institution, publication_date=args.publication_date,
-        document_version=args.version, license_status=args.license_status,
+        document_version=args.version, final_url=args.final_url,
+        filename=args.file.name, acquisition_method=args.acquisition_method,
+        license_status=args.license_status, license_evidence_url=args.license_evidence_url,
+        license_evidence_note=args.license_evidence_note,
         storage_root=args.storage_root)
     manifest = write_public_manifest(snapshot, manifest_root=args.manifest_root)
     print(json.dumps({"snapshot_id": snapshot["snapshot_id"],

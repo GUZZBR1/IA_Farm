@@ -3,11 +3,12 @@
   "title": "Immutable source snapshot manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["snapshot_id", "source_id", "original_url", "retrieved_at", "content_hash", "mime_type", "file_size", "document_title", "institution", "publication_date", "document_version", "license_status", "local_path", "snapshot_status", "previous_snapshot_hashes"],
+  "required": ["snapshot_id", "source_id", "original_url", "final_url", "retrieved_at", "content_hash", "mime_type", "file_size", "document_title", "institution", "publication_date", "document_version", "license_status", "license_evidence_url", "license_evidence_note", "filename", "acquisition_method", "local_path", "snapshot_status", "previous_snapshot_hashes"],
   "properties": {
     "snapshot_id": {"type": "string", "minLength": 1},
     "source_id": {"type": "string", "minLength": 1},
     "original_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "final_url": {"type": "string", "format": "uri", "pattern": "^https://"},
     "retrieved_at": {"type": "string", "format": "date-time"},
     "content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "mime_type": {"type": "string", "minLength": 1},
@@ -17,8 +18,24 @@
     "publication_date": {"type": ["string", "null"]},
     "document_version": {"type": ["string", "null"]},
     "license_status": {"enum": ["UNKNOWN", "LINK_ONLY", "REDISTRIBUTION_ALLOWED", "ATTRIBUTION_REQUIRED", "RESTRICTED", "PUBLIC_DOMAIN"]},
+    "license_evidence_url": {"type": ["string", "null"], "format": "uri", "pattern": "^https://"},
+    "license_evidence_note": {"type": ["string", "null"]},
+    "filename": {"type": "string", "minLength": 1},
+    "acquisition_method": {"type": "string", "minLength": 1},
     "local_path": {"type": "string", "minLength": 1},
     "snapshot_status": {"enum": ["CAPTURED", "CHANGED_SINCE_PRIOR_SNAPSHOT"]},
     "previous_snapshot_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
-  }
+  },
+  "allOf": [{
+    "if": {
+      "properties": {"license_status": {"not": {"const": "UNKNOWN"}}},
+      "required": ["license_status"]
+    },
+    "then": {
+      "properties": {
+        "license_evidence_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "license_evidence_note": {"type": "string", "minLength": 1}
+      }
+    }
+  }]
 }

@@ -10,10 +10,13 @@ from __future__ import annotations
 from datetime import date
 import hashlib
 import json
+from pathlib import Path
 import re
 from typing import Any
 
-from tools.source_snapshots import LICENSE_STATUSES, validate_license_status, validate_locator
+from tools.source_snapshots import (
+    LICENSE_STATUSES, validate_license_status, validate_locator, verify_snapshot,
+)
 
 DECISIONS = frozenset({
     "APPROVE", "REJECT", "NEEDS_CHANGES", "INSUFFICIENT_EVIDENCE",
@@ -67,20 +70,38 @@ def validate_human_review(review: Any, *, candidate_hash: str,
 
 def build_review_package(candidate: dict[str, Any], *, snapshot: dict[str, Any] | None,
                          locator: dict[str, Any] | None, exact_evidence: str | None,
+                         evidence_text: str, evidence_page: int | str,
+                         evidence_extraction_method: str, storage_root: Path,
                          conflicting_evidence: list[dict[str, Any]] | None = None,
                          ai_reviewer_notes: list[str] | None = None,
                          proposed_decision: str = "INSUFFICIENT_EVIDENCE") -> dict[str, Any]:
     """Prepare a reviewer-facing packet; AI notes remain explicitly untrusted."""
     if proposed_decision not in DECISIONS:
         raise ValueError("proposed_decision is not an allowed review outcome")
-    if not isinstance(snapshot, dict) or not re.fullmatch(r"[0-9a-f]{64}", str(snapshot.get("content_hash", ""))):
+    if (not isinstance(snapshot, dict)
+            or not re.fullmatch(r"[0-9a-f]{64}", str(snapshot.get("content_hash", "")))):
         raise ValueError("a verified source snapshot is required before preparing a review package")
+    if not verify_snapshot(snapshot, storage_root=storage_root):
+        raise ValueError("source snapshot bytes do not match the declared hash and size")
+    if snapshot.get("snapshot_id") != f"{snapshot.get('source_id')}:{snapshot.get('content_hash')}":
+        raise ValueError("snapshot identity does not bind the source ID and content hash")
     if not exact_evidence or not exact_evidence.strip():
         raise ValueError("exact evidence from the frozen snapshot is required")
+    if not isinstance(evidence_text, str) or exact_evidence not in evidence_text:
+        raise ValueError("exact evidence is not present in the supplied extracted snapshot text")
+    if not isinstance(evidence_extraction_method, str) or not evidence_extraction_method.strip():
+        raise ValueError("evidence extraction method is required")
     if locator is not None:
-        validate_locator(locator)
+        validate_locator(locator, snapshot_id=snapshot.get("snapshot_id"),
+                         snapshot_hash=snapshot.get("content_hash"))
     else:
         raise ValueError("a snapshot-relative evidence locator is required")
+    evidence_hash = hashlib.sha256(exact_evidence.encode("utf-8")).hexdigest()
+    if locator.get("quote_hash") != evidence_hash:
+        raise ValueError("locator quote_hash does not match the exact evidence text")
+    locator_page = locator.get("page", locator.get("page_start"))
+    if isinstance(locator_page, int) and evidence_page != locator_page:
+        raise ValueError("extracted evidence page does not match the locator page")
     content_hash = canonical_hash({k: candidate[k] for k in sorted(candidate) if k not in {"review_status"}})
     return {
         "schema_version": 1, "candidate_id": candidate.get("candidate_id"),
@@ -91,6 +112,13 @@ def build_review_package(candidate: dict[str, Any], *, snapshot: dict[str, Any] 
         "snapshot_hash": snapshot.get("content_hash") if snapshot else None,
         "candidate_content_hash": content_hash, "locator": locator,
         "exact_evidence": exact_evidence,
+        "evidence_extraction": {
+            "method": evidence_extraction_method,
+            "page_or_fragment": evidence_page,
+            "extracted_text_sha256": hashlib.sha256(evidence_text.encode("utf-8")).hexdigest(),
+            "source_snapshot_hash": snapshot.get("content_hash"),
+            "manual_locator_verification_required": True,
+        },
         "conflicting_evidence": conflicting_evidence or [],
         "ai_reviewer_notes": [{"origin": "AI", "not_human_review": True, "note": note}
                               for note in (ai_reviewer_notes or [])],
@@ -122,7 +150,11 @@ def promotion_blockers(*, snapshot: dict[str, Any] | None,
         blockers.append("EVIDENCE_LOCATOR_MISSING")
     else:
         try:
-            validate_locator(locator)
+            validate_locator(
+                locator,
+                snapshot_id=snapshot.get("snapshot_id") if snapshot else None,
+                snapshot_hash=snapshot.get("content_hash") if snapshot else None,
+            )
         except ValueError:
             blockers.append("EVIDENCE_LOCATOR_INVALID")
     try:

@@ -15,7 +15,8 @@ from tools.retrieval_runtime import (
     validate_index_manifest,
 )
 from tools.source_snapshots import (
-    capture_snapshot, source_changed, validate_locator, verify_snapshot, write_public_manifest,
+    capture_snapshot, source_changed, validate_acquired_content, validate_locator,
+    verify_snapshot, write_public_manifest,
 )
 from tools.knowledge_lifecycle import new_record
 from tools.knowledge_schema import validate_record
@@ -38,6 +39,9 @@ class SourceSnapshotTests(unittest.TestCase):
             self.assertTrue(verify_snapshot(first, storage_root=root))
             self.assertTrue(source_changed(first, b"changed source bytes"))
             self.assertEqual(changed["snapshot_status"], "CHANGED_SINCE_PRIOR_SNAPSHOT")
+            self.assertEqual(first["final_url"], first["original_url"])
+            self.assertEqual(first["filename"], "source")
+            self.assertEqual(first["acquisition_method"], "operator-provided-file")
 
     def test_snapshot_tampering_and_path_escape_fail_verification(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -49,6 +53,15 @@ class SourceSnapshotTests(unittest.TestCase):
                 self.capture(root)
             snapshot["local_path"] = "../outside"
             self.assertFalse(verify_snapshot(snapshot, storage_root=root))
+
+    def test_non_unknown_license_status_requires_explicit_evidence(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(ValueError, "requires URL and explanatory evidence"):
+                capture_snapshot(
+                    source_id="TEST-SOURCE", original_url="https://example.org/source",
+                    content=b"synthetic source", mime_type="text/plain",
+                    document_title="Synthetic source", institution="Synthetic publisher",
+                    license_status="REDISTRIBUTION_ALLOWED", storage_root=Path(temp))
 
     def test_public_metadata_manifest_is_content_addressed_and_immutable(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -62,16 +75,37 @@ class SourceSnapshotTests(unittest.TestCase):
                 write_public_manifest(changed, manifest_root=root / "public")
 
     def test_locator_requires_stable_identifier_and_valid_page_range(self):
-        validate_locator({"page_start": 2, "page_end": 3, "section": "Methods"})
+        binding = {"snapshot_id": "TEST:" + "a" * 64, "snapshot_hash": "a" * 64}
+        validate_locator({**binding, "page_start": 2, "page_end": 3, "section": "Methods"})
         for invalid in ({"quote": "only a quote"}, {"page_start": 4, "page_end": 2},
-                        {"table": "", "quote_hash": "bad"}):
+                        {"table": "", "quote_hash": "bad", **binding},
+                        {"page": 0, **binding, "section": "Methods"},
+                        {"page": 1, "section": "Methods"}):
             with self.subTest(invalid=invalid), self.assertRaises(ValueError):
                 validate_locator(invalid)
+
+    def test_mime_validation_rejects_html_saved_as_pdf_and_wrong_file_name_paths(self):
+        validate_acquired_content(b"%PDF-1.7\nsynthetic", "application/pdf")
+        with self.assertRaisesRegex(ValueError, "no PDF signature"):
+            validate_acquired_content(b"<html>proxy error</html>", "application/pdf")
+        with self.assertRaisesRegex(ValueError, "does not match"):
+            validate_acquired_content(b"%PDF-1.7\nsynthetic", "text/html")
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(ValueError, "safe basename"):
+                capture_snapshot(source_id="TEST", original_url="https://example.org/a",
+                                 content=b"text", mime_type="text/plain", document_title="t",
+                                 institution="i", filename="../escape.txt", storage_root=Path(temp))
 
 
 class HumanReviewGateTests(unittest.TestCase):
     def fixture(self):
-        snapshot = {"content_hash": "a" * 64, "snapshot_id": "S:a"}
+        self.tempdir = tempfile.TemporaryDirectory()
+        storage_root = Path(self.tempdir.name)
+        snapshot = capture_snapshot(
+            source_id="S", original_url="https://example.org/source",
+            content=b"synthetic evidence from frozen source", mime_type="text/plain",
+            document_title="Synthetic source", institution="Synthetic publisher",
+            storage_root=storage_root)
         candidate = {"candidate_id": "TEST", "claim": "synthetic claim",
                      "context": {"crop": "synthetic"}, "risk_level": "LOW"}
         content_hash = hashlib.sha256(json.dumps(candidate, sort_keys=True,
@@ -80,23 +114,62 @@ class HumanReviewGateTests(unittest.TestCase):
             "reviewer_id": "qualified-person", "reviewer_role": "agronomic-reviewer",
             "qualification": "externally verified reference", "reviewed_at": "2026-09-30",
             "decision": "APPROVE", "scope": {"crop": "synthetic"},
-            "comments": "synthetic structural test", "source_snapshot_hash": "a" * 64,
+            "comments": "synthetic structural test", "source_snapshot_hash": snapshot["content_hash"],
             "candidate_content_hash": content_hash, "limitations": [],
         }
-        return candidate, snapshot, content_hash, review
+        return candidate, snapshot, content_hash, review, storage_root
+
+    def tearDown(self):
+        if hasattr(self, "tempdir"):
+            self.tempdir.cleanup()
 
     def test_package_marks_ai_notes_as_nonhuman_and_suggestion_only(self):
-        candidate, snapshot, _content, _review = self.fixture()
+        candidate, snapshot, _content, _review, storage_root = self.fixture()
         package = build_review_package(candidate, snapshot=snapshot,
-            locator={"page": 1, "section": "Synthetic"}, exact_evidence="synthetic evidence",
+            locator={"page": 1, "section": "Synthetic", "snapshot_id": snapshot["snapshot_id"],
+                     "snapshot_hash": snapshot["content_hash"],
+                     "quote_hash": hashlib.sha256(b"synthetic evidence").hexdigest()},
+            exact_evidence="synthetic evidence", evidence_text="synthetic evidence from frozen source",
+            evidence_page=1, evidence_extraction_method="test fixture",
+            storage_root=storage_root,
             ai_reviewer_notes=["not an agronomic conclusion"])
         self.assertTrue(package["decision_is_suggestion_only"])
         self.assertTrue(package["ai_reviewer_notes"][0]["not_human_review"])
 
+    def test_locator_must_bind_to_the_exact_snapshot_in_review_package(self):
+        candidate, snapshot, _content, _review, storage_root = self.fixture()
+        with self.assertRaisesRegex(ValueError, "different source snapshot"):
+            build_review_package(candidate, snapshot=snapshot,
+                locator={"page": 1, "snapshot_id": "OTHER:" + "a" * 64,
+                         "snapshot_hash": "a" * 64,
+                         "quote_hash": hashlib.sha256(b"synthetic evidence").hexdigest()},
+                exact_evidence="synthetic evidence", evidence_text="synthetic evidence from frozen source",
+                evidence_page=1, evidence_extraction_method="test fixture",
+                storage_root=storage_root)
+
+    def test_review_package_rejects_unverified_snapshot_and_quote_mismatch(self):
+        candidate, snapshot, _content, _review, storage_root = self.fixture()
+        locator = {"page": 1, "section": "Synthetic", "snapshot_id": snapshot["snapshot_id"],
+                   "snapshot_hash": snapshot["content_hash"],
+                   "quote_hash": hashlib.sha256(b"synthetic evidence").hexdigest()}
+        fabricated = dict(snapshot, local_path="../missing.blob")
+        with self.assertRaisesRegex(ValueError, "bytes do not match"):
+            build_review_package(candidate, snapshot=fabricated, locator=locator,
+                exact_evidence="synthetic evidence", evidence_text="synthetic evidence",
+                evidence_page=1, evidence_extraction_method="test fixture",
+                storage_root=storage_root)
+        with self.assertRaisesRegex(ValueError, "not present"):
+            build_review_package(candidate, snapshot=snapshot, locator=locator,
+                exact_evidence="synthetic evidence", evidence_text="unrelated text",
+                evidence_page=1, evidence_extraction_method="test fixture",
+                storage_root=storage_root)
+
     def test_promotion_gate_requires_all_independent_gates(self):
-        candidate, snapshot, content_hash, review = self.fixture()
+        candidate, snapshot, content_hash, review, _storage_root = self.fixture()
         blockers = promotion_blockers(
-            snapshot=snapshot, snapshot_valid=True, locator={"page": 1, "section": "Synthetic"},
+            snapshot=snapshot, snapshot_valid=True,
+            locator={"page": 1, "section": "Synthetic", "snapshot_id": snapshot["snapshot_id"],
+                     "snapshot_hash": snapshot["content_hash"]},
             license_status="REDISTRIBUTION_ALLOWED", schema_valid=True,
             scope=candidate["context"], human_review=review, candidate_hash=content_hash,
             conflict_blocking=False, deprecated=False,
@@ -113,7 +186,9 @@ class HumanReviewGateTests(unittest.TestCase):
         self.assertIn("UNRESOLVED_EVIDENCE_CONFLICT", blockers)
         self.assertIn("LICENSE_EVIDENCE_MISSING", blockers)
         invalid_license_evidence = promotion_blockers(
-            snapshot=snapshot, snapshot_valid=True, locator={"page": 1},
+            snapshot=snapshot, snapshot_valid=True,
+            locator={"page": 1, "snapshot_id": snapshot["snapshot_id"],
+                     "snapshot_hash": snapshot["content_hash"]},
             license_status="REDISTRIBUTION_ALLOWED", license_evidence_ref="license.json",
             license_evidence_valid=False, schema_valid=True, scope=candidate["context"],
             human_review=review, candidate_hash=content_hash,
@@ -121,7 +196,7 @@ class HumanReviewGateTests(unittest.TestCase):
         self.assertIn("LICENSE_EVIDENCE_INVALID", invalid_license_evidence)
 
     def test_changed_content_or_snapshot_invalidates_review(self):
-        candidate, _snapshot, content_hash, review = self.fixture()
+        candidate, _snapshot, content_hash, review, _storage_root = self.fixture()
         with self.assertRaisesRegex(ValueError, "different candidate content"):
             validate_human_review(review, candidate_hash="b" * 64,
                                   snapshot_hash="a" * 64, scope=candidate["context"])

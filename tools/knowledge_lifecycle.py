@@ -135,7 +135,9 @@ def _verified_approval(record: KnowledgeRecord, review_entry: Any, *,
             raise ValueError("verified license evidence is required")
         if source.get("license_status") == "ATTRIBUTION_REQUIRED" and not source.get("license_attribution"):
             raise ValueError("license-required attribution is missing")
-        validate_locator(source.get("evidence_locator"))
+        validate_locator(source.get("evidence_locator"),
+                         snapshot_id=f"{source['source_id']}:{source['snapshot_sha256']}",
+                         snapshot_hash=source["snapshot_sha256"])
         if not source.get("snapshot_ref") or not source.get("snapshot_sha256"):
             raise ValueError("source URL references alone do not prove source ingestion")
         matches = [snapshot for snapshot in snapshots if snapshot.get("source_id") == source["source_id"]]

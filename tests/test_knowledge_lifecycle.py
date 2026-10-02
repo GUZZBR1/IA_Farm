@@ -24,7 +24,11 @@ SOURCE = {
     "license_status": "REDISTRIBUTION_ALLOWED",
     "license_evidence_ref": "license-evidence.txt",
     "license_evidence_sha256": hashlib.sha256(b"Synthetic license evidence for a structural test.").hexdigest(),
-    "evidence_locator": {"page": 1, "section": "Synthetic test section"},
+    "evidence_locator": {"page": 1, "section": "Synthetic test section",
+                         "snapshot_id": "TEST-SOURCE:" + hashlib.sha256(
+                             b"Synthetic source snapshot for a contract test.").hexdigest(),
+                         "snapshot_hash": hashlib.sha256(
+                             b"Synthetic source snapshot for a contract test.").hexdigest()},
 }
 
 

@@ -2,9 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Snapshot-relative evidence locator",
   "type": "object",
-  "minProperties": 1,
+  "minProperties": 3,
   "additionalProperties": false,
+  "required": ["snapshot_id", "snapshot_hash"],
   "properties": {
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "snapshot_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "page": {"oneOf": [{"type": "integer", "minimum": 1}, {"type": "string", "minLength": 1}]},
     "page_start": {"type": "integer", "minimum": 1},
     "page_end": {"type": "integer", "minimum": 1},
